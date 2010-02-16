@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2009 Teleca Poland Sp. z o.o. <android@teleca.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. 
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.teleca.jamendo" android:versionCode="25" android:versionName="0.9.8.16 BETA">
+	<application android:icon="@drawable/icon" android:label="@string/app_name" android:name="JamendoApplication">
+		<activity android:name=".activity.HomeActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.AlbumActivity"
+			android:label="@string/album">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.PlayerActivity"
+			android:label="@string/player_name" android:launchMode="singleTop">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<!-- This is messy i know, I could not figure out pathPattern -->
+				<!-- Track filter -->
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/track/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/en/track/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/pl/track/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/fr/track/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/de/track/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/es/track/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/ru/track/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/it/track/" />
+				
+				<!-- Album filter -->
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/album/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/en/album/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/pl/album/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/fr/album/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/de/album/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/es/album/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/ru/album/" />
+				<data android:scheme="http" android:host="www.jamendo.com"
+					android:pathPrefix="/it/album/" />
+				
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.SearchActivity"
+			android:label="@string/search">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.SettingsActivity"
+			android:label="@string/search">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.ArtistActivity"
+			android:label="@string/artist">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.PlaylistActivity"
+			android:label="@string/playlist">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.BrowsePlaylistActivity"
+			android:label="@string/playlist">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.RadioActivity"
+			android:label="@string/playlist">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.DownloadActivity"
+			android:label="@string/playlist">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.StarredAlbumsActivity"
+			android:label="@string/playlist">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<service android:name=".service.PlayerService"></service>
+		<service android:name=".service.DownloadService"></service>
+	</application>
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	<uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
+	<uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="5"></uses-sdk>
+
+<uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+
+<uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+</manifest> 

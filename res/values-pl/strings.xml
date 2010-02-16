@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2009 Teleca Poland Sp. z o.o. <android@teleca.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. 
+-->
+<resources>
+	<string name="popular_this_week">popularne w tym tygodniu</string>
+	<string name="app_name">Jamendo</string>
+	<string name="player_name">Jamendo Player</string>
+	<string name="settings">Ustawienia</string>
+	<string name="about">O programie</string>
+	<string name="album">Album</string>
+	<string name="artist">Artysta</string>
+	<string name="playlist">Playlista</string>
+	<string name="playlist_small">lista</string>
+	<string name="player">Player</string>
+	<string name="album_small">album</string>
+	<string name="search">Szukaj</string>
+	<string name="discography">dyskografia</string>
+	<string name="remove">Usuń</string>
+	<string name="download">Pobierz</string>
+	<string name="delete">Usuń</string>
+	<string name="save">Zapisz</string>
+	<string name="load">Otwórz</string>
+	<string name="neew">Nowy</string>
+	<string name="move">Przesuń</string>
+	<string name="added_to_playlist">Dodany do listy odtwarzania</string>
+	<string name="favorites">Ulubione</string>
+	<string name="radio">Radio</string>
+	<string name="playlists">Listy Odtwarzania</string>
+	<string name="most_listened">Najbardziej Popularne</string>
+	<string name="open">Otwórz</string>
+	<string name="review">Recenzje</string>
+	<string name="tracks">Utwory</string>
+	<string name="radio_hint">Nazwa bądź id radia</string>
+	<string name="search_hint">Wyszukiwanie Jamendo</string>
+	<string name="loading_news">Pobieranie danych...</string>
+	<string name="loading">Pobieranie...</string>
+	<string name="add_to_favs">Dodane do ulubionych</string>
+	<string name="top100_fail">Nie udało się pobrać listy top 100 utworów :\'(</string>
+	<string name="license">Licencja Album</string>
+	<string name="donate">Wspierz finansowo</string>
+	<string name="all_languages">Wszystkie języki</string>
+	<string name="loading_top100">Pobieranie najbardziej\npopularnych...</string>
+	<string name="retry">Ponów</string>
+	<string name="connection_fail">Błąd połączenia</string>
+	<string name="add">Dodaj</string>
+	<string name="lyrics">Tekst</string>
+	<string name="no_lyrics">Tekst piosenki niedostępny</string>
+	<string name="about_note">(c) Teleca Poland sp. z o.o. 2009</string>
+	<string name="about_link">android@teleca.com</string>
+	<string name="about_contact">Pytania, raporty błędów, spostrzeżenia
+	</string>
+	<string name="sd_card_insert">Karta SD niedostępna</string>
+	<string name="added_down">Dodane do listy pobieranie...</string>
+	<string name="downloaded">Pobrane</string>
+	<string name="download_album">Pobierz</string>
+	<string name="send">Wyślij</string>
+	<string name="phone_hint">Numer telefonu</string>
+	<string name="song_recommendation">Poleć utwór</string>
+	<string name="recommendation_sent">Rekomendacja została wysłana</string>
+	<string name="webpage">Strona WWW</string>
+	<string name="artist_fail">Pobieranie danych o artyście nie powiodło się :\'(</string>
+	<string name="artist_loading">Pobieranie danych o artyście...</string>
+	<string name="adding_to_playlist">Album dodany do list odtwarzania...</string>
+	<string name="adding_to_playlist_fail">Nie powiodło się dodawanie do listy odtwarzania :\'(</string>
+	<string name="album_fail">Nie powiodło się pobieranie danych o albumie :\'(</string>
+	<string name="album_loading">Pobieranie danych o albumie...</string>
+	<string name="items">utworów</string>
+	<string name="share">Podziel się</string>
+	<string name="searching">Trwa wyszukiwanie...</string>
+	<string name="search_fail">Wyszukiwanie nie powiodło się :\'(</string>
+	<string name="no_results">Brak wyników</string>
+	<string name="search_list_hint">Wpisz zapytanie powyżej</string>
+	<string name="no_playlists">Wpisz nazwę listy odtwarzania i naciśnij \'Nowy\'
+	</string>
+	<string name="no_tracks">Ta lista odtwarzania nie zawiera jeszcze żadnych utworów
+	</string>
+	<string name="no_items">Brak elementów</string>
+	<string name="cancel">Anuluj</string>
+	<string name="apply">Zatwierdź</string>
+	<string name="no_album">Brak Albumu</string>
+	<string name="no_artist">Brak Artysty</string>
+	<string name="long_press_playlist">Przytrzymaj długo, żeby dodać do listy odtwarzania</string>
+	<string name="overwrite_playlist_q">Nadpisać listę odtwarzania?</string>
+	<string name="delete_playlist_q">Usunąć listę odtwarzania?</string>
+	<string name="download_track_q">Pobrać utwór?</string>
+	<string name="download_album_q">Pobrać album?</string>
+	<string name="ok">OK</string>
+	<string name="terms_of_use">Jamendo Player oferuje dostęp do katalogu muzycznego JAMENDO.\n\nJAMENDO to internetowa platforma dystrybuująca utwory muzyczne na licencjach Creative Commons.\n\nProszę przeczytaj Ogólne Warunki Korzystania uważnie: Używając JAMENDO oraz stając się członkiem JAMENDO, zobowiązujesz się je wszystkie przestrzegać i respektować.</string>
+	<string name="terms_button">Otwórz ogólne warunki korzystania w przeglądarce</string>
+	<string name="sms_fail">Błąd wysyłania wiadomości SMS :\'(</string>
+	<string name="playlist_exists">Lista odtwarzania już istnieje</string>
+	<string name="credits">Zasługi</string>
+	<string name="home">Dom</string>
+	<string name="loading_playlist">Pobieranie listy odtwarzania...</string>
+	<string name="loading_playlist_fail">Pobieranie listy odtwarzania nie powiodło się</string>
+	<string name="stream_error">Nie udało się otworzyć strumienia tego utworu :\'(</string>
+	<string name="loading_fail">Pobieranie nie powiodło się :\'(</string>
+	<string name="my_library">Moja Kolekcja</string>
+	<string name="browse_jamendo">Przeglądaj Jamendo</string>
+	<string name="add_to_favorites">Dodaj do ulubionych</string>
+	<string name="add_to_playlist">Dodaj do playlisty</string>
+	<string name="albums">Albumy</string>
+</resources>

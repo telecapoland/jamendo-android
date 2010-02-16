@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2009 Teleca Poland Sp. z o.o. <android@teleca.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. 
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:orientation="vertical"
+	android:layout_height="wrap_content" android:background="@drawable/purple_entry_bg"
+	android:minHeight="60dip" android:paddingRight="20dip"
+	android:paddingLeft="10dip">
+
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:paddingRight="10dip">
+		<com.teleca.jamendo.widget.RemoteImageView
+			android:id="@+id/ReviewAvatar" android:paddingRight="10dip"
+			android:layout_width="48dip" android:layout_height="48dip">
+		</com.teleca.jamendo.widget.RemoteImageView>
+		<LinearLayout android:orientation="vertical"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:paddingRight="10dip">
+			<TextView android:id="@+id/ReviewUserName"
+				android:layout_height="wrap_content" android:layout_width="fill_parent"
+				android:layout_weight="1" android:textSize="14dip"
+				android:textColor="@drawable/purple_entry_color"></TextView>
+			<ProgressBar android:id="@+id/ReviewRowRatingBar"
+			android:layout_height="13dip" android:indeterminateOnly="false"
+			android:progressDrawable="@+drawable/progress_ratingbar"
+			android:layout_width="68dip" android:layout_marginBottom="1dip"/>
+		</LinearLayout>
+	</LinearLayout>
+
+	<TextView android:id="@+id/ReviewTitle" android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:layout_weight="1"
+		android:textSize="20dip" android:textColor="@drawable/purple_entry_color"></TextView>
+
+	<TextView android:id="@+id/ReviewRowText"
+		android:layout_height="wrap_content" android:layout_width="fill_parent"
+		android:layout_weight="1" android:textSize="12dip" android:textColor="#000"></TextView>
+</LinearLayout>

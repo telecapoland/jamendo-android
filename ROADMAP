@@ -1,0 +1,35 @@
+2.1
+========================================
+- mobile <-> laptop sync
+
+2.0
+========================================
+- full WriteAPI support
+
+1.2
+========================================
+- better radio support
+- better download support
+
+1.1
+========================================
+- content provider wrapper for db access
+- offline-mode, better sd card caching
+- album art cover stored on sd card
+- gestures support
+
+
+1.0
+========================================
+- share options:
+	- sms (already implemented)
+	- mms(?)
+	- e-mail
+	- twitter (via twidroid) 
+	- facebook (via facebook app?)
+- artist info screen redesign
+- more detailed about info screen
+
+0.9.9
+========================================
+- open-source

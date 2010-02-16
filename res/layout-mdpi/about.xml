@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2009 Teleca Poland Sp. z o.o. <android@teleca.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. 
+-->
+<LinearLayout android:layout_width="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent" android:orientation="vertical">
+
+	<TextView android:layout_width="fill_parent" android:id="@+id/VersionText"
+		android:layout_height="wrap_content" android:text="ver 0.0.0, Teleca Poland"
+		android:textSize="13dip" android:gravity="right"
+		android:layout_gravity="right"></TextView>
+
+	<ViewFlipper android:layout_width="fill_parent"
+		android:paddingLeft="10dip"
+		android:layout_height="fill_parent" android:layout_weight="1"
+		android:id="@+id/CompanyViewFlipper" android:inAnimation="@anim/fade_in" android:outAnimation="@anim/fade_out">
+
+		<!-- Jamendo Part -->
+		<ScrollView android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			<LinearLayout android:layout_width="fill_parent" android:layout_marginRight="10dip"
+				android:layout_height="fill_parent" android:orientation="vertical">
+
+				<ImageView android:layout_width="wrap_content"
+					android:layout_gravity="center_horizontal" android:layout_height="wrap_content"
+					android:src="@drawable/logo" android:layout_marginTop="10dip"></ImageView>
+
+				<TextView android:layout_width="wrap_content"
+					android:textSize="12dip" android:layout_height="wrap_content"
+					android:text="@string/terms_of_use" android:layout_marginTop="25dip"></TextView>
+
+
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:id="@+id/TermsButton"
+					android:layout_marginTop="10dip" android:text="@string/terms_button"
+					android:layout_gravity="center_horizontal"></Button>
+
+			</LinearLayout>
+		</ScrollView>
+
+		<!-- Teleca Part -->
+		<ScrollView android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			<LinearLayout android:layout_width="fill_parent" android:layout_marginRight="10dip"
+				android:layout_height="fill_parent" android:orientation="vertical">
+
+				<ImageView android:layout_width="wrap_content"
+					android:layout_gravity="center_horizontal" android:layout_height="wrap_content"
+					android:src="@drawable/teleca_logo" android:layout_marginTop="20dip"></ImageView>
+					
+				<TextView android:layout_width="wrap_content"
+					android:textSize="14dip" android:layout_gravity="center_horizontal"
+					android:layout_height="wrap_content" android:text="@string/credits"
+					android:layout_marginTop="15dip"></TextView>
+
+				<TextView android:layout_width="wrap_content" android:gravity="center" android:id="@+id/AuthorText"
+					android:textSize="12dip" android:layout_gravity="center_horizontal"
+					android:layout_height="wrap_content"
+					android:text="Łukasz Wiśniewski (design &amp; development)\nMieszko Lassota (ui audit)\nŁukasz Wojciechowski (testing)\nMarcin Bugaj (testing)"></TextView>
+
+				<TextView android:layout_width="wrap_content"
+					android:layout_gravity="center_horizontal" android:textSize="14dip"
+					android:layout_height="wrap_content" android:text="@string/about_contact"
+					android:layout_marginTop="15dip"></TextView>
+
+				<TextView android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:id="@+id/LinkText"
+					android:autoLink="all" android:text="@string/about_link"
+					android:clickable="true" android:textSize="18dip"
+					android:layout_gravity="center_horizontal"></TextView>
+
+				<TextView android:layout_width="wrap_content" 
+					android:layout_height="wrap_content" android:text="@string/about_address"
+					android:textSize="14dip" android:layout_gravity="center" android:gravity="center"
+					android:layout_marginTop="10dip"></TextView>
+
+			</LinearLayout>
+		</ScrollView>
+
+	</ViewFlipper>
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="horizontal"
+		android:gravity="center" android:paddingTop="3dip"
+		android:background="@drawable/android:bottom_bar">
+		<Button android:layout_height="wrap_content" android:text="@string/about_teleca"
+			android:layout_marginLeft="10dip" android:id="@+id/AboutCompanyButton" android:layout_width="fill_parent" android:layout_weight="0.5"></Button>
+		<Button android:layout_height="wrap_content" android:layout_marginRight="10dip" android:id="@+id/CancelButton" android:layout_weight="0.5" android:layout_width="fill_parent" android:text="@string/ok"></Button>
+	</LinearLayout>
+
+</LinearLayout>

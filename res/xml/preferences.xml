@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2009 Teleca Poland Sp. z o.o. <android@teleca.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. 
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory android:title="@string/app_name"
+		android:summary="Application settings">
+
+		<EditTextPreference android:key="user_name"
+			android:defaultValue="@null" 
+			android:title="User Name"
+			android:summary="Personalize your Jamendo client" />
+		<ListPreference
+                android:key="download_format"
+                android:title="Download format"
+                android:summary="Select your preferred codec"
+                android:entries="@array/stream_codecs"
+                android:entryValues="@array/stream_codecs_values" />
+		<CheckBoxPreference android:key="wifi_only"
+			android:defaultValue="false" 
+			android:title="Wifi only mode"
+			android:summary="Listen only in wifi network area" />
+		<CheckBoxPreference android:key="roaming_protection"
+			android:defaultValue="true" 
+			android:title="Roaming Protection"
+			android:summary="Disable listening abroad" />
+		
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="3rd Party Applications"
+		android:summary="Interaction with outside applications">
+
+		<CheckBoxPreference android:key="lastfm_scrobble"
+			android:defaultValue="false" 
+			android:title="Last.fm Scrobbling"
+			android:summary="Requires official last.fm client" />
+		
+	</PreferenceCategory>
+</PreferenceScreen>

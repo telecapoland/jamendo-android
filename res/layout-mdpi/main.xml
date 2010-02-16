@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2009 Teleca Poland Sp. z o.o. <android@teleca.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. 
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="#ffffff">
+
+	<ViewFlipper android:orientation="vertical" android:id="@+id/ViewFlipper"
+		android:layout_width="fill_parent" android:layout_height="75dip"
+		android:background="@drawable/gradient_dark_purple">
+		
+		<!-- (0) Loading -->
+		<LinearLayout
+			android:orientation="vertical" android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:layout_marginLeft="15dip" android:gravity="left|center_vertical">
+			<com.teleca.jamendo.widget.ProgressBar android:id="@+id/ProgressBar" android:layout_width="wrap_content" android:layout_height="wrap_content">
+			</com.teleca.jamendo.widget.ProgressBar>
+		</LinearLayout>
+		
+		<!-- (1) Gallery -->
+		<LinearLayout
+			android:orientation="vertical" android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:gravity="center">
+			<Gallery
+				android:id="@+id/Gallery" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:spacing="0px"/>
+		</LinearLayout>
+		
+		<!-- (2) Failure -->
+		<LinearLayout
+			android:orientation="vertical" android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:layout_marginLeft="15dip" android:gravity="left|center_vertical">
+			<com.teleca.jamendo.widget.FailureBar android:id="@+id/FailureBar" android:layout_width="wrap_content" android:layout_height="wrap_content">
+			</com.teleca.jamendo.widget.FailureBar>
+		</LinearLayout>
+</ViewFlipper>
+
+	<ListView android:id="@+id/HomeListView" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:divider="#000"></ListView>
+</LinearLayout>

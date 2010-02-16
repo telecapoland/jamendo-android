@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2009 Teleca Poland Sp. z o.o. <android@teleca.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. 
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="#000000">
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:background="@drawable/gradient_dark_purple">
+		<com.teleca.jamendo.widget.ArtistBar
+			android:id="@+id/ArtistBar" android:layout_width="fill_parent"
+			android:layout_height="fill_parent"></com.teleca.jamendo.widget.ArtistBar>
+	</LinearLayout>
+	<!-- 
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="5dip" android:background="@drawable/fading_bg" />
+	 -->
+
+	<GridView android:id="@+id/AlbumGridView"
+		android:layout_width="fill_parent" android:layout_weight="1"
+		android:layout_height="fill_parent" android:background="@drawable/light_bg"
+		android:padding="10dp" android:verticalSpacing="20dp"
+
+		android:horizontalSpacing="10dp" android:numColumns="auto_fit"
+		android:columnWidth="130dip" android:stretchMode="columnWidth"
+
+		android:gravity="center"></GridView>
+
+	<!-- 
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="5dip" android:background="@drawable/fading_bg_inv" />
+	 -->
+	<LinearLayout android:id="@+id/LinearLayout"
+		android:background="@drawable/gradient_orange" android:layout_height="60dip"
+		android:layout_width="fill_parent" android:gravity="center">
+
+		<Button android:id="@+id/WebpageButton" android:layout_width="fill_parent"
+			android:layout_weight="0.5" android:layout_height="wrap_content"
+			android:text="@string/webpage"></Button>
+		<Button android:id="@+id/DonateButton" android:layout_width="fill_parent"
+			android:layout_weight="0.5" android:layout_height="wrap_content"
+			android:text="@string/donate"></Button>
+	</LinearLayout>
+
+</LinearLayout>
