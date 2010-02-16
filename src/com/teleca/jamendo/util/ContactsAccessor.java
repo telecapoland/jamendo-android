@@ -42,7 +42,7 @@ public abstract class ContactsAccessor {
             String className = null;
 
             int sdkVersion = Integer.parseInt(Build.VERSION.SDK);
-            if (sdkVersion == Build.VERSION_CODES.ECLAIR) {
+            if (sdkVersion >= Build.VERSION_CODES.ECLAIR) {
                 className = "com.teleca.jamendo.util.ContactsAccessorSdk5";
             } else if (sdkVersion == Build.VERSION_CODES.DONUT) {
                 className = "com.teleca.jamendo.util.ContactsAccessorSdk4";
