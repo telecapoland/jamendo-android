@@ -35,7 +35,6 @@ import com.teleca.jamendo.dialog.LoadingDialog;
 import com.teleca.jamendo.dialog.LyricsDialog;
 import com.teleca.jamendo.dialog.PlayerAlbumLoadingDialog;
 import com.teleca.jamendo.dialog.PlaylistRemoteLoadingDialog;
-import com.teleca.jamendo.dialog.ShareDialog;
 import com.teleca.jamendo.media.PlayerEngine;
 import com.teleca.jamendo.media.PlayerEngineListener;
 import com.teleca.jamendo.util.Helper;
@@ -635,7 +634,11 @@ public class PlayerActivity extends Activity{
 	}
 	
 	public void shareOnClick(View v) {
-		new ShareDialog(PlayerActivity.this).show();
+	        if(mPlaylist == null || mPlaylist.getSelectedTrack() == null){
+	                return;
+	        }
+	        PlaylistEntry entry = mPlaylist.getSelectedTrack();
+                Helper.share(PlayerActivity.this, entry);
 		mSlidingDrawer.animateClose();
 	}
 	

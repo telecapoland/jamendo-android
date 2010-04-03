@@ -21,6 +21,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.widget.Toast;
 
@@ -97,4 +98,14 @@ public class Helper {
 		}
 	}
 	
+	public static void share(Activity activity, PlaylistEntry entry){
+           String text = activity.getString(R.string.song_recommendation) + ": "
+           + String.format("http://www.jamendo.com/track/%d", entry.getTrack().getId());
+           
+           Intent shareIntent = new Intent(Intent.ACTION_SEND);
+           shareIntent.setType("text/plain");
+           shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+           shareIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+           activity.startActivity(Intent.createChooser(shareIntent, activity.getString(R.string.share)));
+	}
 }

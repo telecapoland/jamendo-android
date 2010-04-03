@@ -25,7 +25,6 @@ import com.teleca.jamendo.api.PlaylistRemote;
 import com.teleca.jamendo.db.Database;
 import com.teleca.jamendo.db.DatabaseImpl;
 import com.teleca.jamendo.dialog.PlaylistRemoteLoadingDialog;
-import com.teleca.jamendo.dialog.ShareDialog;
 import com.teleca.jamendo.util.Helper;
 import com.teleca.jamendo.widget.AlbumBar;
 import com.teleca.jamendo.R;
@@ -181,9 +180,7 @@ public class PlaylistActivity extends Activity {
 			break;
 
 		case CONTEXT_SHARE:
-			ShareDialog dialog = new ShareDialog(PlaylistActivity.this);
-			dialog.setPlaylistEntry(mPlaylist.getTrack(menuInfo.position));
-			dialog.show();
+			Helper.share(PlaylistActivity.this, mPlaylist.getTrack(menuInfo.position));
 			break;
 
 		default:
