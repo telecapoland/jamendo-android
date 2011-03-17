@@ -1,0 +1,8 @@
+
+To easily create Android project for Eclipse perform following steps:
+
+1. clone this repository to your workspace directory
+2. import project without copying
+3. in project directory do `android update project -p . --target 1`
+4. create `gen` directory
+
