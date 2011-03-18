@@ -255,4 +255,14 @@ public interface JamendoGet2Api {
 	 * @throws WSError 
 	 */
 	Album getAlbumById(int id) throws JSONException, WSError;
+
+	/**
+	 * Get Album by one of its track id
+	 *
+	 * @param track_id
+	 * @return
+	 * @throws JSONException
+	 * @throws WSError
+	 */
+	Album getAlbumByTrackId(int track_id) throws JSONException, WSError;
 }

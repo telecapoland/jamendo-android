@@ -27,30 +27,32 @@ public class Album implements Serializable {
 	
 	private static final long serialVersionUID = 8517633545835124349L;
 	
+	public static Album emptyAlbum = new Album();
+
 	/**
 	 * numeric id of the album
 	 */
-	private int id;
+	private int id = 0;
 	
 	/**
 	 * link to the cover of the album
 	 */
-	private String image;
+	private String image = "";
 	
 	/**
 	 * name of the album
 	 */
-	private String name;
+	private String name = "";
 	
 	/**
 	 * Rating of the album
 	 */
-	private double rating;
+	private double rating = 0;
 	
 	/**
 	 * Display name of the artist.
 	 */
-	private String artistName;
+	private String artistName = "";
 	
 	public String getImage() {
 		return image;

@@ -23,6 +23,8 @@ import java.util.Hashtable;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.util.Log;
+
 import com.teleca.jamendo.api.Album;
 import com.teleca.jamendo.api.Artist;
 import com.teleca.jamendo.api.JamendoGet2Api;
@@ -169,20 +171,32 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 		
 		Album[] albums = getAlbumsByTracksId(tracks_id);
 		Track[] tracks = getTracksByTracksId(tracks_id, encoding);
-		
+
 		if(albums == null || tracks == null)
 			return null;
+
+		if(albums.length != tracks.length)
+			albums = null;
+
 		Hashtable<Integer, PlaylistEntry> hashtable = new Hashtable<Integer, PlaylistEntry>(); 
-		for(int i = 0; i < tracks.length && i < albums.length; i++){
+		for(int i = 0; i < tracks.length; i++){
 			PlaylistEntry playlistEntry = new PlaylistEntry();
-			playlistEntry.setAlbum(albums[i]);
+			if(albums != null){
+				playlistEntry.setAlbum(albums[i]);
+			} else {
+				Album album = getAlbumByTrackId(tracks[i].getId());
+				if(album == null){
+					album = Album.emptyAlbum;
+				}
+				playlistEntry.setAlbum(album);
+			}
 			playlistEntry.setTrack(tracks[i]);
 			hashtable.put(tracks[i].getId(), playlistEntry);
 		}
 
 		// creating playlist in the correct order
 		Playlist playlist = new Playlist();
-		for(int i =0; i < tracks_id.length && i < albums.length; i++){
+		for(int i =0; i < tracks_id.length; i++){
 			playlist.addPlaylistEntry(hashtable.get(tracks_id[i]));
 		}
 		return playlist;
@@ -275,6 +289,16 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 		String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/album_user_starred/?user_idstr="+user+"&n=all&order=rating_desc");
 		JSONArray jsonArrayAlbums = new JSONArray(jsonString);
 		return AlbumFunctions.getAlbums(jsonArrayAlbums);
+	}
+
+	@Override
+	public Album getAlbumByTrackId(int track_id) throws JSONException, WSError {
+		String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?n=1&track_id="+track_id);
+		JSONArray jsonArrayAlbums = new JSONArray(jsonString);
+		Album[] album =  AlbumFunctions.getAlbums(jsonArrayAlbums);
+		if(album != null && album.length > 0)
+			return album[0];
+		return null;
 	}
 	
 	// TODO private String nameToIdstr(String name);
