@@ -276,7 +276,8 @@ public class PlayerActivity extends Activity{
 		// refresh UI
 		if(getPlayerEngine() != null){
 			// the playlist is empty, abort playback, show message
-			if(getPlayerEngine().getPlaylist() == null){
+			if(getPlayerEngine().getPlaylist() == null || getPlayerEngine().getPlaylist().getSelectedTrack()== null){
+
 				Toast.makeText(this, R.string.no_tracks, Toast.LENGTH_LONG).show();
 				finish();
 				return;
