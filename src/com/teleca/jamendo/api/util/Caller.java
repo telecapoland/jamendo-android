@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.SocketException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 
 import org.apache.http.HttpEntity;
@@ -30,10 +32,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.util.Log;
+
 import com.teleca.jamendo.JamendoApplication;
 import com.teleca.jamendo.api.WSError;
-
-import android.util.Log;
 
 /**
  * @author Lukasz Wisniewski
@@ -63,9 +65,21 @@ public class Caller {
 			}
 		}
 		
+		URI encodedUri = null;
+		HttpGet httpGet = null;
+		
+		try {
+			encodedUri = new URI(url);
+			httpGet = new HttpGet(encodedUri);
+		} catch (URISyntaxException e1) {
+			// at least try to remove spaces
+			String encodedUrl = url.replace(' ', '+');
+			httpGet = new HttpGet(encodedUrl);
+			e1.printStackTrace();
+		}
+		
 		// initialize HTTP GET request objects
 		HttpClient httpClient = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(url);
 		HttpResponse httpResponse;
 		
 		try {
