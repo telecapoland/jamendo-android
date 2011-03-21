@@ -127,6 +127,7 @@ public class RadioActivity extends Activity {
 					break;
 				case 1:
 					// recommended
+					loadRecommendedRadios();
 					mRadioAdapter.setList(mRecommendedRadios);
 					break;
 
@@ -230,6 +231,7 @@ public class RadioActivity extends Activity {
 		try {
 			mRecommendedRadios = new JamendoGet2ApiImpl().getRadiosByIds(recommended_ids);
 		} catch (JSONException e) {
+			mRecommendedRadios = new Radio[0];
 			e.printStackTrace();
 		} catch (WSError e) {
 			// connection problem or sth/ finish
