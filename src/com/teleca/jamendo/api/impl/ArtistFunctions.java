@@ -25,6 +25,11 @@ public class ArtistFunctions {
 	
 	public static Artist[] getArtist(JSONArray jsonArrayAlbums) throws JSONException {
 		int n = jsonArrayAlbums.length();
+
+		if( n < 1){
+			throw new JSONException("No objects in array");
+		}
+
 		Artist[] artists = new Artist[n];
 		ArtistBuilder artistBuilder = new ArtistBuilder();
 		
