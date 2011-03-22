@@ -164,7 +164,10 @@ public class Playlist implements Serializable{
 	 * @param playlistEntry
 	 */
 	public void addPlaylistEntry(PlaylistEntry playlistEntry){
-		playlist.add(playlistEntry);
+		if(playlistEntry != null)
+		{
+			playlist.add(playlistEntry);
+		}
 	}
 	
 	/**
