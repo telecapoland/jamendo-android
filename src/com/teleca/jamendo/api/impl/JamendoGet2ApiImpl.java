@@ -23,7 +23,6 @@ import java.util.Hashtable;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import com.teleca.jamendo.R;
 import com.teleca.jamendo.api.Album;
 import com.teleca.jamendo.api.Artist;
 import com.teleca.jamendo.api.JamendoGet2Api;
@@ -54,18 +53,28 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 	public Album[] getPopularAlbumsWeek() throws JSONException, WSError {
 		
 		String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?n=20&order=ratingweek_desc");
-		if(jsonString == null)
+		if (jsonString == null)
 			return null;
-		JSONArray jsonArrayAlbums = new JSONArray(jsonString); 
-		return AlbumFunctions.getAlbums(jsonArrayAlbums);
 		
+		try {
+			JSONArray jsonArrayAlbums = new JSONArray(jsonString); 
+			return AlbumFunctions.getAlbums(jsonArrayAlbums);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new JSONException(e.getLocalizedMessage());
+		}
 	}
 	
 	@Override
 	public Track[] getAlbumTracks(Album album, String encoding) throws JSONException, WSError {
-		String jsonString = doGet("numalbum+id+name+duration+rating+url+stream/track/json/?album_id="+album.getId()+"&streamencoding="+encoding);
-		JSONArray jsonArrayTracks = new JSONArray(jsonString); 
-		return TrackFunctions.getTracks(jsonArrayTracks, true);
+		try {
+			String jsonString = doGet("numalbum+id+name+duration+rating+url+stream/track/json/?album_id="+album.getId()+"&streamencoding="+encoding);
+			JSONArray jsonArrayTracks = new JSONArray(jsonString); 
+			return TrackFunctions.getTracks(jsonArrayTracks, true);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new JSONException(e.getLocalizedMessage());
+		}
 	}
 
 	@Override
@@ -73,28 +82,32 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 		
 		try {
 			artistName = URLEncoder.encode(artistName, "UTF-8" );
+			String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?order=ratingweek_desc&n=50&searchquery="+artistName);
+			JSONArray jsonArrayAlbums = new JSONArray(jsonString); 
+			return AlbumFunctions.getAlbums(jsonArrayAlbums);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return null;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new JSONException(e.getLocalizedMessage());
 		}
-		
-		String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?order=ratingweek_desc&n=50&searchquery="+artistName);
-		JSONArray jsonArrayAlbums = new JSONArray(jsonString); 
-		return AlbumFunctions.getAlbums(jsonArrayAlbums);
 	}
 
 	@Override
 	public Album[] searchForAlbumsByTag(String tag) throws JSONException, WSError {
 		try {
 			tag = URLEncoder.encode(tag, "UTF-8" );
+			String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?order=ratingweek_desc&tag_idstr="+tag+"&n=50");
+			JSONArray jsonArrayAlbums = new JSONArray(jsonString); 
+			return AlbumFunctions.getAlbums(jsonArrayAlbums);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return null;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new JSONException(e.getLocalizedMessage());
 		}
-		
-		String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?order=ratingweek_desc&tag_idstr="+tag+"&n=50");
-		JSONArray jsonArrayAlbums = new JSONArray(jsonString); 
-		return AlbumFunctions.getAlbums(jsonArrayAlbums);
 	}
 
 	@Override
@@ -102,28 +115,32 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 			throws JSONException, WSError {
 		try {
 			artistName = URLEncoder.encode(artistName, "UTF-8" );
+			String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?order=ratingweek_desc&n=50&artist_name="+artistName);
+			JSONArray jsonArrayAlbums = new JSONArray(jsonString); 
+			return AlbumFunctions.getAlbums(jsonArrayAlbums);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return null;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new JSONException(e.getLocalizedMessage());
 		}
-		
-		String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?order=ratingweek_desc&n=50&artist_name="+artistName);
-		JSONArray jsonArrayAlbums = new JSONArray(jsonString); 
-		return AlbumFunctions.getAlbums(jsonArrayAlbums);
 	}
 
 	@Override
 	public Artist getArtist(String name) throws JSONException, WSError {
 		try {
 			name = URLEncoder.encode(name, "UTF-8" );
+			String jsonString = doGet("id+idstr+name+url+image+rating+mbgid+mbid+genre/artist/jsonpretty/?name="+name);
+			JSONArray jsonArrayAlbums = new JSONArray(jsonString);
+			return ArtistFunctions.getArtist(jsonArrayAlbums)[0];
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return null;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new JSONException(e.getLocalizedMessage());
 		}
-		
-		String jsonString = doGet("id+idstr+name+url+image+rating+mbgid+mbid+genre/artist/jsonpretty/?name="+name);
-		JSONArray jsonArrayAlbums = new JSONArray(jsonString);
-		return ArtistFunctions.getArtist(jsonArrayAlbums)[0];
 	}
 
 	@Override
@@ -139,9 +156,14 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 		
 		String id_query = Caller.createStringFromIds(id);
 		
-		String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?n="+id.length+"&track_id="+id_query);
-		JSONArray jsonArrayAlbums = new JSONArray(jsonString);
-		return AlbumFunctions.getAlbums(jsonArrayAlbums);
+		try {
+			String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?n="+id.length+"&track_id="+id_query);
+			JSONArray jsonArrayAlbums = new JSONArray(jsonString);
+			return AlbumFunctions.getAlbums(jsonArrayAlbums);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new JSONException(e.getLocalizedMessage());
+		}
 	}
 
 	@Override
@@ -150,17 +172,27 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 			return null;
 		
 		String id_query = Caller.createStringFromIds(id);
-		
-		String jsonString = doGet("id+numalbum+name+duration+rating+url+stream/track/json/?streamencoding="+encoding+"&n="+id.length+"&id="+id_query);
-		JSONArray jsonArrayTracks = new JSONArray(jsonString);
-		return TrackFunctions.getTracks(jsonArrayTracks, false);
+
+		try {
+			String jsonString = doGet("id+numalbum+name+duration+rating+url+stream/track/json/?streamencoding="+encoding+"&n="+id.length+"&id="+id_query);
+			JSONArray jsonArrayTracks = new JSONArray(jsonString);
+			return TrackFunctions.getTracks(jsonArrayTracks, false);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new JSONException(e.getLocalizedMessage());
+		}
 	}
 
 	@Override
 	public Review[] getAlbumReviews(Album album) throws JSONException, WSError {
-		String jsonString = doGet("id+name+text+rating+lang+user_name+user_image/review/json/?album_id="+album.getId());
-		JSONArray jsonReviewAlbums = new JSONArray(jsonString);
-		return ReviewFunctions.getReviews(jsonReviewAlbums);
+		try {
+			String jsonString = doGet("id+name+text+rating+lang+user_name+user_image/review/json/?album_id="+album.getId());
+			JSONArray jsonReviewAlbums = new JSONArray(jsonString);
+			return ReviewFunctions.getReviews(jsonReviewAlbums);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new JSONException(e.getLocalizedMessage());
+		}
 	}
 
 	@Override
@@ -203,35 +235,51 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 
 	@Override
 	public Radio[] getRadiosByIds(int[] id) throws JSONException, WSError {
-		String id_query = Caller.createStringFromIds(id);
-		String jsonString = doGet("id+idstr+name+image/radio/json/?id="+id_query);
-		return RadioFunctions.getRadios(new JSONArray(jsonString));
+		try {
+			String id_query = Caller.createStringFromIds(id);
+			String jsonString = doGet("id+idstr+name+image/radio/json/?id="+id_query);
+			return RadioFunctions.getRadios(new JSONArray(jsonString));
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new JSONException(e.getLocalizedMessage());
+		}
 	}
 
 	@Override
 	public Radio[] getRadiosByIdstr(String idstr) throws JSONException, WSError {
-		String jsonString = doGet("id+idstr+name+image/radio/json/?idstr="+idstr);
-		return RadioFunctions.getRadios(new JSONArray(jsonString));
+		try {
+			String jsonString = doGet("id+idstr+name+image/radio/json/?idstr="+idstr);
+			return RadioFunctions.getRadios(new JSONArray(jsonString));
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new JSONException(e.getLocalizedMessage());
+		}
 	}
 
 	@Override
 	public PlaylistRemote[] getUserPlaylist(String user) throws JSONException, WSError {
-		
 		try {
 			user = URLEncoder.encode(user, "UTF-8" );
+			String jsonString = doGet("id+name+url+duration/playlist/json/playlist_user/?order=starred_desc&user_idstr="+user);
+			return PlaylistFunctions.getPlaylists(new JSONArray(jsonString));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return null;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new JSONException(e.getLocalizedMessage());
 		}
-		
-		String jsonString = doGet("id+name+url+duration/playlist/json/playlist_user/?order=starred_desc&user_idstr="+user);
-		return PlaylistFunctions.getPlaylists(new JSONArray(jsonString));
 	}
 
 	@Override
 	public Playlist getPlaylist(PlaylistRemote playlistRemote) throws JSONException, WSError {
-		String jsonString = doGet("stream+name+duration+url+id+rating/track/json/?playlist_id="+playlistRemote.getId());
-		return TrackFunctions.getPlaylist(new JSONArray(jsonString));
+		try {
+			String jsonString = doGet("stream+name+duration+url+id+rating/track/json/?playlist_id="+playlistRemote.getId());
+			return TrackFunctions.getPlaylist(new JSONArray(jsonString));
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new JSONException(e.getLocalizedMessage());
+		}
 	}
 
 	@Override
@@ -246,6 +294,9 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 				return null;
 		} catch (JSONException e) {
 			return null;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new WSError(e.getLocalizedMessage());
 		}
 	}
 
@@ -261,18 +312,27 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 				return null;
 		} catch (JSONException e) {
 			return null;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new WSError(e.getLocalizedMessage());
 		}
 	}
 
 	@Override
 	public Album getAlbumById(int id) throws JSONException, WSError {
-		
-		String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?id="+id);
-		JSONArray jsonArrayAlbums = new JSONArray(jsonString); 
-		Album[] album =  AlbumFunctions.getAlbums(jsonArrayAlbums);
-		if(album != null && album.length > 0)
-			return album[0];
-		return null;
+		try {
+			String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?id="+id);
+			JSONArray jsonArrayAlbums = new JSONArray(jsonString); 
+			Album[] album =  AlbumFunctions.getAlbums(jsonArrayAlbums);
+			if(album != null && album.length > 0)
+				return album[0];
+			return null;
+		} catch (JSONException e) {
+			return null;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new WSError(e.getLocalizedMessage());
+		}
 	}
 
 	@Override
@@ -280,24 +340,35 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 		
 		try {
 			user = URLEncoder.encode(user, "UTF-8" );
+			String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/album_user_starred/?user_idstr="+user+"&n=all&order=rating_desc");
+			JSONArray jsonArrayAlbums = new JSONArray(jsonString);
+			return AlbumFunctions.getAlbums(jsonArrayAlbums);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return null;
+		} catch (JSONException e) {
+			return null;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new WSError(e.getLocalizedMessage());
 		}
-		
-		String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/album_user_starred/?user_idstr="+user+"&n=all&order=rating_desc");
-		JSONArray jsonArrayAlbums = new JSONArray(jsonString);
-		return AlbumFunctions.getAlbums(jsonArrayAlbums);
 	}
 
 	@Override
 	public Album getAlbumByTrackId(int track_id) throws JSONException, WSError {
-		String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?n=1&track_id="+track_id);
-		JSONArray jsonArrayAlbums = new JSONArray(jsonString);
-		Album[] album =  AlbumFunctions.getAlbums(jsonArrayAlbums);
-		if(album != null && album.length > 0)
-			return album[0];
-		return null;
+		try {
+			String jsonString = doGet("id+name+url+image+rating+artist_name/album/json/?n=1&track_id="+track_id);
+			JSONArray jsonArrayAlbums = new JSONArray(jsonString);
+			Album[] album =  AlbumFunctions.getAlbums(jsonArrayAlbums);
+			if(album != null && album.length > 0)
+				return album[0];
+			return null;
+		} catch (JSONException e) {
+			return null;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new WSError(e.getLocalizedMessage());
+		}
 	}
 	
 	// TODO private String nameToIdstr(String name);

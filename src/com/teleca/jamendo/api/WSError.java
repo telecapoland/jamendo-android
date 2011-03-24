@@ -28,6 +28,13 @@ public class WSError extends Throwable {
 	
 	private String message;
 
+	public WSError() {
+	}
+	
+	public WSError(String message) {
+		this.message = message;
+	}
+	
 	public void setMessage(String message) {
 		this.message = message;
 	}
