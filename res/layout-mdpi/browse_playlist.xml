@@ -32,7 +32,7 @@ limitations under the License.
 			android:layout_marginRight="10dip"></Button>
 	</LinearLayout>
 
-	<ViewFlipper android:id="@+id/BrowsePlaylistViewFlipper"
+	<com.teleca.jamendo.util.FixedViewFlipper android:id="@+id/BrowsePlaylistViewFlipper"
 		android:background="#fff" android:layout_weight="1"
 		android:layout_width="fill_parent" android:layout_height="fill_parent">
 		<ListView android:layout_width="fill_parent" android:id="@+id/PlaylistsListView"
@@ -42,5 +42,5 @@ limitations under the License.
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:text="@string/no_playlists"
 			android:layout_gravity="center"></TextView>
-	</ViewFlipper>
+	</com.teleca.jamendo.util.FixedViewFlipper>
 </LinearLayout>

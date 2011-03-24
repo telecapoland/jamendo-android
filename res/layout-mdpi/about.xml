@@ -23,7 +23,7 @@ limitations under the License.
 		android:textSize="13dip" android:gravity="right"
 		android:layout_gravity="right"></TextView>
 
-	<ViewFlipper android:layout_width="fill_parent"
+	<com.teleca.jamendo.util.FixedViewFlipper android:layout_width="fill_parent"
 		android:paddingLeft="10dip"
 		android:layout_height="fill_parent" android:layout_weight="1"
 		android:id="@+id/CompanyViewFlipper" android:inAnimation="@anim/fade_in" android:outAnimation="@anim/fade_out">
@@ -90,7 +90,7 @@ limitations under the License.
 			</LinearLayout>
 		</ScrollView>
 
-	</ViewFlipper>
+	</com.teleca.jamendo.util.FixedViewFlipper>
 
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:orientation="horizontal"

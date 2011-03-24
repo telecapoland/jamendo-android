@@ -18,7 +18,7 @@ limitations under the License.
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:background="#ffffff">
 
-	<ViewFlipper android:orientation="vertical" android:id="@+id/ViewFlipper"
+	<com.teleca.jamendo.util.FixedViewFlipper android:orientation="vertical" android:id="@+id/ViewFlipper"
 		android:layout_width="fill_parent" android:layout_height="75dip"
 		android:background="@drawable/gradient_dark_purple">
 		
@@ -46,7 +46,7 @@ limitations under the License.
 			<com.teleca.jamendo.widget.FailureBar android:id="@+id/FailureBar" android:layout_width="wrap_content" android:layout_height="wrap_content">
 			</com.teleca.jamendo.widget.FailureBar>
 		</LinearLayout>
-</ViewFlipper>
+</com.teleca.jamendo.util.FixedViewFlipper>
 
 	<ListView android:id="@+id/HomeListView" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:divider="#000"></ListView>

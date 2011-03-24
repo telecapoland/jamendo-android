@@ -26,7 +26,7 @@ limitations under the License.
 			android:layout_height="fill_parent"></com.teleca.jamendo.widget.AlbumBar>
 	</LinearLayout>
 
-	<ViewFlipper android:id="@+id/PlaylistViewFlipper"
+	<com.teleca.jamendo.util.FixedViewFlipper android:id="@+id/PlaylistViewFlipper"
 		android:background="#fff" android:layout_weight="1"
 		android:layout_width="fill_parent" android:layout_height="fill_parent">
 		<ListView android:id="@+id/PlaylistTracksListView"
@@ -36,6 +36,6 @@ limitations under the License.
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:text="@string/no_tracks"
 			android:layout_gravity="center"></TextView>
-	</ViewFlipper>
+	</com.teleca.jamendo.util.FixedViewFlipper>
 
 </LinearLayout>

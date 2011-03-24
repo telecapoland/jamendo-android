@@ -32,7 +32,7 @@ limitations under the License.
 			android:layout_marginRight="10dip"></Button>
 	</LinearLayout>
 
-	<ViewFlipper android:id="@+id/SearchViewFlipper" android:background="#fff" 
+	<com.teleca.jamendo.util.FixedViewFlipper android:id="@+id/SearchViewFlipper" android:background="#fff" 
 		android:layout_weight="1" android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 		<ListView android:layout_width="fill_parent" android:id="@+id/SearchListView"
@@ -41,7 +41,7 @@ limitations under the License.
 			android:layout_height="wrap_content" android:text="@string/no_results" android:layout_gravity="center"></TextView>
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:text="@string/search_list_hint" android:layout_gravity="center"></TextView>
-	</ViewFlipper>
+	</com.teleca.jamendo.util.FixedViewFlipper>
 
 	<LinearLayout android:id="@+id/LinearLayout"
 		android:background="@drawable/gradient_orange" android:layout_height="60dip"

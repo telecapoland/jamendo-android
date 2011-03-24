@@ -45,7 +45,7 @@ limitations under the License.
 		</LinearLayout>
 	</LinearLayout>
 
-	<ViewFlipper android:id="@+id/DownloadViewFlipper"
+	<com.teleca.jamendo.util.FixedViewFlipper android:id="@+id/DownloadViewFlipper"
 		android:background="#fff" android:layout_weight="1"
 		android:layout_width="fill_parent" android:layout_height="fill_parent">
 		<ListView android:layout_width="fill_parent" android:id="@+id/DownloadListView"
@@ -55,7 +55,7 @@ limitations under the License.
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:text="@string/no_items"
 			android:layout_gravity="center"></TextView>
-	</ViewFlipper>
+	</com.teleca.jamendo.util.FixedViewFlipper>
 
 	<LinearLayout android:id="@+id/LinearLayout"
 		android:background="@drawable/gradient_orange" android:layout_height="60dip"

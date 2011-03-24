@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. 
 -->
-<ViewFlipper android:id="@+id/LyricsViewFlipper"
+<com.teleca.jamendo.util.FixedViewFlipper android:id="@+id/LyricsViewFlipper"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	xmlns:android="http://schemas.android.com/apk/res/android" android:minHeight="300dp" android:minWidth="300dp">
 
@@ -39,4 +39,4 @@ limitations under the License.
 	</ScrollView>
 
 
-</ViewFlipper>
+</com.teleca.jamendo.util.FixedViewFlipper>
