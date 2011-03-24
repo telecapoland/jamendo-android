@@ -23,8 +23,7 @@ import java.util.Hashtable;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.util.Log;
-
+import com.teleca.jamendo.R;
 import com.teleca.jamendo.api.Album;
 import com.teleca.jamendo.api.Artist;
 import com.teleca.jamendo.api.JamendoGet2Api;
