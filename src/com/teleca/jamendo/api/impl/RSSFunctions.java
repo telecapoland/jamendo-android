@@ -21,6 +21,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import android.R;
+
+import com.teleca.jamendo.api.WSError;
 import com.teleca.jamendo.api.util.XMLUtil;
 
 /**
@@ -35,9 +38,13 @@ public class RSSFunctions {
 		int[] tracks_id = null;
 		
 		Document responseXML = XMLUtil.stringToDocument(rssString);
+		if (responseXML == null)
+			return null;
 		
 		// node list with items
 		NodeList items = responseXML.getElementsByTagName("item");
+		if (items == null)
+			return null;
 		
 		// track count
 		int n = items.getLength();
