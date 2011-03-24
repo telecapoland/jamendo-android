@@ -100,5 +100,11 @@ public abstract class LoadingDialog<Input, Result> extends AsyncTask<Input, WSEr
 		mProgressDialog.dismiss();
 		super.onProgressUpdate(values);
 	}
+	
+	public void doCancel()
+	{
+		mProgressDialog.dismiss();		
+		this.cancel(true);	
+	}
 
 }

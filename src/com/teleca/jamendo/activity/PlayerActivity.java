@@ -115,6 +115,8 @@ public class PlayerActivity extends Activity{
 	private String mBetterRes;
 	
 	private SlidingDrawer mSlidingDrawer;
+	
+	private LoadingDialog mUriLoadingDialog;
 
 	/**
 	 * Launch this Activity from the outside, with defined playlist
@@ -279,6 +281,10 @@ public class PlayerActivity extends Activity{
 			if(getPlayerEngine().getPlaylist() == null || getPlayerEngine().getPlaylist().getSelectedTrack()== null){
 
 				Toast.makeText(this, R.string.no_tracks, Toast.LENGTH_LONG).show();
+				if(mUriLoadingDialog != null)
+				{
+					mUriLoadingDialog.doCancel();
+				}
 				finish();
 				return;
 			}
@@ -488,7 +494,7 @@ public class PlayerActivity extends Activity{
 			// Check if this intent was already once parsed 
 			// we don't need to do that again
 			if(!getIntent().getBooleanExtra("handled", false)){
-				new UriLoadingDialog(this, R.string.loading, R.string.loading_fail).execute();
+				mUriLoadingDialog = (LoadingDialog) new UriLoadingDialog(this, R.string.loading, R.string.loading_fail).execute();
 			}
 				
 		} else {
