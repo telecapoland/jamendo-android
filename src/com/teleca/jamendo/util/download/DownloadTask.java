@@ -79,6 +79,7 @@ public class DownloadTask extends AsyncTask<Void, Integer, Boolean>{
 		try {
 			return downloadFile(mJob);
 		} catch (IOException e) {
+			Log.e(JamendoApplication.TAG, "Download file faild reason-> " + e.getMessage());
 			return false;
 		}
 	}
@@ -125,6 +126,11 @@ public class DownloadTask extends AsyncTask<Void, Integer, Boolean>{
 
 
 		InputStream in = c.getInputStream();
+
+		if(in == null){
+			// When InputStream is a NULL
+			return false;
+		}
 
 		byte[] buffer = new byte[1024];
 		int lenght = 0;
