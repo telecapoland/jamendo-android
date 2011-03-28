@@ -79,7 +79,10 @@ public class DownloadDatabaseImpl implements DownloadDatabase {
 	public boolean addToLibrary(PlaylistEntry entry) {
 
 		SQLiteDatabase db = getDb();
-
+		if( db == null ){
+			// database was not created
+			return false;
+		}
 		// put playlistentry data the table
 		ContentValues values = new ContentValues();
 
