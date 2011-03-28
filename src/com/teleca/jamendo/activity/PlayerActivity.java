@@ -279,17 +279,28 @@ public class PlayerActivity extends Activity{
 		if(getPlayerEngine() != null){
 			// the playlist is empty, abort playback, show message
 			if(getPlayerEngine().getPlaylist() == null || getPlayerEngine().getPlaylist().getSelectedTrack()== null){
-
-				Toast.makeText(this, R.string.no_tracks, Toast.LENGTH_LONG).show();
+				//if playlist comes from link service, don't close activity and wait for playlist
 				if(mUriLoadingDialog != null)
-				{
-					mUriLoadingDialog.doCancel();
+				{					
+					mUriLoadingDialog = null;
+					
 				}
-				finish();
+				else
+				{
+					Toast.makeText(this, R.string.no_tracks, Toast.LENGTH_LONG).show();
+					finish();	
+				}
+				
 				return;
 			}
 			mPlayerEngineListener.onTrackChanged(getPlayerEngine().getPlaylist().getSelectedTrack());
 		}
+	}
+	
+	
+	public void doCloseActivity(){
+		finish();	
+		
 	}
 	
 	@Override

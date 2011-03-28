@@ -16,6 +16,7 @@
 
 package com.teleca.jamendo.dialog;
 
+import com.teleca.jamendo.activity.PlayerActivity;
 import com.teleca.jamendo.api.WSError;
 
 import android.app.Activity;
@@ -44,7 +45,14 @@ public abstract class LoadingDialog<Input, Result> extends AsyncTask<Input, WSEr
 	}
 
 	@Override
-	public void onCancelled() {
+	public void onCancelled() {		
+		
+		if( mActivity instanceof PlayerActivity)
+			{
+			PlayerActivity pa = (PlayerActivity)mActivity;
+			pa.doCloseActivity();
+			}
+		
 		failMsg();
 		super.onCancelled();
 	}
@@ -76,7 +84,14 @@ public abstract class LoadingDialog<Input, Result> extends AsyncTask<Input, WSEr
 		if(result != null){
 			doStuffWithResult(result);
 		} else {
+			
+			if( mActivity instanceof PlayerActivity)
+				{
+				PlayerActivity pa = (PlayerActivity)mActivity;
+				pa.doCloseActivity();
+				}
 			failMsg();
+
 		}
 	}
 	
@@ -103,8 +118,7 @@ public abstract class LoadingDialog<Input, Result> extends AsyncTask<Input, WSEr
 	
 	public void doCancel()
 	{
-		mProgressDialog.dismiss();		
-		this.cancel(true);	
+		mProgressDialog.dismiss();
 	}
 
 }
