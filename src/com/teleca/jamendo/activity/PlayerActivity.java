@@ -540,8 +540,13 @@ public class PlayerActivity extends Activity{
 
 				List<String> segments = intent.getData().getPathSegments();
 				String mode = segments.get((segments.size()-2));
-				int id = Integer.parseInt(segments.get((segments.size()-1)));
-
+				int id = 0;
+				try{
+					id = Integer.parseInt(segments.get((segments.size()-1)));
+				} catch (NumberFormatException e){
+					doCancel();
+					return playlist;
+				}
 				JamendoGet2Api service = new JamendoGet2ApiImpl();
 
 				if(mode.equals("track")){
