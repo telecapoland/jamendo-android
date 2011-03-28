@@ -101,6 +101,7 @@ limitations under the License.
 	<string name="sms_fail">Echec de l\'envoi du SMS :\'(</string>
 	<string name="playlist_exists">La liste déjà existe</string>
 	<string name="credits">Crédits</string>
+	<string name="maintainers">Mainteneurs</string>
 	<string name="home">Accueil</string>
 	<string name="loading_playlist">Chargement des infos de la liste...</string>
 	<string name="loading_playlist_fail">Impossible de charger des infos de la liste :\'(</string>

@@ -66,7 +66,7 @@ public class AboutDialog extends Dialog {
 		setContentView(R.layout.about);
 
 		
-		String topText = "ver "+JamendoApplication.getInstance().getVersion()+", (c) Teleca Poland sp. z o.o. 2009";
+		String topText = "v "+JamendoApplication.getInstance().getVersion() + ", " + context.getString(R.string.about_note);
 		
 		mVersionTextView = (TextView)findViewById(R.id.VersionText);
 		mVersionTextView.setText(topText);

@@ -20,7 +20,7 @@ limitations under the License.
 
 	<TextView android:layout_width="fill_parent" android:id="@+id/VersionText"
 		android:layout_height="wrap_content" android:text="ver 0.0.0, Teleca Poland"
-		android:textSize="13dip" android:gravity="right"
+		android:textSize="11dip" android:gravity="right"
 		android:layout_gravity="right"></TextView>
 
 	<com.teleca.jamendo.util.FixedViewFlipper android:layout_width="fill_parent"
@@ -60,6 +60,16 @@ limitations under the License.
 				<ImageView android:layout_width="wrap_content"
 					android:layout_gravity="center_horizontal" android:layout_height="wrap_content"
 					android:src="@drawable/teleca_logo" android:layout_marginTop="20dip"></ImageView>
+
+				<TextView android:layout_width="wrap_content"
+					android:textSize="14dip" android:layout_gravity="center_horizontal"
+					android:layout_height="wrap_content" android:text="@string/maintainers"
+					android:layout_marginTop="15dip"></TextView>
+
+				<TextView android:layout_width="wrap_content" android:gravity="center" android:id="@+id/AuthorText"
+					android:textSize="12dip" android:layout_gravity="center_horizontal"
+					android:layout_height="wrap_content" android:text="Piotr Borowczyński\nBartosz Cichosz\nMarcin Gil\nArkadiusz Grabka\nArtur Kulik"></TextView>
+
 					
 				<TextView android:layout_width="wrap_content"
 					android:textSize="14dip" android:layout_gravity="center_horizontal"
@@ -68,8 +78,7 @@ limitations under the License.
 
 				<TextView android:layout_width="wrap_content" android:gravity="center" android:id="@+id/AuthorText"
 					android:textSize="12dip" android:layout_gravity="center_horizontal"
-					android:layout_height="wrap_content"
-					android:text="Łukasz Wiśniewski (design &amp; development)\nMieszko Lassota (ui audit)\nŁukasz Wojciechowski (testing)\nMarcin Bugaj (testing)"></TextView>
+					android:layout_height="wrap_content" android:text="Łukasz Wiśniewski (design &amp; orig. development)\nMieszko Lassota (ui audit)\nŁukasz Wojciechowski (testing)\nMarcin Bugaj (testing)"></TextView>
 
 				<TextView android:layout_width="wrap_content"
 					android:layout_gravity="center_horizontal" android:textSize="14dip"
