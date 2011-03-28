@@ -356,9 +356,7 @@ public class HomeActivity extends Activity implements OnAlbumClickListener {
 				id = server.getTop100Listened();
 				// if loading rss failed and no tracks are there - report an error
 				if (id == null) {
-					WSError wse = new WSError();
-					wse.setMessage((String) getResources().getText(R.string.top100_fail));
-					publishProgress(wse);
+					publishProgress(new WSError((String) getResources().getText(R.string.top100_fail)));
 					return null;
 				}
 				Album[] albums = server.getAlbumsByTracksId(id);

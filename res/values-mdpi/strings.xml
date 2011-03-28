@@ -61,7 +61,7 @@ limitations under the License.
 	<string name="add">Add</string>
 	<string name="lyrics">Lyrics</string>
 	<string name="no_lyrics">Lyrics unavailable</string>
-	<string name="about_note">(c) Teleca Poland sp. z o.o. 2009</string>
+	<string name="about_note">(c) Teleca Poland sp. z o.o. 2009-2011</string>
 	<string name="about_address">Teleca Poland Sp. z o.o.\n6 Kasprzaka Street\n90-083 Lodz, Poland</string>
 	<string name="about_link">android@teleca.com</string>
 	<string name="about_contact">Questions, bug reports or any feedback</string>
@@ -108,6 +108,7 @@ limitations under the License.
 	<string name="sms_fail">SMS fail :\'(</string>
 	<string name="playlist_exists">Playlist already exists</string>
 	<string name="credits">Credits</string>
+	<string name="maintainers">Maintainers</string>
 	<string name="home">Home</string>
 	<string name="loading_playlist">Loading playlist data...</string>
 	<string name="loading_playlist_fail">Failed loading playlist data :\'(</string>

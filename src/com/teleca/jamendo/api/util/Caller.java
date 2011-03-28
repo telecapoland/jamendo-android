@@ -87,13 +87,9 @@ public class Caller {
 			try {
 				httpResponse = httpClient.execute(httpGet);
 			} catch (UnknownHostException e) {
-				WSError wsError = new WSError();
-				wsError.setMessage(e.getLocalizedMessage());
-				throw wsError;
+				throw new WSError("Unable to access " + e.getLocalizedMessage());
 			} catch (SocketException e){
-				WSError wsError = new WSError();
-				wsError.setMessage(e.getLocalizedMessage());
-				throw wsError;
+				throw new WSError(e.getLocalizedMessage());
 			}
 			
 			// request data
