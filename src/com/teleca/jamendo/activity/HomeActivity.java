@@ -47,6 +47,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,6 +68,8 @@ import android.widget.AdapterView.OnItemClickListener;
  * @author Lukasz Wisniewski
  */
 public class HomeActivity extends Activity implements OnAlbumClickListener {
+
+	private static final String TAG = "HomeActivity";
 
 	private ViewFlipper mViewFlipper;
 	private Gallery mGallery;
@@ -263,12 +266,15 @@ public class HomeActivity extends Activity implements OnAlbumClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> adapterView, View view, int index,
 				long time) {
-			PurpleListener listener = ((PurpleEntry)adapterView.getAdapter().getItem(index)).getListener();
-			if(listener != null){
-				listener.performAction();
+			try{
+				PurpleListener listener = ((PurpleEntry)adapterView.getAdapter().getItem(index)).getListener();
+				if(listener != null){
+					listener.performAction();
+				}
+			}catch (ClassCastException e) {
+				Log.w(TAG, "Unexpected position number was occurred");
 			}
 		}
-
 	};
 
 	/**
