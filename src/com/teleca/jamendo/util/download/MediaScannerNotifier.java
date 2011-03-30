@@ -35,6 +35,7 @@ public class MediaScannerNotifier implements MediaScannerConnectionClient{
     private MediaScannerConnection mConnection;
     private DownloadJob mDownloadJob;
     private DownloadService mService;
+    static private int mScannedFilesInProgress = 0;
 
 	public MediaScannerNotifier(DownloadService service, DownloadJob job) {
 		mDownloadJob = job;
@@ -48,17 +49,25 @@ public class MediaScannerNotifier implements MediaScannerConnectionClient{
 		//String path = mDownloadJob.getDestination();
 		String path = DownloadHelper.getAbsolutePath(mDownloadJob.getPlaylistEntry(), mDownloadJob.getDestination());
 		String fileName = DownloadHelper.getFileName(mDownloadJob.getPlaylistEntry(), mDownloadJob.getFormat());
-		Log.i(JamendoApplication.TAG, "Adding to media library -> "+fileName);
-		mConnection.scanFile(path+"/"+fileName, null); 
+		Log.i(JamendoApplication.TAG, "Adding to media library -> "+fileName);		
+		if(mConnection.isConnected())
+		{
+			mConnection.scanFile(path+"/"+fileName, null);
+			mScannedFilesInProgress++;			
+		}
+		
+
 	}
 
 	@Override
 	public void onScanCompleted(String text, Uri uri) {
 		Log.i(JamendoApplication.TAG, "Added to media library -> "+uri.toString());
+		
+		mScannedFilesInProgress--;
 		mConnection.disconnect();
 		
 		// stop service if there is no downloads left
-		if(mService.getQueuedDownloads().size() == 0){
+		if(mService.getQueuedDownloads().size() == 0 && mScannedFilesInProgress == 0){			
 			mService.stopSelf();
 		}
 	}
