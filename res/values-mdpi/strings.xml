@@ -118,4 +118,6 @@ limitations under the License.
 	<string name="add_to_favorites">Add to favorites</string>
 	<string name="starred_albums_empty">The list of your starred albums is empty. This functionality is read-only as currently Jamendo Web API does not support authentication. \n\nIn order to add an album to this list press \'love\' button while on the jamendo.com web site.</string>
 	<string name="better_res">1.300.jpg</string>
+	<string name="loading_recomended_radios">Loading recomended radios</string>
+	<string name="failed_recomended_radios">Loading recomended radios failed</string>
 </resources>
