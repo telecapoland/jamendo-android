@@ -25,12 +25,14 @@ import com.teleca.jamendo.api.Radio;
 import com.teleca.jamendo.api.WSError;
 import com.teleca.jamendo.api.impl.JamendoGet2ApiImpl;
 import com.teleca.jamendo.db.DatabaseImpl;
+import com.teleca.jamendo.dialog.LoadingDialog;
 import com.teleca.jamendo.JamendoApplication;
 import com.teleca.jamendo.R;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -88,6 +90,8 @@ public class RadioActivity extends Activity {
 	private Spinner mSpinner;
 	private ViewFlipper mViewFlipper;
 
+	private RadioLoadingDialog mRadioLoadingDialog;
+
 	/** Called when the activity is first created. */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -112,9 +116,13 @@ public class RadioActivity extends Activity {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		mSpinner.setAdapter(adapter);
 		mEditText.setHint(R.string.radio_hint);
-		
-		loadRecommendedRadios();
-		
+
+		mRadioLoadingDialog = new RadioLoadingDialog(this,
+				R.string.loading_recomended_radios,
+				R.string.failed_recomended_radios);
+
+		mRadioLoadingDialog.execute();
+
 		mSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
 
 			@Override
@@ -127,8 +135,19 @@ public class RadioActivity extends Activity {
 					break;
 				case 1:
 					// recommended
-					loadRecommendedRadios();
-					mRadioAdapter.setList(mRecommendedRadios);
+					switch(mRadioLoadingDialog.getStatus()){
+						case RUNNING:
+							break;
+						case FINISHED:
+							mRadioLoadingDialog = new RadioLoadingDialog(RadioActivity.this,
+								R.string.loading_recomended_radios,
+								R.string.failed_recomended_radios);
+							mRadioLoadingDialog.execute();
+							break;
+						case PENDING:
+							mRadioLoadingDialog.execute();
+							break;
+					}
 					break;
 
 				default:
@@ -238,5 +257,34 @@ public class RadioActivity extends Activity {
 			Toast.makeText(RadioActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
 			finish();
 		}
+	}
+
+	/**
+	 * Dialog displayed while downloading recomended radios list.
+	 */
+	private class RadioLoadingDialog extends LoadingDialog<Void, Boolean>{
+
+		public RadioLoadingDialog(Activity activity, int loadingMsg, int failMsg) {
+			super(activity, loadingMsg, failMsg);
+		}
+
+		@Override
+		public Boolean doInBackground(Void... params) {
+			loadRecommendedRadios();
+			if(mRecommendedRadios == null || mRecommendedRadios.length == 0){
+				return null;
+			} else {
+				return true;
+			}
+		}
+
+		@Override
+		public void doStuffWithResult(Boolean result) {
+			if(mSpinner.getSelectedItemPosition() == 1){
+				mRadioAdapter.setList(mRecommendedRadios);
+				setupListView();
+			}
+		}
+
 	}
 }
