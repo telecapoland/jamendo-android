@@ -108,4 +108,14 @@ public class Helper {
            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "");
            activity.startActivity(Intent.createChooser(shareIntent, activity.getString(R.string.share)));
 	}
+
+	public static void share(Activity activity, String shareUri) {
+		String text = activity.getString(R.string.song_recommendation) + ": "
+		+ shareUri.substring(0, shareUri.lastIndexOf('/'));;
+		Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+        activity.startActivity(Intent.createChooser(shareIntent, activity.getString(R.string.share)));
+	}
 }

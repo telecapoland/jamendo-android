@@ -37,19 +37,23 @@ import com.teleca.jamendo.api.impl.JamendoGet2ApiImpl;
  * 
  * @author Lukasz Wisniewski
  */
-public class AlbumLoadingDialog extends LoadingDialog<Album, Integer>{
+public class AlbumLoadingDialog extends LoadingDialog<Object, Integer>{
 	
 	Review[] mReviews;
 	Track[] mTracks;
 	Album mAlbum;
+	int mSelectedReviewId = -1;
 	
 	public AlbumLoadingDialog(Activity activity, int loadingMsg, int failMsg) {
 		super(activity, loadingMsg, failMsg);
 	}
 
 	@Override
-	public Integer doInBackground(Album... params) {
-		mAlbum = params[0];
+	public Integer doInBackground(Object... params) {
+		mAlbum = (Album) params[0];
+		if(params.length > 1){
+			mSelectedReviewId = (Integer)params[1];
+		}
 		try {
 			loadReviews(mAlbum);
 			loadTracks(mAlbum);
@@ -78,6 +82,7 @@ public class AlbumLoadingDialog extends LoadingDialog<Album, Integer>{
 		intent.putExtra("album", mAlbum);
 		intent.putExtra("reviews", reviews);
 		intent.putExtra("tracks", tracks);
+		intent.putExtra("selectedReviewId", mSelectedReviewId);
 		mActivity.startActivity(intent);
 		
 	}

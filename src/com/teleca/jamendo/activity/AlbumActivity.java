@@ -86,6 +86,12 @@ public class AlbumActivity extends TabActivity{
 		new AlbumLoadingDialog(c,R.string.album_loading, R.string.album_fail).execute(album);
 	}
 
+	public static void launch(
+			IntentDistributorActivity c, Album album,
+			int reviewId) {
+		new AlbumLoadingDialog(c,R.string.album_loading, R.string.album_fail).execute(album, reviewId);
+	}
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -109,8 +115,13 @@ public class AlbumActivity extends TabActivity{
 		loadTracks();
 		
 		setupTabs();
+
+		int selectedReviewId = getIntent().getIntExtra("selectedReviewId", -1);
+		if(selectedReviewId != -1){
+			selectReview(selectedReviewId);
+		}
 	}
-	
+
 	private void setupTabs(){
 		mTabHost = getTabHost();
 		Bitmap coverBmp = JamendoApplication.getInstance().getImageCache().get(mAlbum.getImage());
@@ -270,5 +281,16 @@ public class AlbumActivity extends TabActivity{
 		.create();
 		
 		alertDialog.show();
+	}
+
+
+	private void selectReview(int selectedReviewId) {
+		mTabHost.setCurrentTab(1);
+		for(int i = 0; i < mReviewAdapter.getCount(); i++){
+			if(((Review)mReviewAdapter.getItem(i)).getId() == selectedReviewId){
+				mReviewAlbumListView.setSelection(i);
+				return;
+			}
+		}
 	}
 }
