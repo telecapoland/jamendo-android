@@ -21,7 +21,7 @@ public class FixedViewFlipper extends ViewFlipper {
 
 		int apiLevel = Build.VERSION.SDK_INT;
 
-		if (apiLevel >= 7 && apiLevel < 10) {
+		if (apiLevel >= 7) {
 			try {
 				super.onDetachedFromWindow();
 			} catch (IllegalArgumentException e) {
