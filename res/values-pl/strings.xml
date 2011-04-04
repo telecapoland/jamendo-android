@@ -50,7 +50,7 @@ limitations under the License.
 	<string name="add_to_favs">Dodane do ulubionych</string>
 	<string name="top100_fail">Nie udało się pobrać listy top 100 utworów :\'(</string>
 	<string name="license">Licencja Album</string>
-	<string name="donate">Wspierz finansowo</string>
+	<string name="donate">Wspomóż finansowo</string>
 	<string name="all_languages">Wszystkie języki</string>
 	<string name="loading_top100">Pobieranie najbardziej\npopularnych...</string>
 	<string name="retry">Ponów</string>
