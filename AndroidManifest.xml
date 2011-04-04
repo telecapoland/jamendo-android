@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License. 
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.teleca.jamendo" android:versionName="0.9.10.1" android:versionCode="29">
+	package="com.teleca.jamendo" android:versionName="0.9.10.1" android:versionCode="29" android:installLocation="auto">
 	<application android:icon="@drawable/icon" android:label="@string/app_name" android:name="JamendoApplication">
 		<activity android:name=".activity.HomeActivity"
 			android:label="@string/app_name">
@@ -141,7 +141,7 @@ limitations under the License.
 	</application>
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="5"></uses-sdk>
+<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"></uses-sdk>
 
 <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
