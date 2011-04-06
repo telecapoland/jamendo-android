@@ -71,8 +71,17 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 	
 	@Override
 	public Track[] getAlbumTracks(Album album, String encoding) throws JSONException, WSError {
+		return getAlbumTracks(album, encoding, 0, 0);
+	}
+	
+	@Override
+	public Track[] getAlbumTracks(Album album, String encoding, int count, int page) throws JSONException, WSError {
 		try {
-			String jsonString = doGet("numalbum+id+name+duration+rating+url+stream/track/json/?album_id="+album.getId()+"&streamencoding="+encoding);
+			String pagination = "&n=all";
+			if (count != 0 && page != 0) {
+				pagination = "&n=" + count + "&pn=" + page;
+			}
+			String jsonString = doGet("numalbum+id+name+duration+rating+url+stream/track/json/?album_id=" + album.getId() + "&streamencoding=" + encoding + pagination);
 			JSONArray jsonArrayTracks = new JSONArray(jsonString); 
 			return getTracks(jsonArrayTracks, true);
 		} catch (NullPointerException e) {

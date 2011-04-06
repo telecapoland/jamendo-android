@@ -65,6 +65,21 @@ public interface JamendoGet2Api {
 	 * @throws WSError 
 	 */
 	Track[] getAlbumTracks(Album album, String encoding) throws JSONException, WSError;
+
+	/**
+	 * Retrieve info on tracks from the given album using pagination.
+	 * Tracks retrieved from given page will be appended to existing <code>Album</code> <code>Track</code>s
+	 * and whole list will be returned.
+	 * <br><br>
+	 * http://api.jamendo.com/get2/id+name+duration+url+stream/track/jsonpretty/?album_id=33
+	 * @param album an <code>Album</code> instance
+	 * @param count of items returned per page
+	 * @param page number to retrieve <code>count</code> tracks from
+	 * @return a <code>Track</code> array from the given album
+	 * @throws JSONException
+	 * @throws WSError 
+	 */
+	Track[] getAlbumTracks(Album album, String encoding, int count, int page) throws JSONException, WSError;
 	
 	/**
 	 * Search for albums with artist like name
