@@ -53,7 +53,6 @@ public class AddToPlaylistDialog extends Dialog {
 	
 	private PlaylistEntry mPlaylistEntry;
 	private Album mAlbum;
-	private Track[] mTracks;
 	
 	private Database mDatabase;
 
@@ -102,9 +101,8 @@ public class AddToPlaylistDialog extends Dialog {
 		this.mPlaylistEntry = mPlaylistEntry;
 	}
 	
-	public void setPlaylistAlbum(Track[] tracks, Album album) {
+	public void setPlaylistAlbum(Album album) {
 		this.mAlbum = album;
-		this.mTracks = tracks;
 	}
 
 	public PlaylistEntry getPlaylistEntry() {
@@ -141,8 +139,8 @@ public class AddToPlaylistDialog extends Dialog {
 		if(getPlaylistEntry() != null)
 			playlist.addPlaylistEntry(getPlaylistEntry());
 		
-		if(mAlbum != null && mTracks != null)
-			playlist.addTracks(mTracks, mAlbum);
+		if (mAlbum != null)
+			playlist.addTracks(mAlbum);
 		
 		if(playlistName.length() == 0 || playlistName.startsWith(" "))
 			return;

@@ -36,11 +36,11 @@ import com.teleca.jamendo.api.impl.JamendoGet2ApiImpl;
  * pre-AlbumActivity loading (gets Tracks and Reviews)
  * 
  * @author Lukasz Wisniewski
+ * @author Marcin Gil
  */
 public class AlbumLoadingDialog extends LoadingDialog<Object, Integer>{
 	
 	Review[] mReviews;
-	Track[] mTracks;
 	Album mAlbum;
 	int mSelectedReviewId = -1;
 	
@@ -71,17 +71,13 @@ public class AlbumLoadingDialog extends LoadingDialog<Object, Integer>{
 	public void doStuffWithResult(Integer result) {
 		
 		ArrayList<Review> reviews = new ArrayList<Review>();
-		ArrayList<Track> tracks = new ArrayList<Track>();
-		
-		for(Track track : mTracks)
-			tracks.add(track);
+
 		for(Review review : mReviews)
 			reviews.add(review);
 		
 		Intent intent = new Intent(mActivity, AlbumActivity.class);
 		intent.putExtra("album", mAlbum);
 		intent.putExtra("reviews", reviews);
-		intent.putExtra("tracks", tracks);
 		intent.putExtra("selectedReviewId", mSelectedReviewId);
 		mActivity.startActivity(intent);
 		
@@ -94,6 +90,7 @@ public class AlbumLoadingDialog extends LoadingDialog<Object, Integer>{
 	
 	private void loadTracks(Album album) throws JSONException, WSError{
 		JamendoGet2Api service = new JamendoGet2ApiImpl();
-		mTracks = service.getAlbumTracks(album, JamendoApplication.getInstance().getStreamEncoding());
+		Track[] tracks = service.getAlbumTracks(album, JamendoApplication.getInstance().getStreamEncoding());
+		album.setTracks(tracks);
 	}
 }

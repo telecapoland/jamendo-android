@@ -18,6 +18,7 @@ package com.teleca.jamendo.api.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 
@@ -44,10 +45,13 @@ import com.teleca.jamendo.api.util.Caller;
  * Jamendo Get2 API implementation, Apache HTTP Client used for web requests
  * 
  * @author Lukasz Wisniewski
+ * @author Marcin Gil
  */
 public class JamendoGet2ApiImpl implements JamendoGet2Api {
 	
 	private static String GET_API = "http://api.jamendo.com/get2/";
+	private static final String TAG = "JamendoGet2ApiImpl";
+	private static final int TRACKS_PER_PAGE = 10;
 
 	private String doGet(String query) throws WSError{
 		return Caller.doGet(GET_API + query);
@@ -71,7 +75,23 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 	
 	@Override
 	public Track[] getAlbumTracks(Album album, String encoding) throws JSONException, WSError {
-		return getAlbumTracks(album, encoding, 0, 0);
+		if (album == null || encoding == null) {
+			return null;
+		}
+		
+		if (album.getTracks() != null)
+			return album.getTracks();
+		
+		Track[] tracks = null;
+		ArrayList<Track> allTracks = new ArrayList<Track>();
+		
+		int currentPage = 1;
+		
+		while ((tracks = getAlbumTracks(album, encoding, TRACKS_PER_PAGE, currentPage++)) != null) {
+			allTracks.addAll(Arrays.asList(tracks));
+		}
+		
+		return allTracks.toArray(new Track[0]);
 	}
 	
 	@Override
@@ -82,7 +102,8 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 				pagination = "&n=" + count + "&pn=" + page;
 			}
 			String jsonString = doGet("numalbum+id+name+duration+rating+url+stream/track/json/?album_id=" + album.getId() + "&streamencoding=" + encoding + pagination);
-			JSONArray jsonArrayTracks = new JSONArray(jsonString); 
+			JSONArray jsonArrayTracks = new JSONArray(jsonString);
+			
 			return getTracks(jsonArrayTracks, true);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
@@ -231,6 +252,9 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 
 	private Track[] getTracks(JSONArray jsonArrayTracks, boolean sort) throws JSONException {
 		int n = jsonArrayTracks.length();
+		if (n == 0)
+			return null;
+		
 		Track[] tracks = new Track[n];
 		TrackBuilder trackBuilder = new TrackBuilder();
 

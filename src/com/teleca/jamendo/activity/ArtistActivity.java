@@ -208,7 +208,8 @@ public class ArtistActivity extends Activity {
 		@Override
 		public void doStuffWithResult(Track[] tracks) {
 			AddToPlaylistDialog dialog = new AddToPlaylistDialog(ArtistActivity.this);
-			dialog.setPlaylistAlbum(tracks, mAlbum);
+			mAlbum.setTracks(tracks);
+			dialog.setPlaylistAlbum(mAlbum);
 			dialog.show();
 		}
 		

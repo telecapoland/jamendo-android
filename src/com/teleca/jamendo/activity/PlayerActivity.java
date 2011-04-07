@@ -571,7 +571,8 @@ public class PlayerActivity extends Activity{
 					try {
 						Track[] tracks = service.getTracksByTracksId(new int[]{id}, JamendoApplication.getInstance().getStreamEncoding());
 						Album[] albums = service.getAlbumsByTracksId(new int[]{id});
-						playlist.addTracks(tracks, albums[0]);
+						albums[0].setTracks(tracks);
+						playlist.addTracks(albums[0]);
 					} catch (JSONException e) {
 						Log.e(JamendoApplication.TAG, "sth went completely wrong");
 						PlayerActivity.this.finish();
@@ -585,7 +586,9 @@ public class PlayerActivity extends Activity{
 					try {
 						Album album = service.getAlbumById(id);
 						Track[] tracks = service.getAlbumTracks(album, JamendoApplication.getInstance().getStreamEncoding());
-						playlist.addTracks(tracks, album);
+						
+						album.setTracks(tracks);
+						playlist.addTracks(album);
 					} catch (JSONException e) {
 						Log.e("jamendroid", "sth went completely wrong");
 						PlayerActivity.this.finish();

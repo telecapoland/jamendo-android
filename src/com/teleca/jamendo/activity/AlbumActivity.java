@@ -215,16 +215,11 @@ public class AlbumActivity extends TabActivity{
 		});
 	}
 	
-	private ArrayList<Track> mTracks;
-	
 	@SuppressWarnings("unchecked")
 	private void loadTracks(){
-		mTracks = (ArrayList<Track>)getIntent().getSerializableExtra("tracks");
-		Track[] tracks = new Track[mTracks.size()];
-		tracks = mTracks.toArray(tracks);
 		PlaylistAdapter playlistAdapter = new PlaylistAdapter(this);
 		Playlist playlist = new Playlist();
-		playlist.addTracks(tracks, mAlbum);
+		playlist.addTracks(mAlbum);
 		playlistAdapter.setPlaylist(playlist);
 		mAlbumTrackListView.setAdapter(playlistAdapter);
 		mAlbumTrackListView.setOnItemClickListener(mOnTracksItemClickListener);
@@ -240,13 +235,11 @@ public class AlbumActivity extends TabActivity{
 				long time) {
 			
 			Playlist playlist = JamendoApplication.getInstance().getPlayerEngineInterface().getPlaylist();
-			Track track = mTracks.get(index);
-			if(playlist == null){
+			Track track = mAlbum.getTracks()[index];
+			if (playlist == null) {
 				// player's playlist is empty, create a new one with whole album and open it in the player
 				playlist = new Playlist();
-				Track[] tracks = new Track[mTracks.size()];
-				tracks = mTracks.toArray(tracks);
-				playlist.addTracks(tracks, mAlbum);
+				playlist.addTracks(mAlbum);
 				JamendoApplication.getInstance().getPlayerEngineInterface().openPlaylist(playlist);
 			} 
 			playlist.selectOrAdd(track, mAlbum);
@@ -268,7 +261,7 @@ public class AlbumActivity extends TabActivity{
 			public void onClick(DialogInterface dialog, int whichButton) {
 				
 				DownloadManager downloadManager = JamendoApplication.getInstance().getDownloadManager();
-				for(Track track : mTracks){
+				for(Track track : mAlbum.getTracks()) {
 					PlaylistEntry entry = new PlaylistEntry();
 					entry.setAlbum(mAlbum);
 					entry.setTrack(track);

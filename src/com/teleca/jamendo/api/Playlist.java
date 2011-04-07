@@ -61,12 +61,11 @@ public class Playlist implements Serializable{
 	/**
 	 * Add multiple tracks from one album to the playlist
 	 * 
-	 * @param tracks <code>Track</code> array
-	 * @param album <code>Album</code> instance
+	 * @param album <code>Album</code> instance with loaded tracks
 	 */
-	public void addTracks(Track[] tracks, Album album) {
-		for(int i=0; i<tracks.length; i++){
-			addTrack(tracks[i], album);
+	public void addTracks(Album album) {
+		for (Track track: album.getTracks()) {
+			addTrack(track, album);
 		}
 	}
 	

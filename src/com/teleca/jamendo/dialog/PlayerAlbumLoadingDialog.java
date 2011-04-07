@@ -68,7 +68,8 @@ public class PlayerAlbumLoadingDialog extends LoadingDialog<Album, Track[]>{
 		
 		Intent intent = new Intent(mActivity, PlayerActivity.class);
 		Playlist playlist = new Playlist();
-		playlist.addTracks(tracks, mAlbum);
+		mAlbum.setTracks(tracks);
+		playlist.addTracks(mAlbum);
 
 		intent.putExtra("playlist", playlist);
 		mActivity.startActivity(intent);

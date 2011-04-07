@@ -22,6 +22,7 @@ import java.io.Serializable;
  * unit album
  * 
  * @author Lukasz Wisniewski
+ * @author Marcin Gil
  */
 public class Album implements Serializable {
 	
@@ -54,6 +55,11 @@ public class Album implements Serializable {
 	 */
 	private String artistName = "";
 	
+	/**
+	 * Album tracks
+	 */
+	private Track[] tracks = null;
+	
 	public String getImage() {
 		return image;
 	}
@@ -84,5 +90,10 @@ public class Album implements Serializable {
 	public double getRating() {
 		return rating;
 	}
-
+	public void setTracks(Track[] tracks) {
+		this.tracks = tracks;
+	}
+	public Track[] getTracks() {
+		return tracks;
+	}
 }
