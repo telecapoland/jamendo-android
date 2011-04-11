@@ -52,6 +52,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
  * Radio navigation activity
  * 
  * @author Lukasz Wisniewski
+ * @author Marcin Gil
  */
 public class RadioActivity extends Activity {
 	
@@ -246,16 +247,12 @@ public class RadioActivity extends Activity {
 
 	};
 	
-	private void loadRecommendedRadios(){
+	private void loadRecommendedRadios() throws WSError {
 		try {
 			mRecommendedRadios = new JamendoGet2ApiImpl().getRadiosByIds(recommended_ids);
 		} catch (JSONException e) {
 			mRecommendedRadios = new Radio[0];
 			e.printStackTrace();
-		} catch (WSError e) {
-			// connection problem or sth/ finish
-			Toast.makeText(RadioActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-			finish();
 		}
 	}
 
@@ -270,11 +267,18 @@ public class RadioActivity extends Activity {
 
 		@Override
 		public Boolean doInBackground(Void... params) {
-			loadRecommendedRadios();
-			if(mRecommendedRadios == null || mRecommendedRadios.length == 0){
+			try {
+				loadRecommendedRadios();
+				if (mRecommendedRadios == null || mRecommendedRadios.length == 0) {
+					return null;
+				} else {
+					return true;
+				}
+			} catch (WSError e) {
+				// connection problem or sth/ finish
+				publishProgress(e);
+				mActivity.finish();
 				return null;
-			} else {
-				return true;
 			}
 		}
 
