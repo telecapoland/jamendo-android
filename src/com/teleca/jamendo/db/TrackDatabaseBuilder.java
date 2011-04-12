@@ -23,14 +23,23 @@ import com.teleca.jamendo.api.Track;
 
 public class TrackDatabaseBuilder extends DatabaseBuilder<Track> {
 
+	private static final String TRACK_ID = "track_id";
+	private static final String TRACK_NAME = "track_name";
+	private static final String TRACK_DURATION = "track_duration";
+	private static final String TRACK_URL = "track_url";
+	private static final String TRACK_STREAM = "track_stream";
+	private static final String TRACK_RATING = "track_rating";
+	private static final String ALBUM_TRACK_NUM = "album_track_num";
+
 	@Override
 	public Track build(Cursor query) {
-		int columnName = query.getColumnIndex("track_name");
-		int columnStream = query.getColumnIndex("track_stream");
-		int columnUrl = query.getColumnIndex("track_url");
-		int columnDuration = query.getColumnIndex("track_duration");
-		int columnId = query.getColumnIndex("track_id");
-		int columnRating = query.getColumnIndex("track_rating");
+		int columnName = query.getColumnIndex(TRACK_NAME);
+		int columnStream = query.getColumnIndex(TRACK_STREAM);
+		int columnUrl = query.getColumnIndex(TRACK_URL);
+		int columnDuration = query.getColumnIndex(TRACK_DURATION);
+		int columnId = query.getColumnIndex(TRACK_ID);
+		int columnRating = query.getColumnIndex(TRACK_RATING);
+		int columnAlbumTrackNum = query.getColumnIndex(ALBUM_TRACK_NUM);
 		
 		Track track = new Track();
 		track.setDuration(query.getInt(columnDuration));
@@ -39,18 +48,20 @@ public class TrackDatabaseBuilder extends DatabaseBuilder<Track> {
 		track.setRating(query.getDouble(columnRating));
 		track.setStream(query.getString(columnStream));
 		track.setUrl(query.getString(columnUrl));
+		track.setNumAlbum(query.getInt(columnAlbumTrackNum));
 		return track;
 	}
 
 	@Override
 	public ContentValues deconstruct(Track track) {
 		ContentValues values = new ContentValues();
-		values.put("track_name", track.getName());
-		values.put("track_stream", track.getStream());
-		values.put("track_url", track.getUrl());
-		values.put("track_duration", track.getDuration());
-		values.put("track_id", track.getId());
-		values.put("track_rating", track.getRating());
+		values.put(TRACK_NAME, track.getName());
+		values.put(TRACK_STREAM, track.getStream());
+		values.put(TRACK_URL, track.getUrl());
+		values.put(TRACK_DURATION, track.getDuration());
+		values.put(TRACK_ID, track.getId());
+		values.put(TRACK_RATING, track.getRating());
+		values.put(ALBUM_TRACK_NUM, track.getNumAlbum());
 		return values;
 	}
 

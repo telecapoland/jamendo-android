@@ -26,13 +26,19 @@ import android.database.Cursor;
  */
 public class AlbumDatabaseBuilder extends DatabaseBuilder<Album> {
 
+	private static final String ALBUM_ID = "album_id";
+	private static final String ALBUM_NAME = "album_name";
+	private static final String ALBUM_IMAGE = "album_image";
+	private static final String ALBUM_RATING = "album_rating";
+	private static final String ARTIST_NAME = "artist_name";
+
 	@Override
 	public Album build(Cursor query) {
-		int columnArtistName = query.getColumnIndex("artist_name");
-		int columnName = query.getColumnIndex("album_name");
-		int columnImage = query.getColumnIndex("album_image");
-		int columnId = query.getColumnIndex("album_id");
-		int columnRating = query.getColumnIndex("album_rating");
+		int columnArtistName = query.getColumnIndex(ARTIST_NAME);
+		int columnName = query.getColumnIndex(ALBUM_NAME);
+		int columnImage = query.getColumnIndex(ALBUM_IMAGE);
+		int columnId = query.getColumnIndex(ALBUM_ID);
+		int columnRating = query.getColumnIndex(ALBUM_RATING);
 		
 		Album album = new Album();
 		album.setId(query.getInt(columnId));
@@ -46,11 +52,11 @@ public class AlbumDatabaseBuilder extends DatabaseBuilder<Album> {
 	@Override
 	public ContentValues deconstruct(Album album) {
 		ContentValues values = new ContentValues();
-		values.put("artist_name", album.getArtistName());
-		values.put("album_image", album.getImage());
-		values.put("album_name", album.getName());
-		values.put("album_id", album.getId());
-		values.put("album_rating", album.getRating());
+		values.put(ARTIST_NAME, album.getArtistName());
+		values.put(ALBUM_IMAGE, album.getImage());
+		values.put(ALBUM_NAME, album.getName());
+		values.put(ALBUM_ID, album.getId());
+		values.put(ALBUM_RATING, album.getRating());
 		return values;
 	}
 

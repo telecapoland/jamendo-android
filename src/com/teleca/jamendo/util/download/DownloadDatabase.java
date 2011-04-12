@@ -16,6 +16,8 @@
 
 package com.teleca.jamendo.util.download;
 
+import java.util.ArrayList;
+
 import com.teleca.jamendo.api.PlaylistEntry;
 import com.teleca.jamendo.api.Track;
 
@@ -55,5 +57,17 @@ public interface DownloadDatabase {
 	 * @param track
 	 */
 	public boolean trackAvailable(Track track);
+
+	/**
+	 * Pulls all Download Jobs from the database.
+	 * @return
+	 */
+	public ArrayList<DownloadJob> getAllDownloadJobs();
+
+	/**
+	 * Removes the passed job from the database
+	 * @param job
+	 */
+	public void remove(DownloadJob job);
 	
 }

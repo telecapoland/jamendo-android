@@ -16,26 +16,23 @@
 
 package com.teleca.jamendo.service;
 
-import java.util.ArrayList;
-
-import com.teleca.jamendo.JamendoApplication;
-import com.teleca.jamendo.activity.DownloadActivity;
-import com.teleca.jamendo.api.PlaylistEntry;
-import com.teleca.jamendo.util.download.DownloadDatabase;
-import com.teleca.jamendo.util.download.DownloadDatabaseImpl;
-import com.teleca.jamendo.util.download.DownloadJob;
-import com.teleca.jamendo.util.download.DownloadJobListener;
-import com.teleca.jamendo.util.download.MediaScannerNotifier;
-import com.teleca.jamendo.R;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
+
+import com.teleca.jamendo.JamendoApplication;
+import com.teleca.jamendo.R;
+import com.teleca.jamendo.activity.DownloadActivity;
+import com.teleca.jamendo.api.PlaylistEntry;
+import com.teleca.jamendo.util.download.DownloadHelper;
+import com.teleca.jamendo.util.download.DownloadJob;
+import com.teleca.jamendo.util.download.DownloadJobListener;
+import com.teleca.jamendo.util.download.DownloadProvider;
+import com.teleca.jamendo.util.download.MediaScannerNotifier;
 
 // TODO sd card listener
 /**
@@ -44,14 +41,16 @@ import android.util.Log;
  * @author Lukasz Wisniewski
  */
 public class DownloadService extends Service {
-	
+
 	public static final String ACTION_ADD_TO_DOWNLOAD = "add_to_download";
-	
+
 	public static final String EXTRA_PLAYLIST_ENTRY = "playlist_entry";
 
 	private static final int DOWNLOAD_NOTIFY_ID = 667668;
-	
+
 	private NotificationManager mNotificationManager = null;
+
+	private DownloadProvider mDownloadProvider;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -62,9 +61,8 @@ public class DownloadService extends Service {
 	public void onCreate(){
 		super.onCreate();
 		Log.i(JamendoApplication.TAG, "DownloadService.onCreate");
-		
-		// TODO check download database for any not downloaded things, add the to downloadQueue and start
 		mNotificationManager = ( NotificationManager ) getSystemService( NOTIFICATION_SERVICE );
+		mDownloadProvider = JamendoApplication.getInstance().getDownloadManager().getProvider();
 	}
 
 	@Override
@@ -94,12 +92,7 @@ public class DownloadService extends Service {
 
 		@Override
 		public void downloadEnded(DownloadJob job) {
-			getQueuedDownloads().remove(job);
-			getCompletedDownloads().add(job);
-			DownloadDatabase downloadDatabase = getDownloadDatabase();
-			if(downloadDatabase != null){
-				downloadDatabase.setStatus(job.getPlaylistEntry(), true);
-			}
+			mDownloadProvider.downloadCompleted(job);
 			displayNotifcation(job);
 			new MediaScannerNotifier(DownloadService.this, job);
 		}
@@ -128,45 +121,25 @@ public class DownloadService extends Service {
 		mNotificationManager.notify( DOWNLOAD_NOTIFY_ID, notification );
 	}
 	
-	/**
-	 * Interface to database on the remote storage device
-	 */
-	public static DownloadDatabase getDownloadDatabase(){
-		return new DownloadDatabaseImpl(getDownloadPath()+"/jamendroid.db");
-	}
 
-	public static String getDownloadPath(){
-		return Environment.getExternalStorageDirectory().getAbsolutePath()+"/music";
-	}
 	
 	public void addToDownloadQueue(PlaylistEntry entry, int startId) {
 		
 		// check database if record already exists, if so abandon starting
 		// another download process
-		String downloadPath = getDownloadPath();
-		
-		String downloadFormat = JamendoApplication.getInstance().getDownloadFormat(); 
-		
+		String downloadPath = DownloadHelper.getDownloadPath();
+		String downloadFormat = JamendoApplication.getInstance().getDownloadFormat();
 		DownloadJob downloadJob = new DownloadJob(entry, downloadPath, startId, downloadFormat);
 		
-		DownloadDatabase downloadDatabase = getDownloadDatabase();
-		if(downloadDatabase != null){
-			boolean existst = downloadDatabase.addToLibrary(downloadJob.getPlaylistEntry());
-			if(existst)
-				return;
+		if(mDownloadProvider.queueDownload(downloadJob)){
+			downloadJob.setListener(mDownloadJobListener);
+			downloadJob.start();
 		}
-		
-		downloadJob.setListener(mDownloadJobListener);	
-		getQueuedDownloads().add(downloadJob);
-		downloadJob.start();
-	}
-	
-	public ArrayList<DownloadJob> getQueuedDownloads(){
-		return JamendoApplication.getInstance().getQueuedDownloads();
-	}
-	
-	public ArrayList<DownloadJob> getCompletedDownloads(){
-		return JamendoApplication.getInstance().getCompletedDownloads();
 	}
 
+	public void notifyScanCompleted() {
+		if(mDownloadProvider.getQueuedDownloads().size() == 0){
+			stopSelf();
+		}
+	}
 }

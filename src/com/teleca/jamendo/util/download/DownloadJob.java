@@ -16,6 +16,7 @@
 
 package com.teleca.jamendo.util.download;
 
+import com.teleca.jamendo.JamendoApplication;
 import com.teleca.jamendo.api.PlaylistEntry;
 
 /**
@@ -27,18 +28,20 @@ public class DownloadJob {
 
 	private PlaylistEntry mPlaylistEntry;
 	private String mDestination;
-	
+
 	private DownloadTask mDownloadTask;
 	private DownloadJobListener mListener;
-	
+
 	private int mProgress;
 	private int mTotalSize;
 	private int mDownloadedSize;
-	
+
 	private int mStartId;
-	
+
 	private String mFormat;
-	
+
+	private DownloadManager mDownloadManager;
+
 	public PlaylistEntry getPlaylistEntry() {
 		return mPlaylistEntry;
 	}
@@ -61,6 +64,7 @@ public class DownloadJob {
 		mProgress = 0;
 		mStartId = startId;
 		mFormat = downloadFormat;
+		mDownloadManager = JamendoApplication.getInstance().getDownloadManager();
 	}
 
 	public void start(){
@@ -77,7 +81,7 @@ public class DownloadJob {
 	}
 
 	public void cancel(){
-		// TODO DownloadTask.cancel()
+		mDownloadTask.cancel(true);
 	}
 	
 	public void setListener(DownloadJobListener listener){
@@ -102,7 +106,11 @@ public class DownloadJob {
 
 	public void setDownloadedSize(int downloadedSize) {
 		this.mDownloadedSize = downloadedSize;
+		int oldProgress = mProgress;
 		mProgress = (mDownloadedSize*100)/mTotalSize;
+		if(mProgress != oldProgress) {
+			mDownloadManager.notifyObservers();
+		}
 	}
 
 	public int getDownloadedSize() {
@@ -116,9 +124,11 @@ public class DownloadJob {
 	}
 	
 	public void notifyDownloadEnded(){
-		if(mListener != null)
-			mListener.downloadEnded(this);
-		mProgress = 100;
+		if(!mDownloadTask.isCancelled()){
+			if(mListener != null)
+				mListener.downloadEnded(this);
+			mProgress = 100;
+		}
 	}
 
 	public void setStartId(int mStartId) {

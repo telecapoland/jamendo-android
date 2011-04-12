@@ -254,7 +254,7 @@ public class PlayerEngineImpl implements PlayerEngine {
 		final InternalMediaPlayer mediaPlayer = new InternalMediaPlayer();
 		
 		// try to setup local path
-		String path = JamendoApplication.getInstance().getDownloadInterface().getTrackPath(playlistEntry);
+		String path = JamendoApplication.getInstance().getDownloadManager().getTrackPath(playlistEntry);
 		if(path == null)
 			// fallback to remote one
 			path = playlistEntry.getTrack().getStream();

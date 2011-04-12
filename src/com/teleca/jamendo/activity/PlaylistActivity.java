@@ -176,7 +176,7 @@ public class PlaylistActivity extends Activity {
 			break;
 
 		case CONTEXT_DOWNLOAD:
-			Helper.addToDownloads(PlaylistActivity.this, mPlaylist.getTrack(menuInfo.position));
+			JamendoApplication.getInstance().getDownloadManager().download(mPlaylist.getTrack(menuInfo.position));
 			break;
 
 		case CONTEXT_SHARE:

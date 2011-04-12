@@ -18,31 +18,41 @@ package com.teleca.jamendo.activity;
 
 import java.util.ArrayList;
 
-import com.teleca.jamendo.JamendoApplication;
-import com.teleca.jamendo.adapter.DownloadJobAdapter;
-import com.teleca.jamendo.util.download.DownloadInterface;
-import com.teleca.jamendo.util.download.DownloadJob;
-import com.teleca.jamendo.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemSelectedListener;
+
+import com.teleca.jamendo.JamendoApplication;
+import com.teleca.jamendo.R;
+import com.teleca.jamendo.adapter.DownloadJobAdapter;
+import com.teleca.jamendo.api.Playlist;
+import com.teleca.jamendo.media.PlayerEngine;
+import com.teleca.jamendo.util.download.DownloadManager;
+import com.teleca.jamendo.util.download.DownloadJob;
+import com.teleca.jamendo.util.download.DownloadObserver;
+import com.teleca.jamendo.util.download.DownloadProvider;
 
 /**
  * @author Lukasz Wisniewski
  */
-public class DownloadActivity extends Activity {
+public class DownloadActivity extends Activity implements DownloadObserver {
 	
 	/**
      * Runnable periodically querying DownloadService about
@@ -51,7 +61,6 @@ public class DownloadActivity extends Activity {
     private Runnable mUpdateTimeTask = new Runnable() {
             public void run() {
             	updateListView(mDownloadSpinner.getSelectedItemPosition());
-            	mHandler.postDelayed(this, 1000);
             }
     };
     
@@ -62,7 +71,8 @@ public class DownloadActivity extends Activity {
 	private ListView mListView;
 	private ViewFlipper mViewFlipper;
 	
-	private DownloadInterface mDownloadInterface;
+	private DownloadManager mDownloadManager;
+	private PlayerEngine mPlayerInterface;
 	
 	/**
 	 * Launch this Activity from the outside
@@ -82,7 +92,8 @@ public class DownloadActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.download);
 		
-		mDownloadInterface = JamendoApplication.getInstance().getDownloadInterface();
+		mDownloadManager = JamendoApplication.getInstance().getDownloadManager();
+		mPlayerInterface = JamendoApplication.getInstance().getPlayerEngineInterface();
 		
 		mItemCountTextView = (TextView)findViewById(R.id.ItemsCountTextView);
 		
@@ -97,17 +108,20 @@ public class DownloadActivity extends Activity {
 		mViewFlipper = (ViewFlipper) findViewById(R.id.DownloadViewFlipper);
 		
 		mHandler = new Handler();
+
+		registerForContextMenu(mListView);
 	}
 	
 	@Override
 	protected void onPause() {
 		mHandler.removeCallbacks(mUpdateTimeTask);
+		mDownloadManager.deregisterDownloadObserver(this);
 		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
-		mHandler.postDelayed(mUpdateTimeTask, 1000);
+		mDownloadManager.registerDownloadObserver(this);
 		super.onResume();
 	}
 
@@ -132,41 +146,38 @@ public class DownloadActivity extends Activity {
 	private int lastSpinnerPosition = -1;
 	
 	private void updateListView(int position){
-		if(position == lastSpinnerPosition){
-			DownloadJobAdapter adapter = (DownloadJobAdapter)mListView.getAdapter();
-			adapter.notifyDataSetChanged();
-			return;
-		}
-		
 		ArrayList<DownloadJob> jobs = null;
 		switch (position) {
 		case 0:
 			// Display ALL
-			jobs = mDownloadInterface.getAllDownloads();
+			jobs = mDownloadManager.getAllDownloads();
 			break;
 			
 		case 1:
 			// Display Completed
-			jobs = mDownloadInterface.getCompletedDownloads();
+			jobs = mDownloadManager.getCompletedDownloads();
 			break;
 			
 		case 2:
 			// Display Queued
-			jobs = mDownloadInterface.getQueuedDownloads();
+			jobs = mDownloadManager.getQueuedDownloads();
 			break;
 
 		default:
 			break;
 		}
-		
-		if(jobs != null){
+
+		DownloadJobAdapter adapter = (DownloadJobAdapter)mListView.getAdapter();
+
+		if(lastSpinnerPosition == position && jobs != null && jobs.size() == adapter.getCount()){
+			adapter.notifyDataSetChanged();
+			return;
+		} else {
 			mItemCountTextView.setText(jobs.size()+" "+getString(R.string.items));
-			
-			DownloadJobAdapter adapter = new DownloadJobAdapter(DownloadActivity.this);
+			adapter = new DownloadJobAdapter(DownloadActivity.this);
 			adapter.setList(jobs);
 			mListView.setAdapter(adapter);
 		}
-		
 		lastSpinnerPosition = position;
 		setupListView();
 	}
@@ -179,4 +190,65 @@ public class DownloadActivity extends Activity {
 		}
 	}
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		if(v.getId() == R.id.DownloadListView){
+			MenuInflater inflater = getMenuInflater();
+			inflater.inflate(R.menu.download_context, menu);
+		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		switch (item.getItemId()) {
+		case R.id.add_to_playlist:
+			addToPlaylist(getJob(info.position));
+			return true;
+		case R.id.play_download:
+			playNow(info.position);
+			return true;
+		case R.id.delete_download:
+			deleteJob(getJob(info.position));
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
+	}
+
+	private void deleteJob(DownloadJob job) {
+		mDownloadManager.deleteDownload(job);
+		DownloadJobAdapter adapter = (DownloadJobAdapter) mListView.getAdapter();
+		adapter.notifyDataSetChanged();
+	}
+
+	private void playNow(int position) {
+		mPlayerInterface.stop();
+		Playlist playlist = new Playlist();
+		playlist.addPlaylistEntry(getJob(position).getPlaylistEntry());
+		mPlayerInterface.openPlaylist(playlist);
+		mPlayerInterface.play();
+	}
+
+	private DownloadJob getJob(int position) {
+		return (DownloadJob) mListView.getAdapter().getItem(position);
+	}
+
+	private void addToPlaylist(DownloadJob job) {
+		Playlist playlist = mPlayerInterface.getPlaylist();
+		if(playlist == null){
+			playlist = new Playlist();
+			playlist.addPlaylistEntry(job.getPlaylistEntry());
+			mPlayerInterface.openPlaylist(playlist);
+		} else {
+			playlist.addPlaylistEntry(job.getPlaylistEntry());
+		}
+	}
+
+	@Override
+	public void onDownloadChanged(DownloadManager manager) {
+		mHandler.post(mUpdateTimeTask);
+	}
 }

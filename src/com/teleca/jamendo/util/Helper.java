@@ -28,7 +28,6 @@ import android.widget.Toast;
 import com.teleca.jamendo.JamendoApplication;
 import com.teleca.jamendo.api.PlaylistEntry;
 import com.teleca.jamendo.api.Review;
-import com.teleca.jamendo.util.download.DownloadInterface;
 import com.teleca.jamendo.R;
 
 /**
@@ -87,17 +86,7 @@ public class Helper {
 		}
 		return languages;
 	}
-	
-	public static void addToDownloads(Activity activity, PlaylistEntry entry){
-		if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-			DownloadInterface downloadInterface = JamendoApplication.getInstance().getDownloadInterface();
-			downloadInterface.addToDownloadQueue(entry);
-			Toast.makeText(activity, R.string.added_down, Toast.LENGTH_SHORT).show();
-		} else {
-			Toast.makeText(activity, R.string.sd_card_insert, Toast.LENGTH_SHORT).show();
-		}
-	}
-	
+
 	public static void share(Activity activity, PlaylistEntry entry){
            String text = activity.getString(R.string.song_recommendation) + ": "
            + String.format("http://www.jamendo.com/track/%d", entry.getTrack().getId());

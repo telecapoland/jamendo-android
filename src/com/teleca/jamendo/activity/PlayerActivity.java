@@ -653,7 +653,7 @@ public class PlayerActivity extends Activity{
 		.setTitle(R.string.download_track_q)
 		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
-				Helper.addToDownloads(PlayerActivity.this, getPlayerEngine().getPlaylist().getSelectedTrack());
+				JamendoApplication.getInstance().getDownloadManager().download(getPlayerEngine().getPlaylist().getSelectedTrack());
 			}
 		})
 		.setNegativeButton(R.string.cancel, null)

@@ -18,20 +18,6 @@ package com.teleca.jamendo.activity;
 
 import java.util.ArrayList;
 
-import com.teleca.jamendo.JamendoApplication;
-import com.teleca.jamendo.adapter.PlaylistAdapter;
-import com.teleca.jamendo.adapter.ReviewAdapter;
-import com.teleca.jamendo.api.Album;
-import com.teleca.jamendo.api.Playlist;
-import com.teleca.jamendo.api.PlaylistEntry;
-import com.teleca.jamendo.api.Review;
-import com.teleca.jamendo.api.Track;
-import com.teleca.jamendo.dialog.AlbumLoadingDialog;
-import com.teleca.jamendo.util.DrawableAccessor;
-import com.teleca.jamendo.util.Helper;
-import com.teleca.jamendo.util.download.DownloadInterface;
-import com.teleca.jamendo.R;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TabActivity;
@@ -54,6 +40,20 @@ import android.widget.TabHost;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TabHost.TabSpec;
+
+import com.teleca.jamendo.JamendoApplication;
+import com.teleca.jamendo.R;
+import com.teleca.jamendo.adapter.PlaylistAdapter;
+import com.teleca.jamendo.adapter.ReviewAdapter;
+import com.teleca.jamendo.api.Album;
+import com.teleca.jamendo.api.Playlist;
+import com.teleca.jamendo.api.PlaylistEntry;
+import com.teleca.jamendo.api.Review;
+import com.teleca.jamendo.api.Track;
+import com.teleca.jamendo.dialog.AlbumLoadingDialog;
+import com.teleca.jamendo.util.DrawableAccessor;
+import com.teleca.jamendo.util.Helper;
+import com.teleca.jamendo.util.download.DownloadManager;
 
 // TODO context menu for tracks
 /**
@@ -267,12 +267,12 @@ public class AlbumActivity extends TabActivity{
 		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				
-				DownloadInterface downloadInterface = JamendoApplication.getInstance().getDownloadInterface();
+				DownloadManager downloadManager = JamendoApplication.getInstance().getDownloadManager();
 				for(Track track : mTracks){
 					PlaylistEntry entry = new PlaylistEntry();
 					entry.setAlbum(mAlbum);
 					entry.setTrack(track);
-					downloadInterface.addToDownloadQueue(entry);
+					downloadManager.download(entry);
 				}
 				
 			}

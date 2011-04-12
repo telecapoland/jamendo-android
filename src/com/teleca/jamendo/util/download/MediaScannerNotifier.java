@@ -67,8 +67,8 @@ public class MediaScannerNotifier implements MediaScannerConnectionClient{
 		mConnection.disconnect();
 		
 		// stop service if there is no downloads left
-		if(mService.getQueuedDownloads().size() == 0 && mScannedFilesInProgress == 0){			
-			mService.stopSelf();
+		if(mScannedFilesInProgress == 0){
+			mService.notifyScanCompleted();
 		}
 	}
 

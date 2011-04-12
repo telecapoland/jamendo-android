@@ -120,4 +120,5 @@ limitations under the License.
 	<string name="better_res">1.300.jpg</string>
 	<string name="loading_recomended_radios">Loading recomended radios</string>
 	<string name="failed_recomended_radios">Loading recomended radios failed</string>
+	<string name="play">Play</string>
 </resources>

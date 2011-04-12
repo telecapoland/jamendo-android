@@ -47,13 +47,13 @@ public class DownloadJobAdapter extends ArrayListAdapter<DownloadJob> {
 			row=inflater.inflate(R.layout.download_row, null);
 
 			holder = new ViewHolder();
-
 			holder.songName = (TextView)row.findViewById(R.id.TrackRowName);
 			holder.songArtistAlbum = (TextView)row.findViewById(R.id.TrackRowArtistAlbum);
 			holder.songProgressText = (TextView)row.findViewById(R.id.TrackRowProgress);
 			holder.progressBar = (ProgressBar)row.findViewById(R.id.ProgressBar);
-
 			row.setTag(holder);
+
+			mContext.registerForContextMenu(row);
 		}
 		else{
 			holder = (ViewHolder) row.getTag();
