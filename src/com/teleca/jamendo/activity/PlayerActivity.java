@@ -307,6 +307,10 @@ public class PlayerActivity extends Activity{
 			}
 			mPlayerEngineListener.onTrackChanged(getPlayerEngine().getPlaylist().getSelectedTrack());
 		}
+		
+		if (mSlidingDrawer.isOpened()) {
+			mSlidingDrawer.close();
+		}
 	}
 	
 	
