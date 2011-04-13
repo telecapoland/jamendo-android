@@ -85,4 +85,20 @@ public interface PlayerEngine {
 	 * @param playerEngineListener
 	 */
 	public void setListener(PlayerEngineListener playerEngineListener);
+	
+	/**
+	 * forward current song
+	 * 
+	 * @param miliseconds to forward
+	 */
+	public void forward(int time);
+	
+	/**
+	 * rewind current song
+	 * 
+	 * @param miliseconds to rewind
+	 */
+	public void rewind(int time);
+	
+	
 }

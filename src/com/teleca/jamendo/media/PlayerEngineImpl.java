@@ -399,4 +399,16 @@ public class PlayerEngineImpl implements PlayerEngine {
 		mPlayerEngineListener = playerEngineListener;
 	}
 
+	@Override
+	public void forward(int time) {		
+		mCurrentMediaPlayer.seekTo( mCurrentMediaPlayer.getCurrentPosition()+time );
+		
+	}
+
+	@Override
+	public void rewind(int time) {
+		mCurrentMediaPlayer.seekTo( mCurrentMediaPlayer.getCurrentPosition()-time );
+		
+	}
+
 }

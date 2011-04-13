@@ -337,6 +337,22 @@ public class JamendoApplication extends Application {
 				}
 			}
 		}
+
+		@Override
+		public void forward(int time) {
+			if(mServicePlayerEngine != null){				
+				mServicePlayerEngine.forward( time );
+			}
+			
+		}
+
+		@Override
+		public void rewind(int time) {
+			if(mServicePlayerEngine != null){				
+				mServicePlayerEngine.rewind( time );
+			}
+			
+		}
 		
 	}
 	

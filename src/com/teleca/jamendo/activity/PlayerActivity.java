@@ -38,10 +38,12 @@ import com.teleca.jamendo.dialog.PlaylistRemoteLoadingDialog;
 import com.teleca.jamendo.media.PlayerEngine;
 import com.teleca.jamendo.media.PlayerEngineListener;
 import com.teleca.jamendo.util.Helper;
+import com.teleca.jamendo.util.OnSeekToListenerImp;
 import com.teleca.jamendo.widget.ReflectableLayout;
 import com.teleca.jamendo.widget.ReflectiveSurface;
 import com.teleca.jamendo.widget.RemoteImageView;
 import com.teleca.jamendo.R;
+import com.teleca.jamendo.util.SeekToMode;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -118,6 +120,12 @@ public class PlayerActivity extends Activity{
 	
 	private LoadingDialog mUriLoadingDialog;
 
+	SeekToMode seekToMode;
+	
+	
+	Handler mHandlerOfFadeOutAnimation; 
+	Runnable mRunnableOfFadeOutAnimation; 
+
 	/**
 	 * Launch this Activity from the outside, with defined playlist
 	 *
@@ -192,15 +200,25 @@ public class PlayerActivity extends Activity{
 		}
 
 		handleIntent();
+		
+		//used for Fade Out Animation handle control
+		mHandlerOfFadeOutAnimation = new Handler(); 
+		mRunnableOfFadeOutAnimation =new Runnable(){
+			public void run() {				
+				if ( mFadeInAnimation.hasEnded() )
+					mPlayImageButton.startAnimation(mFadeOutAnimation);
+			}
+			
+		}; 
 
 		mPlayImageButton = (ImageButton)findViewById(R.id.PlayImageButton);
 		mPlayImageButton.setOnClickListener(mPlayOnClickListener);
 
-		mNextImageButton = (ImageButton)findViewById(R.id.NextImageButton);
-		mNextImageButton.setOnClickListener(mNextOnClickListener);
+		mNextImageButton = (ImageButton) findViewById(R.id.NextImageButton);		
+		mNextImageButton.setOnTouchListener(mOnForwardTouchListener);
 
-		mPrevImageButton = (ImageButton)findViewById(R.id.PrevImageButton);
-		mPrevImageButton.setOnClickListener(mPrevOnClickListener);
+		mPrevImageButton = (ImageButton) findViewById(R.id.PrevImageButton);
+		mPrevImageButton.setOnTouchListener(mOnRewindTouchListener);
 
 		mStopImageButton = (ImageButton)findViewById(R.id.StopImageButton);
 		mStopImageButton.setOnClickListener(mStopOnClickListener);
@@ -211,15 +229,12 @@ public class PlayerActivity extends Activity{
 			@Override
 			public void onAnimationEnd(Animation animation) {
 
-				new Handler().postDelayed(new Runnable(){
-
-					@Override
-					public void run() {
-						if(mFadeInAnimation.hasEnded())
-							mPlayImageButton.startAnimation(mFadeOutAnimation);
-					}
-
-				}, 7500);
+				Log.e("pibo","before");
+				mHandlerOfFadeOutAnimation
+						.removeCallbacks(mRunnableOfFadeOutAnimation);
+				mHandlerOfFadeOutAnimation.postDelayed(
+						mRunnableOfFadeOutAnimation, 7500);
+				Log.e("pibo","after");
 			}
 
 			@Override
@@ -389,26 +404,17 @@ public class PlayerActivity extends Activity{
 	/**
 	 * next button action
 	 */
-	private OnClickListener mNextOnClickListener = new OnClickListener(){
-
-		@Override
-		public void onClick(View v) {
-			getPlayerEngine().next();
-		}
-
-	};
-
+	private OnSeekToListenerImp mOnForwardTouchListener = new OnSeekToListenerImp(
+			this, getPlayerEngine(), SeekToMode.EForward);
+	
 	/**
 	 * prev button action
-	 */
-	private OnClickListener mPrevOnClickListener = new OnClickListener(){
-
-		@Override
-		public void onClick(View v) {
-			getPlayerEngine().prev();
-		}
-
-	};
+	 */	
+	private OnSeekToListenerImp mOnRewindTouchListener = new OnSeekToListenerImp(
+			this, getPlayerEngine(), SeekToMode.ERewind);
+	
+	
+	
 
 	/**
 	 * stop button action
@@ -793,5 +799,18 @@ public class PlayerActivity extends Activity{
 		}
 		
 	}
+	
+	public void onStartSeekToProcess(){		
+		mHandlerOfFadeOutAnimation
+				.removeCallbacks(mRunnableOfFadeOutAnimation);
+	}
+	
+	public void onFinishSeekToProcess(){		
+		mHandlerOfFadeOutAnimation
+				.removeCallbacks(mRunnableOfFadeOutAnimation);
+		mHandlerOfFadeOutAnimation.postDelayed(
+				mRunnableOfFadeOutAnimation, 7500);		
+	}
+		
 
 }
