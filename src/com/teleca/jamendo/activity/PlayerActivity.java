@@ -228,13 +228,10 @@ public class PlayerActivity extends Activity{
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-
-				Log.e("pibo","before");
 				mHandlerOfFadeOutAnimation
 						.removeCallbacks(mRunnableOfFadeOutAnimation);
 				mHandlerOfFadeOutAnimation.postDelayed(
 						mRunnableOfFadeOutAnimation, 7500);
-				Log.e("pibo","after");
 			}
 
 			@Override

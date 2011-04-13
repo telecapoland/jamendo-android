@@ -55,7 +55,6 @@ public class OnSeekToListenerImp implements OnTouchListener {
 					
 					if( stepOfSeekTo < 5000 )
 					{
-						Log.e("pibo","stepOfSeekTo < 3000 "+stepOfSeekTo);
 						stepOfSeekTo += 100;
 					}
 				}
@@ -81,7 +80,6 @@ public class OnSeekToListenerImp implements OnTouchListener {
 			mPlayerEngine.pause();
 			mPlayerActivity.onStartSeekToProcess();
 			stepOfSeekTo = INIT_SEEK_TO_STEP;
-			Log.e("pibo","INIT_SEEK_TO_STEP"+stepOfSeekTo);
 
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 			mSeekTimer.cancel();
