@@ -79,6 +79,7 @@ public class DownloadDatabaseImpl implements DownloadDatabase {
 					SQLiteDatabase.CREATE_IF_NECESSARY);
 		} catch (SQLException e) {
 			Log.e(JamendoApplication.TAG, "Failed creating database");
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -109,6 +110,9 @@ public class DownloadDatabaseImpl implements DownloadDatabase {
 
 	@Override
 	public void setStatus(PlaylistEntry entry, boolean downloaded) {
+		if(mDb == null){
+			return;
+		}
 		ContentValues values = new ContentValues();
 
 		values.put("downloaded", downloaded ? 1 : 0);
@@ -139,10 +143,9 @@ public class DownloadDatabaseImpl implements DownloadDatabase {
 
 	@Override
 	public ArrayList<DownloadJob> getAllDownloadJobs() {
-		if (mDb == null)
-			return null;
-
 		ArrayList<DownloadJob> jobs = new ArrayList<DownloadJob>();
+		if (mDb == null)
+			return jobs;
 
 		Cursor query = mDb.query(TABLE_LIBRARY, null, null, null, null, null,
 				null);
@@ -201,7 +204,11 @@ public class DownloadDatabaseImpl implements DownloadDatabase {
 			} else {
 				createTables();
 			}*/
-			mDb.execSQL("DROP TABLE " + TABLE_LIBRARY + ";");
+			try{
+				mDb.execSQL("DROP TABLE " + TABLE_LIBRARY + ";");
+			} catch (SQLiteException e) {
+				Log.v(JamendoApplication.TAG, "Library table not existing");
+			}
 			createTables();
 			mDb.setVersion(VERSION);
 		}
