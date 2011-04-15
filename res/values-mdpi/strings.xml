@@ -121,4 +121,9 @@ limitations under the License.
 	<string name="loading_recomended_radios">Loading recomended radios</string>
 	<string name="failed_recomended_radios">Loading recomended radios failed</string>
 	<string name="play">Play</string>
+	<string name="scrobbler_app">Scrobbling application</string>
+	<string name="scrobbler_lastfm_official">Last.FM Official scrobbler</string>
+	<string name="scrobbler_simplefm">Simple Last.FM Scrobbler</string>
+	<string name="scrobbling_enabled">Enable scrobbling?</string>
+	<string name="scrobbler_app_summary">Choose scrobbling application</string>
 </resources>

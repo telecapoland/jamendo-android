@@ -44,5 +44,13 @@ limitations under the License.
         <item>mp31</item>
         <item>ogg2</item>
     </string-array>
+    <string-array name="scrobbler_apps">
+        <item>@string/scrobbler_lastfm_official</item>
+        <item>@string/scrobbler_simplefm</item>
+    </string-array>
+    <string-array name="scrobbler_apps_values">
+        <item>lastfm</item>
+        <item>simplefm</item>
+    </string-array>
     
 </resources>

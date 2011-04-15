@@ -42,6 +42,7 @@ import android.util.Log;
  * Background player
  * 
  * @author Lukasz Wisniewski
+ * @author Marcin Gil
  */
 public class PlayerService extends Service{
 	
@@ -59,6 +60,9 @@ public class PlayerService extends Service{
 	private NotificationManager mNotificationManager = null;
 	private static final int PLAYING_NOTIFY_ID = 667667;
 
+	private static final String LASTFM_INTENT = "fm.last.android.metachanged";
+	private static final String SIMPLEFM_INTENT = "com.adam.aslfms.notify.playstatechanged";
+	
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
@@ -189,9 +193,9 @@ public class PlayerService extends Service{
 				mRemoteEngineListener.onTrackChanged(playlistEntry);
 			}
 			
-			// last.fm scrobbler
-			boolean lastFm = PreferenceManager.getDefaultSharedPreferences(PlayerService.this).getBoolean("lastfm_scrobble", false);
-			if(lastFm){
+			// Scrobbling
+			boolean scrobblingEnabled = PreferenceManager.getDefaultSharedPreferences(PlayerService.this).getBoolean("scrobbling_enabled", false);
+			if (scrobblingEnabled) {
 				scrobblerMetaChanged();
 			}
 		}
@@ -260,18 +264,40 @@ public class PlayerService extends Service{
 	};
 
 	/**
-	 * This snippet of code scrobbles music to last.fm servers using the official
-	 * last.fm client
+	 * Send changes to selected scrobbling application
 	 */
-	private void scrobblerMetaChanged(){
+	private void scrobblerMetaChanged() {
 		PlaylistEntry entry = mPlayerEngine.getPlaylist().getSelectedTrack();
-		if(entry != null){
-			Intent i = new Intent("fm.last.android.metachanged");
-			i.putExtra("artist", entry.getAlbum().getArtistName());
-			i.putExtra("album", entry.getAlbum().getName());
-			i.putExtra("track", entry.getTrack().getName());
-			i.putExtra("duration", entry.getTrack().getDuration()*1000); // duration in milliseconds
-			sendBroadcast(i);
+		
+		if (entry != null) {
+			String scrobblerApp = PreferenceManager.getDefaultSharedPreferences(PlayerService.this).getString("scrobbler_app", "");
+			assert(scrobblerApp.length() > 0);
+			
+			if (Log.isLoggable(JamendoApplication.TAG, Log.INFO)) {
+				Log.i(JamendoApplication.TAG, "Scrobbling track " + entry.getTrack().getName() + " via " + scrobblerApp);
+			}
+			
+			if (scrobblerApp.equalsIgnoreCase("lastfm")) {
+				Intent i = new Intent(LASTFM_INTENT);
+				i.putExtra("artist", entry.getAlbum().getArtistName());
+				i.putExtra("album", entry.getAlbum().getName());
+				i.putExtra("track", entry.getTrack().getName());
+				i.putExtra("duration", entry.getTrack().getDuration()*1000); // duration in milliseconds
+				sendBroadcast(i);
+			} else if (scrobblerApp.equalsIgnoreCase("simplefm")) {
+				Intent i = new Intent(SIMPLEFM_INTENT);
+				i.putExtra("app-name", getResources().getString(R.string.app_name));
+				i.putExtra("app-package", "com.teleca.jamendo");
+				i.putExtra("state", 0);	// state 0 = START - track has started playing
+				i.putExtra("artist", entry.getAlbum().getArtistName());
+				i.putExtra("track", entry.getTrack().getName());
+				i.putExtra("duration", entry.getTrack().getDuration()); // duration in seconds
+				i.putExtra("album", entry.getAlbum().getName());
+				i.putExtra("track-no", entry.getTrack().getNumAlbum());
+				sendBroadcast(i);
+			} else {
+				// somehow the scrobbling app is not selected properly
+			}
 		}
 	}
 
