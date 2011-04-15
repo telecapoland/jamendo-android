@@ -43,10 +43,9 @@ limitations under the License.
 	<PreferenceCategory android:title="3rd Party Applications"
 		android:summary="Interaction with outside applications">
 
-		<CheckBoxPreference android:key="lastfm_scrobble"
-			android:defaultValue="false" 
-			android:title="Last.fm Scrobbling"
-			android:summary="Requires official last.fm client" />
+		<CheckBoxPreference android:defaultValue="false" 
+			android:key="scrobbling_enabled" android:title="@string/scrobbling_enabled"/>
+		<ListPreference android:key="scrobbler_app" android:dependency="scrobbling_enabled" android:entries="@array/scrobbler_apps" android:title="@string/scrobbler_app" android:entryValues="@array/scrobbler_apps_values" android:summary="@string/scrobbler_app_summary"></ListPreference>
 		
 	</PreferenceCategory>
 </PreferenceScreen>
