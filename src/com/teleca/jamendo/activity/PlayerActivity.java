@@ -16,11 +16,46 @@
 
 package com.teleca.jamendo.activity;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 import org.json.JSONException;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.gesture.Gesture;
+import android.gesture.GestureLibraries;
+import android.gesture.GestureLibrary;
+import android.gesture.GestureOverlayView;
+import android.gesture.Prediction;
+import android.gesture.GestureOverlayView.OnGesturePerformedListener;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Animation.AnimationListener;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
+import android.widget.SlidingDrawer;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.teleca.jamendo.JamendoApplication;
+import com.teleca.jamendo.R;
 import com.teleca.jamendo.api.Album;
 import com.teleca.jamendo.api.JamendoGet2Api;
 import com.teleca.jamendo.api.License;
@@ -39,36 +74,10 @@ import com.teleca.jamendo.media.PlayerEngine;
 import com.teleca.jamendo.media.PlayerEngineListener;
 import com.teleca.jamendo.util.Helper;
 import com.teleca.jamendo.util.OnSeekToListenerImp;
+import com.teleca.jamendo.util.SeekToMode;
 import com.teleca.jamendo.widget.ReflectableLayout;
 import com.teleca.jamendo.widget.ReflectiveSurface;
 import com.teleca.jamendo.widget.RemoteImageView;
-import com.teleca.jamendo.R;
-import com.teleca.jamendo.util.SeekToMode;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Animation.AnimationListener;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.RatingBar;
-import android.widget.SlidingDrawer;
-import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Central part of the UI. Touching cover fades in 4-way media buttons. 
@@ -82,7 +91,7 @@ import android.widget.Toast;
  * 
  * @author Lukasz Wisniewski
  */
-public class PlayerActivity extends Activity{
+public class PlayerActivity extends Activity {
 
 	private PlayerEngine getPlayerEngine(){
 		return JamendoApplication.getInstance().getPlayerEngineInterface();
@@ -107,6 +116,8 @@ public class PlayerActivity extends Activity{
 	private ImageButton mStopImageButton;
 	private RemoteImageView mCoverImageView;
 	private RemoteImageView mLicenseImageView;
+
+	private GestureOverlayView mGesturesOverlayView;
 
 	private Animation mFadeInAnimation;
 	private Animation mFadeOutAnimation;
@@ -277,6 +288,9 @@ public class PlayerActivity extends Activity{
 			new CupcakeListener();
 		}
 
+		mGesturesOverlayView = (GestureOverlayView) findViewById(R.id.gestures);
+		mGesturesOverlayView.addOnGesturePerformedListener(JamendoApplication
+				.getInstance().getPlayerGestureHandler());
 	}
 
 	@Override
@@ -311,6 +325,9 @@ public class PlayerActivity extends Activity{
 		if (mSlidingDrawer.isOpened()) {
 			mSlidingDrawer.close();
 		}
+
+		boolean gesturesEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("gestures", true);
+		mGesturesOverlayView.setEnabled(gesturesEnabled);
 	}
 	
 	
@@ -815,6 +832,4 @@ public class PlayerActivity extends Activity{
 		mHandlerOfFadeOutAnimation.postDelayed(
 				mRunnableOfFadeOutAnimation, 7500);		
 	}
-		
-
 }

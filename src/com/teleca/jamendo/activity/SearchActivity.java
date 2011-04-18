@@ -28,12 +28,15 @@ import com.teleca.jamendo.api.PlaylistRemote;
 import com.teleca.jamendo.api.WSError;
 import com.teleca.jamendo.api.impl.JamendoGet2ApiImpl;
 import com.teleca.jamendo.dialog.LoadingDialog;
+import com.teleca.jamendo.JamendoApplication;
 import com.teleca.jamendo.R;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.gesture.GestureOverlayView;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -66,6 +69,7 @@ public class SearchActivity extends Activity {
 	private EditText mSearchEditText;
 	private Button mSearchButton;
 	private ViewFlipper mViewFlipper;
+	private GestureOverlayView mGestureOverlayView;
 
 	private PlaylistRemote[] mPlaylistRemotes = null;
 
@@ -105,6 +109,17 @@ public class SearchActivity extends Activity {
 		if(mSearchListView.getCount() == 0){
 			mViewFlipper.setDisplayedChild(2); // search list hint
 		}
+
+		mGestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures);
+		mGestureOverlayView.addOnGesturePerformedListener(JamendoApplication
+				.getInstance().getPlayerGestureHandler());
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		boolean gesturesEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("gestures", true);
+		mGestureOverlayView.setEnabled(gesturesEnabled);
 	}
 
 	@SuppressWarnings("unchecked")

@@ -32,7 +32,9 @@ import com.teleca.jamendo.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.gesture.GestureOverlayView;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -86,6 +88,7 @@ public class PlaylistActivity extends Activity {
 	private PlaylistAdapter mPlaylistAdapter;
 	private AlbumBar mAlbumBar;
 	private ViewFlipper mViewFlipper;
+	private GestureOverlayView mGestureOverlayView;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -110,6 +113,10 @@ public class PlaylistActivity extends Activity {
 
 		loadTracks();
 		setupListView();
+
+		mGestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures);
+		mGestureOverlayView.addOnGesturePerformedListener(JamendoApplication
+				.getInstance().getPlayerGestureHandler());
 	}
 
 	@Override
@@ -210,6 +217,8 @@ public class PlaylistActivity extends Activity {
 	@Override
 	protected void onResume() {
 		loadTracks();
+		boolean gesturesEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("gestures", true);
+		mGestureOverlayView.setEnabled(gesturesEnabled);
 		super.onResume();
 	}
 

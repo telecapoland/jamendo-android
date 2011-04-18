@@ -21,8 +21,10 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.gesture.GestureOverlayView;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -70,6 +72,7 @@ public class DownloadActivity extends Activity implements DownloadObserver {
 	private TextView mItemCountTextView;
 	private ListView mListView;
 	private ViewFlipper mViewFlipper;
+	private GestureOverlayView mGestureOverlayView;
 	
 	private DownloadManager mDownloadManager;
 	private PlayerEngine mPlayerInterface;
@@ -110,6 +113,10 @@ public class DownloadActivity extends Activity implements DownloadObserver {
 		mHandler = new Handler();
 
 		registerForContextMenu(mListView);
+
+		mGestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures);
+		mGestureOverlayView.addOnGesturePerformedListener(JamendoApplication
+				.getInstance().getPlayerGestureHandler());
 	}
 	
 	@Override
@@ -122,6 +129,8 @@ public class DownloadActivity extends Activity implements DownloadObserver {
 	@Override
 	protected void onResume() {
 		mDownloadManager.registerDownloadObserver(this);
+		boolean gesturesEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("gestures", true);
+		mGestureOverlayView.setEnabled(gesturesEnabled);
 		super.onResume();
 	}
 

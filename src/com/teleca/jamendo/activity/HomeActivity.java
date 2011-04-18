@@ -43,6 +43,7 @@ import com.teleca.jamendo.widget.ProgressBar;
 import com.teleca.jamendo.R;
 
 import android.app.Activity;
+import android.gesture.GestureOverlayView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -78,6 +79,7 @@ public class HomeActivity extends Activity implements OnAlbumClickListener {
 	private ListView mHomeListView;
 	private PurpleAdapter mBrowseJamendoPurpleAdapter;
 	private PurpleAdapter mMyLibraryPurpleAdapter;
+	private GestureOverlayView mGestureOverlayView;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -92,9 +94,13 @@ public class HomeActivity extends Activity implements OnAlbumClickListener {
 		mFailureBar = (FailureBar)findViewById(R.id.FailureBar);
 		mViewFlipper = (ViewFlipper)findViewById(R.id.ViewFlipper);
 
+		mGestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures);
+		mGestureOverlayView.addOnGesturePerformedListener(JamendoApplication
+				.getInstance().getPlayerGestureHandler());
+
 		new NewsTask().execute((Void)null);
 	}
-	
+
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		// commented out, was causing "Wrong state class -- expecting View State" on view rotation
@@ -165,6 +171,8 @@ public class HomeActivity extends Activity implements OnAlbumClickListener {
 	@Override
 	protected void onResume() {
 		fillHomeListView();
+		boolean gesturesEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("gestures", true);
+		mGestureOverlayView.setEnabled(gesturesEnabled);
 		super.onResume();
 	}
 	

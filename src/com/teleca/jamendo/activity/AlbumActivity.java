@@ -16,17 +16,20 @@
 
 package com.teleca.jamendo.activity;
 
+import java.nio.channels.OverlappingFileLockException;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.DialogInterface;
+import android.gesture.GestureOverlayView;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -76,6 +79,7 @@ public class AlbumActivity extends TabActivity{
 	
 	private String mBetterRes;
 
+	private GestureOverlayView mGestureOverlayView;
 	/**
 	 * Launch this Activity from the outside
 	 *
@@ -120,6 +124,16 @@ public class AlbumActivity extends TabActivity{
 		if(selectedReviewId != -1){
 			selectReview(selectedReviewId);
 		}
+
+		mGestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures);
+		mGestureOverlayView.addOnGesturePerformedListener(JamendoApplication.getInstance().getPlayerGestureHandler());
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		boolean gesturesEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("gestures", true);
+		mGestureOverlayView.setEnabled(gesturesEnabled);
 	}
 
 	private void setupTabs(){

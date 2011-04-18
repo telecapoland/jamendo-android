@@ -136,8 +136,10 @@ public class PlayerEngineImpl implements PlayerEngine {
 
 	@Override
 	public void next() {
-		mPlaylist.selectNext();
-		play();
+		if(mPlaylist != null){
+			mPlaylist.selectNext();
+			play();
+		}
 	}
 
 	@Override
@@ -215,8 +217,10 @@ public class PlayerEngineImpl implements PlayerEngine {
 
 	@Override
 	public void prev() {
-		mPlaylist.selectPrev();
-		play();	
+		if(mPlaylist != null){ 
+			mPlaylist.selectPrev();
+			play();	
+		}
 	}
 
 	@Override

@@ -121,4 +121,8 @@ limitations under the License.
 	<string name="loading_recomended_radios">Loading recomended radios</string>
 	<string name="failed_recomended_radios">Loading recomended radios failed</string>
 	<string name="play">Play</string>
+	<string name="gestures_preference_title">Gestures</string>
+	<string name="gestures_preference_summary">Preferences related to gestures support</string>
+	<string name="gestures_support">Gestures enabled</string>
+	<string name="gestures_support_summary">Enables gestures support in Jamendo</string>	
 </resources>

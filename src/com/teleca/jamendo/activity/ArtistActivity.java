@@ -36,8 +36,10 @@ import com.teleca.jamendo.R;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.gesture.GestureOverlayView;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -60,6 +62,8 @@ public class ArtistActivity extends Activity {
 	private GridView mAlbumGridView;
 	private Button mDonateButton;
 	private Button mWebpageButton;
+
+	private GestureOverlayView mGestureOverlayView;
 
 	private Artist mArtist;
 
@@ -100,6 +104,16 @@ public class ArtistActivity extends Activity {
 		mWebpageButton.setOnClickListener(mWebpageClick);
 		
 		Toast.makeText(ArtistActivity.this, R.string.long_press_playlist, Toast.LENGTH_SHORT).show();
+
+		mGestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures);
+		mGestureOverlayView.addOnGesturePerformedListener(JamendoApplication.getInstance().getPlayerGestureHandler());
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		boolean gesturesEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("gestures", true);
+		mGestureOverlayView.setEnabled(gesturesEnabled);
 	}
 
 	@SuppressWarnings("unchecked")

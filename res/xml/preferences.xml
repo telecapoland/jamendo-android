@@ -49,4 +49,13 @@ limitations under the License.
 			android:summary="Requires official last.fm client" />
 		
 	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/gestures_preference_title"
+		android:summary="@string/gestures_preference_summary">
+		<CheckBoxPreference android:key="gestures"
+			android:defaultValue="true"
+			android:title="@string/gestures_support"
+			android:summary="@string/gestures_support_summary"/>
+	</PreferenceCategory>
+
 </PreferenceScreen>

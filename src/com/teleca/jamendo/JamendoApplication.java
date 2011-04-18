@@ -27,6 +27,13 @@ import com.teleca.jamendo.api.JamendoGet2Api;
 import com.teleca.jamendo.api.Playlist;
 import com.teleca.jamendo.api.util.Caller;
 import com.teleca.jamendo.api.util.RequestCache;
+import com.teleca.jamendo.gestures.GestureCommandRegister;
+import com.teleca.jamendo.gestures.GesturesHandler;
+import com.teleca.jamendo.gestures.PlayerGestureCommandRegiser;
+import com.teleca.jamendo.gestures.PlayerGestureNextCommand;
+import com.teleca.jamendo.gestures.PlayerGesturePlayCommand;
+import com.teleca.jamendo.gestures.PlayerGesturePrevCommand;
+import com.teleca.jamendo.gestures.PlayerGestureStopCommand;
 import com.teleca.jamendo.media.PlayerEngine;
 import com.teleca.jamendo.media.PlayerEngineListener;
 import com.teleca.jamendo.service.PlayerService;
@@ -86,6 +93,11 @@ public class JamendoApplication extends Application {
 	 */
 	private DownloadManager mDownloadManager;
 
+	/**
+	 * Handler for player related gestures.
+	 */
+	private GesturesHandler mPlayerGestureHandler;
+
 	public static JamendoApplication getInstance() {
 		return instance;
 	}
@@ -133,6 +145,13 @@ public class JamendoApplication extends Application {
 			mIntentPlayerEngine = new IntentPlayerEngine();
 		}
 		return mIntentPlayerEngine;
+	}
+
+	public GesturesHandler getPlayerGestureHandler(){
+		if(mPlayerGestureHandler == null){
+			mPlayerGestureHandler = new GesturesHandler(this, new PlayerGestureCommandRegiser(getPlayerEngineInterface()));
+		}
+		return mPlayerGestureHandler;
 	}
 
 	/**

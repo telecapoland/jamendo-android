@@ -39,6 +39,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.gesture.GestureOverlayView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -67,6 +68,7 @@ public class BrowsePlaylistActivity extends Activity {
 	private Mode mCurrentMode;
 	
 	private SeparatedListAdapter mSeparatedAdapter;
+	private GestureOverlayView mGestureOverlayView;
 
 	/**
 	 * Modes in which this activity can be launched (top bar)
@@ -130,6 +132,16 @@ public class BrowsePlaylistActivity extends Activity {
 		mViewFlipper = (ViewFlipper)findViewById(R.id.BrowsePlaylistViewFlipper);
 
 		setupMode((Mode) getIntent().getSerializableExtra("mode"));
+
+		mGestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures);
+		mGestureOverlayView.addOnGesturePerformedListener(JamendoApplication.getInstance().getPlayerGestureHandler());
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		boolean gesturesEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("gestures", true);
+		mGestureOverlayView.setEnabled(gesturesEnabled);
 	}
 
 	/**

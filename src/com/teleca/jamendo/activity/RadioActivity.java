@@ -32,8 +32,10 @@ import com.teleca.jamendo.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.gesture.GestureOverlayView;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -90,6 +92,7 @@ public class RadioActivity extends Activity {
 	private EditText mEditText;
 	private Spinner mSpinner;
 	private ViewFlipper mViewFlipper;
+	private GestureOverlayView mGestureOverlayView;
 
 	private RadioLoadingDialog mRadioLoadingDialog;
 
@@ -166,6 +169,17 @@ public class RadioActivity extends Activity {
 		
 		// TODO (maybe) if recent.count > 0 set to recent
 		mSpinner.setSelection(1);
+
+		mGestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures);
+		mGestureOverlayView.addOnGesturePerformedListener(JamendoApplication
+				.getInstance().getPlayerGestureHandler());
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		boolean gesturesEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("gestures", true);
+		mGestureOverlayView.setEnabled(gesturesEnabled);
 	}
 
 	/**

@@ -114,4 +114,8 @@ limitations under the License.
 	<string name="add_to_favorites">Dodaj do ulubionych</string>
 	<string name="add_to_playlist">Dodaj do playlisty</string>
 	<string name="albums">Albumy</string>
+	<string name="gestures_preference_title">Gesty</string>
+	<string name="gestures_preference_summary">Ustawienia związane z obsługą gestów</string>
+	<string name="gestures_support">Obsługa gestów</string>
+	<string name="gestures_support_summary">Aktywuje obsługę gestów w Jamendo</string>
 </resources>
