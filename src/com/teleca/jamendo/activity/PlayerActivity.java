@@ -53,6 +53,7 @@ import android.widget.RatingBar;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.text.TextUtils.TruncateAt;
 
 import com.teleca.jamendo.JamendoApplication;
 import com.teleca.jamendo.R;
@@ -125,15 +126,11 @@ public class PlayerActivity extends Activity {
 	private ReflectableLayout mReflectableLayout;
 	private ReflectiveSurface mReflectiveSurface;
 	
-	private String mBetterRes;
-	
-	private SlidingDrawer mSlidingDrawer;
-	
+	private String mBetterRes;	
+	private SlidingDrawer mSlidingDrawer;	
 	private LoadingDialog mUriLoadingDialog;
 
 	SeekToMode seekToMode;
-	
-	
 	Handler mHandlerOfFadeOutAnimation; 
 	Runnable mRunnableOfFadeOutAnimation; 
 
@@ -192,6 +189,11 @@ public class PlayerActivity extends Activity {
 		
 		mArtistTextView = (TextView)findViewById(R.id.ArtistTextView);
 		mSongTextView = (TextView)findViewById(R.id.SongTextView);
+		//AutoScrolling of long song titles
+		mSongTextView.setEllipsize(TruncateAt.MARQUEE);
+		mSongTextView.setHorizontallyScrolling(true);
+		mSongTextView.setSelected(true);
+		
 		mCurrentTimeTextView = (TextView)findViewById(R.id.CurrentTimeTextView);
 		mTotalTimeTextView = (TextView)findViewById(R.id.TotalTimeTextView);
 		mRatingBar = (RatingBar) findViewById(R.id.TrackRowRatingBar);

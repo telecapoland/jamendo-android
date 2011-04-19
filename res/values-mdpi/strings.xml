@@ -125,4 +125,9 @@ limitations under the License.
 	<string name="gestures_preference_summary">Preferences related to gestures support</string>
 	<string name="gestures_support">Gestures enabled</string>
 	<string name="gestures_support_summary">Enables gestures support in Jamendo</string>	
+	<string name="scrobbler_app">Scrobbling application</string>
+	<string name="scrobbler_lastfm_official">Last.FM Official scrobbler</string>
+	<string name="scrobbler_simplefm">Simple Last.FM Scrobbler</string>
+	<string name="scrobbling_enabled">Enable scrobbling?</string>
+	<string name="scrobbler_app_summary">Choose scrobbling application</string>
 </resources>
