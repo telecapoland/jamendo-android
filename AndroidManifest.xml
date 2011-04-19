@@ -19,8 +19,8 @@
 		<activity android:name=".activity.HomeActivity"
 			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
 			</intent-filter>
 		</activity>
 		<activity android:name=".activity.AlbumActivity"
@@ -141,6 +141,12 @@
 					android:pathPrefix="/ru/album/" />
 				<data android:scheme="http" android:host="www.jamendo.com"
 					android:pathPrefix="/it/album/" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.SplashscreenActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"></action>
+				<category android:name="android.intent.category.LAUNCHER"></category>
 			</intent-filter>
 		</activity>
 	</application>

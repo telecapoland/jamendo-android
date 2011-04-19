@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="match_parent"
+	android:orientation="vertical" android:id="@+id/splashlayout"
+	android:background="#fff">
+	<ImageView android:layout_height="wrap_content" android:id="@+id/imageView1"
+		android:layout_width="fill_parent" android:src="@drawable/splash_jamendo"
+		android:layout_weight="1" android:padding="10dp"></ImageView>
+	<LinearLayout android:layout_height="wrap_content"
+		android:id="@+id/linearLayout1" android:layout_width="fill_parent"
+		android:padding="10dp">
+		<TextView android:id="@+id/textView1" android:layout_height="wrap_content"
+			android:layout_weight="1" android:layout_width="fill_parent"></TextView>
+		<ImageView android:layout_height="wrap_content"
+			android:src="@drawable/teleca_logo_splash" android:id="@+id/imageView2"
+			android:layout_width="fill_parent" android:layout_weight="1"></ImageView>
+	</LinearLayout>
+</LinearLayout>
