@@ -30,7 +30,7 @@ public class GesturesHandler implements OnGesturePerformedListener {
 
 	public GesturesHandler(Context context, GestureCommandRegister register) {
 		// mLibrary = GestureLibraries.fromRawResource(context, R.raw.gestures);
-		mLibrary = GestureLibraries.fromFile("/sdcard/gestures");
+		mLibrary = GestureLibraries.fromRawResource(context, R.raw.gestures);
 		load();
 		setRegister(register);
 	}
