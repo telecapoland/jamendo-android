@@ -43,6 +43,8 @@ import com.teleca.jamendo.widget.ProgressBar;
 import com.teleca.jamendo.R;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -66,6 +68,7 @@ import android.widget.AdapterView.OnItemClickListener;
  * Home activity of the jamendo, central navigation place
  * 
  * @author Lukasz Wisniewski
+ * @author Marcin Gil
  */
 public class HomeActivity extends Activity implements OnAlbumClickListener {
 
@@ -79,6 +82,17 @@ public class HomeActivity extends Activity implements OnAlbumClickListener {
 	private PurpleAdapter mBrowseJamendoPurpleAdapter;
 	private PurpleAdapter mMyLibraryPurpleAdapter;
 
+	/**
+	 * Launch Home activity helper
+	 * 
+	 * @param c context where launch home from (used by SplashscreenActivity)
+	 */
+	public static void launch(Context c){
+		Intent intent = new Intent(c, HomeActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP );
+		c.startActivity(intent);
+	}
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
