@@ -18,33 +18,92 @@ package com.teleca.jamendo.api;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import com.teleca.jamendo.api.PlaylistEntry;
+import java.util.Arrays;
+import java.util.Collections;
+import android.util.Log;
 
 /**
  * @author Lukasz Wisniewski
  */
 public class Playlist implements Serializable{
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private static final String TAG = "Playlist";
+
+	public enum PlaylistPlaybackMode{
+		NORMAL,SHUFFLE,REPEAT,SHUFFLE_AND_REPEAT
+	}
+
+	/**
+	 * Keep order in which tracks will be play
+	 */
+	private static ArrayList<Integer> mPlayOrder = null;
+
+	/**
+	 * Keep playlist playback mode
+	 */
+	private static PlaylistPlaybackMode mPlaylistPlaybackMode = PlaylistPlaybackMode.NORMAL;
+
+	/**
+	 * Give playlist playback mode
+	 * @return enum with playback mode
+	 */
+	public PlaylistPlaybackMode getPlaylistPlaybackMode() {
+		return mPlaylistPlaybackMode;
+	}
+
+	/**
+	 * Set playlist playback mode
+	 * @param aPlaylistPlaybackMode
+	 */
+	public void setPlaylistPlaybackMode(PlaylistPlaybackMode aPlaylistPlaybackMode) {
+		if(Log.isLoggable(TAG, Log.DEBUG)){
+			Log.d(TAG,"(Set mode) selected = "+selected);
+			Log.d(TAG,"Plyback mode set on: "+aPlaylistPlaybackMode);
+		}
+		boolean force = false;
+		switch(aPlaylistPlaybackMode){
+			case NORMAL:
+			case REPEAT:
+				if(mPlaylistPlaybackMode == PlaylistPlaybackMode.SHUFFLE || mPlaylistPlaybackMode == PlaylistPlaybackMode.SHUFFLE_AND_REPEAT){
+					force= true;
+				}
+				break;
+			case SHUFFLE:
+			case SHUFFLE_AND_REPEAT:
+				if(mPlaylistPlaybackMode == PlaylistPlaybackMode.NORMAL || mPlaylistPlaybackMode == PlaylistPlaybackMode.REPEAT){
+					force= true;
+				}
+				break;
+		}
+		mPlaylistPlaybackMode = aPlaylistPlaybackMode;
+		calculateOrder(force);
+	}
+
 	/**
 	 * Keeps playlist's entries
 	 */
-	private ArrayList<PlaylistEntry> playlist;
-	
+	protected ArrayList<PlaylistEntry> playlist;
+
 	/**
 	 * Keeps record of currently selected track
 	 */
-	private int selected = -1;
-	
+	protected int selected = -1;
+
 	public Playlist(){
+		if(Log.isLoggable(TAG, Log.DEBUG)){
+			Log.d(TAG,"Playlist constructor start");
+		}
 		playlist = new ArrayList<PlaylistEntry>();
+		calculateOrder(false);
+		if(Log.isLoggable(TAG, Log.DEBUG)){
+			Log.d(TAG,"Playlist constructor stop");
+		}
 	}
-	
+
 	/**
 	 * Add single track to the playlist
 	 * 
@@ -55,9 +114,12 @@ public class Playlist implements Serializable{
 		PlaylistEntry playlistEntry = new PlaylistEntry();
 		playlistEntry.setAlbum(album);
 		playlistEntry.setTrack(track);
+		
+		calculateOrder(false);
 		playlist.add(playlistEntry);
+		mPlayOrder.add(size()-1);
 	}
-	
+
 	/**
 	 * Add multiple tracks from one album to the playlist
 	 * 
@@ -68,7 +130,7 @@ public class Playlist implements Serializable{
 			addTrack(track, album);
 		}
 	}
-	
+
 	/**
 	 * Checks if the playlist is empty 
 	 * 
@@ -77,7 +139,7 @@ public class Playlist implements Serializable{
 	public boolean isEmpty(){
 		return playlist.size() == 0;
 	}
-	
+
 	/**
 	 * Selects next song from the playlist
 	 */
@@ -85,9 +147,12 @@ public class Playlist implements Serializable{
 		if(!isEmpty()){
 			selected++;
 			selected %= playlist.size();
+			if(Log.isLoggable(TAG, Log.DEBUG)){
+				Log.d("TAG","Current (next) selected = "+selected);
+			}
 		}
 	}
-	
+
 	/**
 	 * Selects previous song from the playlist
 	 */
@@ -97,8 +162,11 @@ public class Playlist implements Serializable{
 			if(selected < 0)
 				selected = playlist.size() - 1;
 		}
+		if(Log.isLoggable(TAG, Log.DEBUG)){
+			Log.d("TAG","Current (prev) selected = "+selected);
+		}
 	}
-	
+
 	/**
 	 * Select song with a given index
 	 * 
@@ -107,10 +175,11 @@ public class Playlist implements Serializable{
 	public void select(int index){
 		if(!isEmpty()){
 			if(index >= 0 && index < playlist.size())
-				selected = index;
+				calculateOrder(false);
+				selected = mPlayOrder.indexOf(index);
 		}
 	}
-	
+
 	public void selectOrAdd(Track track, Album album){
 		
 		// first search thru available tracks
@@ -125,7 +194,7 @@ public class Playlist implements Serializable{
 		addTrack(track, album);
 		select(playlist.size()-1);
 	}
-	
+
 	/**
 	 * Return index of the currently selected song
 	 * 
@@ -140,7 +209,7 @@ public class Playlist implements Serializable{
 		}
 		return selected;
 	}
-	
+
 	/**
 	 * Return currently selected song
 	 * 
@@ -150,13 +219,15 @@ public class Playlist implements Serializable{
 		PlaylistEntry playlistEntry = null;
 		
 		if(!isEmpty()){
-			playlistEntry = playlist.get(getSelectedIndex());
+			calculateOrder(false);
+			int  index = mPlayOrder.get(getSelectedIndex());
+			playlistEntry = playlist.get(index);
 		}
 		
 		return playlistEntry;
 		
 	}
-	
+
 	/**
 	 * Adds PlaylistEntry object to the playlist
 	 * 
@@ -165,7 +236,9 @@ public class Playlist implements Serializable{
 	public void addPlaylistEntry(PlaylistEntry playlistEntry){
 		if(playlistEntry != null)
 		{
+			calculateOrder(false);
 			playlist.add(playlistEntry);
+			mPlayOrder.add(size()-1);
 		}
 	}
 	
@@ -189,6 +262,16 @@ public class Playlist implements Serializable{
 	}
 
 	/**
+	 * Give all entrys in playlist
+	 * @return
+	 */
+	public PlaylistEntry[] getAllTracks(){
+		PlaylistEntry[] out = new PlaylistEntry[playlist.size()];
+		playlist.toArray(out);
+		return out;
+	}
+
+	/**
 	 * Remove a track with a given index from the playlist
 	 * 
 	 * @param position
@@ -199,9 +282,60 @@ public class Playlist implements Serializable{
 			if(selected >= position){
 				selected--;
 			}
-			
+
+			calculateOrder(false);
 			playlist.remove(position);
+			mPlayOrder.remove(position);
 		}
-		
+	}
+
+	/**
+	 * Change order playback list when it is needed
+	 * @param force
+	 */
+	private void calculateOrder(boolean force){		
+		if(mPlayOrder == null || force){
+			int oldSelected = 0;
+			if(mPlayOrder == null){
+				mPlayOrder = new ArrayList<Integer>();
+			}else{
+				oldSelected = mPlayOrder.get(selected);
+				mPlayOrder.clear();
+			}
+			for(int i = 0; i < size(); i++){
+				mPlayOrder.add(i, i);
+			}
+			if(Log.isLoggable(TAG, Log.DEBUG)){
+				Log.d(TAG, "Playlist has been maped in " + mPlaylistPlaybackMode + " mode.");
+			}
+			switch(mPlaylistPlaybackMode){
+				case NORMAL:
+				case REPEAT:
+					selected = oldSelected;
+					break;
+				case SHUFFLE:
+				case SHUFFLE_AND_REPEAT:
+					if(Log.isLoggable(TAG, Log.DEBUG)){
+						Log.d(TAG, "Before shuffle: " + Arrays.toString(mPlayOrder.toArray()));
+					}
+					Collections.shuffle(mPlayOrder);
+					selected = mPlayOrder.indexOf(selected);
+					if(Log.isLoggable(TAG, Log.DEBUG)){
+						Log.d(TAG, "After shuffle: " + Arrays.toString(mPlayOrder.toArray()));
+					}
+					break;
+			}
+		}
+	}
+
+	/**
+	 * Inform weather it is last track on playlist 
+	 * @return
+	 */
+	public boolean isLastTrackOnList(){
+		if(selected == size()-1)
+			return true;
+		else
+			return false;
 	}
 }

@@ -22,9 +22,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.preference.PreferenceManager;
-
 import com.teleca.jamendo.api.JamendoGet2Api;
 import com.teleca.jamendo.api.Playlist;
+import com.teleca.jamendo.api.Playlist.PlaylistPlaybackMode;
 import com.teleca.jamendo.api.util.Caller;
 import com.teleca.jamendo.api.util.RequestCache;
 import com.teleca.jamendo.gestures.GestureCommandRegister;
@@ -86,6 +86,7 @@ public class JamendoApplication extends Application {
 	/**
 	 * Stored in Application instance in case we destroy Player service
 	 */
+
 	private Playlist mPlaylist;
 
 	/**
@@ -254,7 +255,7 @@ public class JamendoApplication extends Application {
 		@Override
 		public void openPlaylist(Playlist playlist) {
 			mPlaylist = playlist;
-			if (mServicePlayerEngine != null) {
+			if(mServicePlayerEngine != null){
 				mServicePlayerEngine.openPlaylist(playlist);
 			}
 		}
@@ -332,6 +333,16 @@ public class JamendoApplication extends Application {
 		}
 
 		@Override
+		public void setPlaybackMode(PlaylistPlaybackMode aMode) {
+			mPlaylist.setPlaylistPlaybackMode(aMode);
+		}
+
+		@Override
+		public PlaylistPlaybackMode getPlaybackMode() {
+			return mPlaylist.getPlaylistPlaybackMode();
+		}
+		
+		@Override
 		public void forward(int time) {
 			if(mServicePlayerEngine != null){				
 				mServicePlayerEngine.forward( time );
@@ -347,9 +358,6 @@ public class JamendoApplication extends Application {
 			
 		}
 		
-	}
-	
-	
-	
+	}	
 
 }

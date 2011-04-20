@@ -21,8 +21,7 @@ import java.io.IOException;
 import com.teleca.jamendo.JamendoApplication;
 import com.teleca.jamendo.api.Playlist;
 import com.teleca.jamendo.api.PlaylistEntry;
-
-
+import com.teleca.jamendo.api.Playlist.PlaylistPlaybackMode;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -282,7 +281,11 @@ public class PlayerEngineImpl implements PlayerEngine {
 
 				@Override
 				public void onCompletion(MediaPlayer mp) {
-					next();
+					if(!mPlaylist.isLastTrackOnList() || mPlaylist.getPlaylistPlaybackMode() == PlaylistPlaybackMode.REPEAT || mPlaylist.getPlaylistPlaybackMode() == PlaylistPlaybackMode.SHUFFLE_AND_REPEAT ){
+						next();
+					}else{
+						stop();
+					}
 				}
 
 			});
@@ -404,6 +407,15 @@ public class PlayerEngineImpl implements PlayerEngine {
 	}
 
 	@Override
+	public void setPlaybackMode(PlaylistPlaybackMode aMode) {
+		mPlaylist.setPlaylistPlaybackMode(aMode);
+	}
+
+	@Override
+	public PlaylistPlaybackMode getPlaybackMode() {
+		return mPlaylist.getPlaylistPlaybackMode();
+	}
+
 	public void forward(int time) {		
 		mCurrentMediaPlayer.seekTo( mCurrentMediaPlayer.getCurrentPosition()+time );
 		
@@ -412,7 +424,5 @@ public class PlayerEngineImpl implements PlayerEngine {
 	@Override
 	public void rewind(int time) {
 		mCurrentMediaPlayer.seekTo( mCurrentMediaPlayer.getCurrentPosition()-time );
-		
 	}
-
 }

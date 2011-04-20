@@ -16,9 +16,7 @@
 
 package com.teleca.jamendo.activity;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.prefs.Preferences;
 
 import org.json.JSONException;
 
@@ -27,18 +25,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.gesture.Gesture;
-import android.gesture.GestureLibraries;
-import android.gesture.GestureLibrary;
 import android.gesture.GestureOverlayView;
-import android.gesture.Prediction;
-import android.gesture.GestureOverlayView.OnGesturePerformedListener;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.TextUtils.TruncateAt;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -53,7 +47,6 @@ import android.widget.RatingBar;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.text.TextUtils.TruncateAt;
 
 import com.teleca.jamendo.JamendoApplication;
 import com.teleca.jamendo.R;
@@ -65,6 +58,7 @@ import com.teleca.jamendo.api.PlaylistEntry;
 import com.teleca.jamendo.api.PlaylistRemote;
 import com.teleca.jamendo.api.Track;
 import com.teleca.jamendo.api.WSError;
+import com.teleca.jamendo.api.Playlist.PlaylistPlaybackMode;
 import com.teleca.jamendo.api.impl.JamendoGet2ApiImpl;
 import com.teleca.jamendo.dialog.AddToPlaylistDialog;
 import com.teleca.jamendo.dialog.LoadingDialog;
@@ -115,6 +109,8 @@ public class PlayerActivity extends Activity {
 	private ImageButton mNextImageButton;
 	private ImageButton mPrevImageButton;
 	private ImageButton mStopImageButton;
+	private ImageButton mShuffleImageButton;
+	private ImageButton mRepeatImageButton;
 	private RemoteImageView mCoverImageView;
 	private RemoteImageView mLicenseImageView;
 
@@ -236,6 +232,12 @@ public class PlayerActivity extends Activity {
 		mStopImageButton = (ImageButton)findViewById(R.id.StopImageButton);
 		mStopImageButton.setOnClickListener(mStopOnClickListener);
 
+		mShuffleImageButton = (ImageButton)findViewById(R.id.ShuffleImageButton);
+		mShuffleImageButton.setOnClickListener(mShuffleOnClickListener);
+
+		mRepeatImageButton = (ImageButton)findViewById(R.id.RepeatImageButton);
+		mRepeatImageButton.setOnClickListener(mRepeatOnClickListener);
+
 		mFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
 		mFadeInAnimation.setAnimationListener(new AnimationListener(){
 
@@ -327,6 +329,27 @@ public class PlayerActivity extends Activity {
 		if (mSlidingDrawer.isOpened()) {
 			mSlidingDrawer.close();
 		}
+		//refresh shuffle and repeat icons
+		if(getPlayerEngine().getPlaylist() != null){
+			switch(getPlayerEngine().getPlaylist().getPlaylistPlaybackMode()){
+				case NORMAL:
+					mShuffleImageButton.setImageResource(R.drawable.player_shuffle_off);
+					mRepeatImageButton.setImageResource(R.drawable.player_repeat_off);
+					break;
+				case REPEAT:
+					mShuffleImageButton.setImageResource(R.drawable.player_shuffle_off);
+					mRepeatImageButton.setImageResource(R.drawable.player_repeat_on);
+					break;
+				case SHUFFLE:
+					mShuffleImageButton.setImageResource(R.drawable.player_shuffle_on);
+					mRepeatImageButton.setImageResource(R.drawable.player_repeat_off);
+					break;
+				case SHUFFLE_AND_REPEAT:
+					mShuffleImageButton.setImageResource(R.drawable.player_shuffle_on);
+					mRepeatImageButton.setImageResource(R.drawable.player_repeat_on);
+					break;
+			}
+		}
 
 		boolean gesturesEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("gestures", true);
 		mGesturesOverlayView.setEnabled(gesturesEnabled);
@@ -355,6 +378,8 @@ public class PlayerActivity extends Activity {
 		mNextImageButton.setVisibility(View.VISIBLE);
 		mPrevImageButton.setVisibility(View.VISIBLE);
 		mStopImageButton.setVisibility(View.VISIBLE);
+		mShuffleImageButton.setVisibility(View.VISIBLE);
+		mRepeatImageButton.setVisibility(View.VISIBLE);
 	}
 
 	/**
@@ -365,6 +390,8 @@ public class PlayerActivity extends Activity {
 		mNextImageButton.setVisibility(View.GONE);
 		mPrevImageButton.setVisibility(View.GONE);
 		mStopImageButton.setVisibility(View.GONE);
+		mShuffleImageButton.setVisibility(View.GONE);
+		mRepeatImageButton.setVisibility(View.GONE);
 	}
 
 	/**
@@ -375,6 +402,8 @@ public class PlayerActivity extends Activity {
 		mNextImageButton.setAnimation(mFadeOutAnimation);
 		mPrevImageButton.setAnimation(mFadeOutAnimation);
 		mStopImageButton.setAnimation(mFadeOutAnimation);
+		mShuffleImageButton.setAnimation(mFadeOutAnimation);
+		mRepeatImageButton.setAnimation(mFadeOutAnimation);
 	}
 
 	/**
@@ -385,6 +414,8 @@ public class PlayerActivity extends Activity {
 		mNextImageButton.setAnimation(mFadeInAnimation);
 		mPrevImageButton.setAnimation(mFadeInAnimation);
 		mStopImageButton.setAnimation(mFadeInAnimation);
+		mShuffleImageButton.setAnimation(mFadeInAnimation);
+		mRepeatImageButton.setAnimation(mFadeInAnimation);
 	}
 
 	/**
@@ -446,6 +477,63 @@ public class PlayerActivity extends Activity {
 			getPlayerEngine().stop();
 		}
 
+	};
+
+	/**
+	 * shuffle button action
+	 */
+	private OnClickListener mShuffleOnClickListener = new OnClickListener(){
+
+		@Override
+		public void onClick(View v) {
+			switch(getPlayerEngine().getPlaybackMode()){
+				case NORMAL:
+					getPlayerEngine().setPlaybackMode(PlaylistPlaybackMode.SHUFFLE);
+					mShuffleImageButton.setImageResource(R.drawable.player_shuffle_on);
+					break;
+				case REPEAT:
+					getPlayerEngine().setPlaybackMode(PlaylistPlaybackMode.SHUFFLE_AND_REPEAT);
+					mShuffleImageButton.setImageResource(R.drawable.player_shuffle_on);
+					break;
+				case SHUFFLE:
+					getPlayerEngine().setPlaybackMode(PlaylistPlaybackMode.NORMAL);
+					mShuffleImageButton.setImageResource(R.drawable.player_shuffle_off);
+					break;
+				case SHUFFLE_AND_REPEAT:
+					getPlayerEngine().setPlaybackMode(PlaylistPlaybackMode.REPEAT);
+					mShuffleImageButton.setImageResource(R.drawable.player_shuffle_off);
+					break;
+			}
+		}
+
+	};
+
+	/**
+	 * repeat button action
+	 */
+	private OnClickListener mRepeatOnClickListener = new OnClickListener(){
+
+		@Override
+		public void onClick(View v) {
+			switch(getPlayerEngine().getPlaybackMode()){
+				case NORMAL:
+					getPlayerEngine().setPlaybackMode(PlaylistPlaybackMode.REPEAT);
+					mRepeatImageButton.setImageResource(R.drawable.player_repeat_on);
+					break;
+				case REPEAT:
+					getPlayerEngine().setPlaybackMode(PlaylistPlaybackMode.NORMAL);
+					mRepeatImageButton.setImageResource(R.drawable.player_repeat_off);
+					break;
+				case SHUFFLE:
+					getPlayerEngine().setPlaybackMode(PlaylistPlaybackMode.SHUFFLE_AND_REPEAT);
+					mRepeatImageButton.setImageResource(R.drawable.player_repeat_on);
+					break;
+				case SHUFFLE_AND_REPEAT:
+					getPlayerEngine().setPlaybackMode(PlaylistPlaybackMode.SHUFFLE);
+					mRepeatImageButton.setImageResource(R.drawable.player_repeat_off);
+					break;
+			}
+		}
 	};
 
 	/**
