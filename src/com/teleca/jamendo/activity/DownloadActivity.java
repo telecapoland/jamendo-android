@@ -234,9 +234,9 @@ public class DownloadActivity extends Activity implements DownloadObserver {
 	}
 
 	private void playNow(int position) {
-		mPlayerInterface.stop();
 		Playlist playlist = new Playlist();
 		playlist.addPlaylistEntry(getJob(position).getPlaylistEntry());
+		playlist.select(0);
 		mPlayerInterface.openPlaylist(playlist);
 		mPlayerInterface.play();
 	}
