@@ -17,6 +17,7 @@
 package com.teleca.jamendo.media;
 
 import com.teleca.jamendo.api.Playlist;
+import com.teleca.jamendo.api.Playlist.PlaylistPlaybackMode;
 
 /**
  * 
@@ -85,20 +86,30 @@ public interface PlayerEngine {
 	 * @param playerEngineListener
 	 */
 	public void setListener(PlayerEngineListener playerEngineListener);
-	
+
+	/**
+	 * Set playback mode 
+	 * @param aMode
+	 */
+	public void setPlaybackMode(PlaylistPlaybackMode aMode);
+
+	/**
+	 * Give playback mode 
+	 * @return
+	 */
+	public PlaylistPlaybackMode getPlaybackMode();
+
 	/**
 	 * forward current song
 	 * 
 	 * @param miliseconds to forward
 	 */
 	public void forward(int time);
-	
+
 	/**
 	 * rewind current song
 	 * 
 	 * @param miliseconds to rewind
 	 */
 	public void rewind(int time);
-	
-	
 }

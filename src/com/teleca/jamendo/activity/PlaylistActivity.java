@@ -16,19 +16,6 @@
 
 package com.teleca.jamendo.activity;
 
-import com.teleca.jamendo.JamendoApplication;
-import com.teleca.jamendo.activity.BrowsePlaylistActivity.Mode;
-import com.teleca.jamendo.adapter.PlaylistAdapter;
-import com.teleca.jamendo.api.Playlist;
-import com.teleca.jamendo.api.PlaylistEntry;
-import com.teleca.jamendo.api.PlaylistRemote;
-import com.teleca.jamendo.db.Database;
-import com.teleca.jamendo.db.DatabaseImpl;
-import com.teleca.jamendo.dialog.PlaylistRemoteLoadingDialog;
-import com.teleca.jamendo.util.Helper;
-import com.teleca.jamendo.widget.AlbumBar;
-import com.teleca.jamendo.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -48,6 +35,19 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 import android.widget.AdapterView.OnItemClickListener;
+
+import com.teleca.jamendo.JamendoApplication;
+import com.teleca.jamendo.R;
+import com.teleca.jamendo.activity.BrowsePlaylistActivity.Mode;
+import com.teleca.jamendo.adapter.PlaylistAdapter;
+import com.teleca.jamendo.api.Playlist;
+import com.teleca.jamendo.api.PlaylistEntry;
+import com.teleca.jamendo.api.PlaylistRemote;
+import com.teleca.jamendo.db.Database;
+import com.teleca.jamendo.db.DatabaseImpl;
+import com.teleca.jamendo.dialog.PlaylistRemoteLoadingDialog;
+import com.teleca.jamendo.util.Helper;
+import com.teleca.jamendo.widget.AlbumBar;
 
 // TODO autosave or save question on playlist modification
 /**
@@ -233,10 +233,11 @@ public class PlaylistActivity extends Activity {
 		mPlaylist = (Playlist)getIntent().getSerializableExtra("playlist");
 		
 		// if there is no intent, playlist might be set in the engine
+
 		if(mPlaylist == null){
 			mPlaylist = JamendoApplication.getInstance().getPlayerEngineInterface().getPlaylist();
 		}
-		
+
 		if(mPlaylist != null){
 			PlaylistEntry playlistEntry = mPlaylist.getSelectedTrack();
 			if(playlistEntry != null){
