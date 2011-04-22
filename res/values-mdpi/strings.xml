@@ -130,4 +130,14 @@ limitations under the License.
 	<string name="scrobbler_simplefm">Simple Last.FM Scrobbler</string>
 	<string name="scrobbling_enabled">Enable scrobbling?</string>
 	<string name="scrobbler_app_summary">Choose scrobbling application</string>
+	<string name="tutorial_welcome">This tutorial screen contains a few tips you might find useful so check it out!</string>
+	<string name="tutorial_title">Welcome to Jamendo Player</string>
+	<string name="tutorial_gesture_next">Next song</string>
+	<string name="tutorial_gesture_prev">Previous song</string>
+	<string name="tutorial_gesture_playpause">Play/Pause song</string>
+	<string name="tutorial_gesture_stop">Stop song</string>
+	<string name="tutorial_gestures">Gestures:</string>
+	<string name="tutorial_toggle_firstrun">Skip this next time</string>
+	<string name="tutorial_shufflerepeat">Shuffle/Repeat:</string>
+	<string name="tutorial_shufflerepeat_playlist">Touch album art to show all controls and also to reveal new shuffle/repeat toggle buttons</string>
 </resources>
