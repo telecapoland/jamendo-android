@@ -13,16 +13,17 @@
 		the specific language governing permissions and limitations under the
 		License.
 	-->
+
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:background="#000000" android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
 <android.gesture.GestureOverlayView
 	xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/gestures"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 
 	android:gestureStrokeType="multiple" android:eventsInterceptionEnabled="false"
 	android:orientation="vertical">
-
-	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		android:background="#000000" android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
 
 		<RelativeLayout android:layout_width="fill_parent"
 			android:layout_height="fill_parent" android:paddingBottom="10dip"
@@ -141,6 +142,8 @@
 			</RelativeLayout>
 
 		</RelativeLayout>
+		
+		</android.gesture.GestureOverlayView>
 
 		<SlidingDrawer android:id="@+id/drawer"
 			android:bottomOffset="7dip" android:layout_width="fill_parent"
@@ -250,4 +253,3 @@
 
 
 	</RelativeLayout>
-</android.gesture.GestureOverlayView>
