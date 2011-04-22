@@ -67,6 +67,20 @@
 						android:layout_height="wrap_content" android:singleLine="true"
 						android:layout_width="wrap_content" android:textSize="14dip"
 						android:text="Artist" />
+					<RelativeLayout android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+                        <LinearLayout android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true" android:layout_marginBottom="70dip" >
+                        <ImageButton android:id="@+id/ShuffleImageButton"
+                            android:background="@null" android:src="@drawable/player_shuffle_off"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageButton>
+                        <ImageButton android:id="@+id/RepeatImageButton"
+                            android:background="@null" android:src="@drawable/player_repeat_off"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dip"></ImageButton>
+                        </LinearLayout>
+                    </RelativeLayout>
 				</LinearLayout>
 
 				<RelativeLayout android:layout_width="220dip"
