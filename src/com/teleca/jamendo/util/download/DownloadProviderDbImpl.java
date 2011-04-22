@@ -35,7 +35,7 @@ public class DownloadProviderDbImpl implements DownloadProvider {
 
 	private DownloadDatabase mDb;
 
-	private static final String DB_PATH = "/jamendroid.db";
+	private static final String DB_PATH = "/jamendroid2.db";
 
 	public DownloadProviderDbImpl(DownloadManager downloadManager) {
 		mDownloadManager = downloadManager;
