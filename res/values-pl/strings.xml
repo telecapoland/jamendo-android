@@ -103,7 +103,7 @@ limitations under the License.
 	<string name="sms_fail">Błąd wysyłania wiadomości SMS :\'(</string>
 	<string name="playlist_exists">Lista odtwarzania już istnieje</string>
 	<string name="credits">Zasługi</string>
-	<string name="maintainers">Opiekunowie</string>
+	<string name="maintainers">Zespół programistów</string>
 	<string name="home">Dom</string>
 	<string name="loading_playlist">Pobieranie listy odtwarzania...</string>
 	<string name="loading_playlist_fail">Pobieranie listy odtwarzania nie powiodło się</string>

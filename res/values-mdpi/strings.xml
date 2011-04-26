@@ -108,7 +108,7 @@ limitations under the License.
 	<string name="sms_fail">SMS fail :\'(</string>
 	<string name="playlist_exists">Playlist already exists</string>
 	<string name="credits">Credits</string>
-	<string name="maintainers">Maintainers</string>
+	<string name="maintainers">Development team</string>
 	<string name="home">Home</string>
 	<string name="loading_playlist">Loading playlist data...</string>
 	<string name="loading_playlist_fail">Failed loading playlist data :\'(</string>

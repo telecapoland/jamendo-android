@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+
 import android.util.Log;
 
 /**
@@ -40,12 +41,12 @@ public class Playlist implements Serializable{
 	/**
 	 * Keep order in which tracks will be play
 	 */
-	private static ArrayList<Integer> mPlayOrder = null;
+	private ArrayList<Integer> mPlayOrder = null;
 
 	/**
 	 * Keep playlist playback mode
 	 */
-	private static PlaylistPlaybackMode mPlaylistPlaybackMode = PlaylistPlaybackMode.NORMAL;
+	private PlaylistPlaybackMode mPlaylistPlaybackMode;
 
 	/**
 	 * Give playlist playback mode
@@ -94,11 +95,12 @@ public class Playlist implements Serializable{
 	protected int selected = -1;
 
 	public Playlist(){
+		mPlaylistPlaybackMode = PlaylistPlaybackMode.NORMAL;
 		if(Log.isLoggable(TAG, Log.DEBUG)){
 			Log.d(TAG,"Playlist constructor start");
 		}
 		playlist = new ArrayList<PlaylistEntry>();
-		calculateOrder(false);
+		calculateOrder(true);
 		if(Log.isLoggable(TAG, Log.DEBUG)){
 			Log.d(TAG,"Playlist constructor stop");
 		}
@@ -115,7 +117,6 @@ public class Playlist implements Serializable{
 		playlistEntry.setAlbum(album);
 		playlistEntry.setTrack(track);
 		
-		calculateOrder(false);
 		playlist.add(playlistEntry);
 		mPlayOrder.add(size()-1);
 	}
@@ -175,7 +176,6 @@ public class Playlist implements Serializable{
 	public void select(int index){
 		if(!isEmpty()){
 			if(index >= 0 && index < playlist.size())
-				calculateOrder(false);
 				selected = mPlayOrder.indexOf(index);
 		}
 	}
@@ -219,7 +219,6 @@ public class Playlist implements Serializable{
 		PlaylistEntry playlistEntry = null;
 		
 		if(!isEmpty()){
-			calculateOrder(false);
 			int  index = mPlayOrder.get(getSelectedIndex());
 			playlistEntry = playlist.get(index);
 		}
@@ -236,7 +235,6 @@ public class Playlist implements Serializable{
 	public void addPlaylistEntry(PlaylistEntry playlistEntry){
 		if(playlistEntry != null)
 		{
-			calculateOrder(false);
 			playlist.add(playlistEntry);
 			mPlayOrder.add(size()-1);
 		}
@@ -283,7 +281,6 @@ public class Playlist implements Serializable{
 				selected--;
 			}
 
-			calculateOrder(false);
 			playlist.remove(position);
 			mPlayOrder.remove(position);
 		}
