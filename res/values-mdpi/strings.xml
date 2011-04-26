@@ -140,4 +140,8 @@ limitations under the License.
 	<string name="tutorial_toggle_firstrun">Skip this next time</string>
 	<string name="tutorial_shufflerepeat">Shuffle/Repeat:</string>
 	<string name="tutorial_shufflerepeat_playlist">Touch album art to show all controls and also to reveal new shuffle/repeat toggle buttons</string>
+	<string name="tutorial_close">Press [BACK] to close this screen</string>
+	<string name="preference_reset_title">Reset settings</string>
+	<string name="preference_firstrun_reset_title">Reset welcome screen</string>
+	<string name="preference_firstrun_reset_summary">Show welcome screen on next program start</string>
 </resources>

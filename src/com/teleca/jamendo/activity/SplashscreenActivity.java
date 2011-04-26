@@ -23,7 +23,7 @@ import com.teleca.jamendo.dialog.TutorialDialog;
  *
  */
 public class SplashscreenActivity extends Activity {
-	private final String FIRST_RUN = "first_run";
+	public final static String FIRST_RUN_PREFERENCE = "first_run";
 	
 	private Animation endAnimation;
 	
@@ -70,7 +70,7 @@ public class SplashscreenActivity extends Activity {
 	}
 	
 	final void showTutorial() {
-		boolean showTutorial = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(FIRST_RUN, true);
+		boolean showTutorial = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(FIRST_RUN_PREFERENCE, true);
 		if (showTutorial) {
 			final TutorialDialog dlg = new TutorialDialog(this);
 			dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -79,7 +79,7 @@ public class SplashscreenActivity extends Activity {
 					CheckBox cb = (CheckBox) dlg.findViewById(R.id.toggleFirstRun);
 					if (cb != null && cb.isChecked()) {
 						SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SplashscreenActivity.this);
-						prefs.edit().putBoolean(FIRST_RUN, false).commit();
+						prefs.edit().putBoolean(FIRST_RUN_PREFERENCE, false).commit();
 					}
 					endAnimationHandler.removeCallbacks(endAnimationRunnable);
 					endAnimationHandler.postDelayed(endAnimationRunnable, 2000);

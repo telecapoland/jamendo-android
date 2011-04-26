@@ -59,6 +59,11 @@
 			android:layout_height="wrap_content" android:paddingBottom="10dp"></TextView>
 
 		<CheckBox android:layout_width="wrap_content" android:id="@+id/toggleFirstRun"
-			android:layout_height="wrap_content" android:text="@string/tutorial_toggle_firstrun"></CheckBox>
+			android:layout_height="wrap_content" android:text="@string/tutorial_toggle_firstrun"
+			android:paddingBottom="10dp"></CheckBox>
+
+		<TextView android:layout_width="match_parent"
+			android:layout_height="wrap_content" android:text="@string/tutorial_close"
+			android:textSize="10sp"></TextView>
 	</LinearLayout>
 </ScrollView>
