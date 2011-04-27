@@ -46,7 +46,7 @@ public class Playlist implements Serializable{
 	/**
 	 * Keep playlist playback mode
 	 */
-	private PlaylistPlaybackMode mPlaylistPlaybackMode;
+	private PlaylistPlaybackMode mPlaylistPlaybackMode = PlaylistPlaybackMode.NORMAL;
 
 	/**
 	 * Give playlist playback mode
@@ -95,7 +95,6 @@ public class Playlist implements Serializable{
 	protected int selected = -1;
 
 	public Playlist(){
-		mPlaylistPlaybackMode = PlaylistPlaybackMode.NORMAL;
 		if(Log.isLoggable(TAG, Log.DEBUG)){
 			Log.d(TAG,"Playlist constructor start");
 		}
@@ -219,6 +218,7 @@ public class Playlist implements Serializable{
 		PlaylistEntry playlistEntry = null;
 		
 		if(!isEmpty()){
+			calculateOrder(false);
 			int  index = mPlayOrder.get(getSelectedIndex());
 			playlistEntry = playlist.get(index);
 		}
@@ -301,6 +301,9 @@ public class Playlist implements Serializable{
 			}
 			for(int i = 0; i < size(); i++){
 				mPlayOrder.add(i, i);
+			}
+			if(mPlaylistPlaybackMode == null){
+				mPlaylistPlaybackMode = PlaylistPlaybackMode.NORMAL;
 			}
 			if(Log.isLoggable(TAG, Log.DEBUG)){
 				Log.d(TAG, "Playlist has been maped in " + mPlaylistPlaybackMode + " mode.");
