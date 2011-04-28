@@ -16,23 +16,32 @@
 
 package com.teleca.jamendo.widget;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.concurrent.RejectedExecutionException;
-
-import com.teleca.jamendo.JamendoApplication;
-import com.teleca.jamendo.util.ImageCache;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.os.StatFs;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import com.teleca.jamendo.JamendoApplication;
+import com.teleca.jamendo.util.ImageCache;
 
 /**
  * ImageView extended class allowing easy downloading
@@ -66,6 +75,7 @@ public class RemoteImageView extends ImageView{
 	 * Sharable code between constructors
 	 */
 	private void init(){
+		mTimeDiff = DAYS_OF_CACHE*24*60*60*1000L;	
 	}
 	
 	/**
@@ -98,17 +108,33 @@ public class RemoteImageView extends ImageView{
 	 */
 	private Integer mDefaultImage;
 
+	private long mTimeDiff;
+	
+	private final static String ALBUMS= "albums";
+	private final static String ALBUMS_CONV= "bgc";
+	private final static String RADIOS= "radios";
+	private final static String RADIOS_CONV= "sbf";
+	private final static String COVERS= "covers";
+	private final static String COVERS_CONV= "dpw";
+	private final static String ALBUM_COVER_MARKER= "1.500";
+	private final static String JAMENDO_DIR= "Android/data/com.teleca.jamendo";
+	private final static int MB = 1048576;
+	// in mb, after exceded cache size the 40%(remove factor) of oldest album
+	// covers are removed
+	private final static int CACHE_SIZE= 150;
+	//every DAYS_OF_CACHE the radio and album thumbnails jpegs are deleted
+	private final static int DAYS_OF_CACHE= 45;
+	//minimum free space on sd card to enable cache
+	private final static int FREE_SD_SPACE_NEEDED_TO_CACHE= 10;
+	
+	
+
 	/**
 	 * Loads image from remote location
 	 * 
 	 * @param url eg. http://random.com/abz.jpg
 	 */
 	public void setImageUrl(String url){
-		
-		if(mListView == null && mCurrentlyGrabbedUrl != null && mCurrentlyGrabbedUrl.equals(url)){
-			// do nothing image is grabbed & loaded, we are golden
-			return;
-		}
 		
 		if(mUrl != null && mUrl.equals(url)){
 			mFailure++;
@@ -122,15 +148,41 @@ public class RemoteImageView extends ImageView{
 			mFailure = 0;
 		}
 
-		ImageCache imageCache = JamendoApplication.getInstance().getImageCache();
-		if(imageCache.isCached(url)){
-			this.setImageBitmap(imageCache.get(url));
+	
+		if (url.contains(ALBUMS) || url.contains(RADIOS)) {			
+			String fileName = convertUrlToFileName(url);
+			String dir = getDirectory(fileName);
+			String pathFileName = dir + "/" + fileName;						
+			Bitmap tbmp = BitmapFactory.decodeFile(pathFileName);
+			if (tbmp == null) {
+				Log.d(JamendoApplication.TAG, "Image is not present, try to download");
+				try{
+					new DownloadTask().execute(url);
+				} catch (RejectedExecutionException e) {
+					// do nothing, just don't crash
+				}
+			} else {
+				Log.i(JamendoApplication.TAG, "Loading album cover from file");
+				this.setImageBitmap(tbmp);
+				updateFileTime(dir,fileName );				
+			}
+			removeAlbumCoversCache(dir, fileName);
+			removeRadioCoversCache(dir, fileName);
+			
 		}
 		else {
-			try{
-				new DownloadTask().execute(url);
-			} catch (RejectedExecutionException e) {
-				// do nothing, just don't crash
+			Log.i(JamendoApplication.TAG, "File not cached supported" + url);
+			ImageCache imageCache = JamendoApplication.getInstance()
+					.getImageCache();
+			if (imageCache.isCached(url)) {				
+				this.setImageBitmap(imageCache.get(url));
+			} else {
+				try {
+					Log.i(JamendoApplication.TAG, "Image is not present, try to download");
+					new DownloadTask().execute(url);
+				} catch (RejectedExecutionException e) {
+					// do nothing, just don't crash
+				}
 			}
 		}
 	}
@@ -173,6 +225,7 @@ public class RemoteImageView extends ImageView{
 	class DownloadTask extends AsyncTask<String, Void, String>{
 		
 		private String mTaskUrl;
+		private Bitmap mBmp = null;
 
 		@Override
 		public void onPreExecute() {
@@ -195,8 +248,10 @@ public class RemoteImageView extends ImageView{
 					bmp = BitmapFactory.decodeStream(stream);
 					try {
 						if(bmp != null){
-							JamendoApplication.getInstance().getImageCache().put(mTaskUrl, bmp);
-							Log.d(JamendoApplication.TAG, "Image cached "+mTaskUrl);
+								mBmp = bmp;
+								JamendoApplication.getInstance().getImageCache().put(mTaskUrl, bmp);
+								Log.d(JamendoApplication.TAG, "Image cached "+mTaskUrl);
+							
 						} else {
 							Log.w(JamendoApplication.TAG, "Failed to cache "+mTaskUrl);
 						}
@@ -224,8 +279,14 @@ public class RemoteImageView extends ImageView{
 			super.onPostExecute(url);
 			
 			// target url may change while loading
-			if(!mTaskUrl.equals(mUrl))
+			if(!mTaskUrl.equals(mUrl))			{
+				
+				if(url.contains(ALBUMS) || url.contains(RADIOS) ){
+					saveBmpToSd(mBmp, url);					
+				}
 				return;
+			}
+			
 			
 			Bitmap bmp = JamendoApplication.getInstance().getImageCache().get(url);
 			if(bmp == null){
@@ -238,11 +299,194 @@ public class RemoteImageView extends ImageView{
 					if(mPosition < mListView.getFirstVisiblePosition() || mPosition > mListView.getLastVisiblePosition())
 						return;
 				
-				RemoteImageView.this.setImageBitmap(bmp);
-				mCurrentlyGrabbedUrl = url;
+						
+				RemoteImageView.this.setImageBitmap(bmp);				
+				mCurrentlyGrabbedUrl = url;				
+				if(url.contains(ALBUMS) || url.contains(RADIOS) ){				
+					saveBmpToSd(mBmp, url);
+				}				
 			}
 		}
 
 	};
+	
+	private void saveBmpToSd(Bitmap bm, String url) {
+		
+		if (bm == null) {
+			Log.w(JamendoApplication.TAG, " trying to save null bitmap");
+			return;
+		}
+
+		if (FREE_SD_SPACE_NEEDED_TO_CACHE > freeSpaceOnSd()) {
+			Log.w(JamendoApplication.TAG, "Low free space on sd, do not cache");
+			return;
+		}
+		String filename = convertUrlToFileName(url);
+		String dir = getDirectory(filename);
+
+		File file = new File(dir + "/" + filename);
+
+		try {
+			file.createNewFile();
+			OutputStream outStream = new FileOutputStream(file);
+			bm.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+			outStream.flush();
+			outStream.close();
+
+			Log.i(JamendoApplication.TAG, "Image saved to sd");
+
+		} catch (FileNotFoundException e) {
+			Log.w(JamendoApplication.TAG, "FileNotFoundException");
+
+		} catch (IOException e) {
+			Log.w(JamendoApplication.TAG, "IOException");
+		}
+
+	}
+
+	private String convertUrlToFileName(String url) {
+		String filename = url;
+		filename = filename.replace("http://imgjam.com/", "");
+		filename = filename.replace("/", ".");
+		filename = filename.replace("jpg", "dat");
+
+		// do filename complicated, hard to read by user while using sd
+		if (filename.contains(ALBUMS)) {
+			filename = filename.replace(ALBUMS, ALBUMS_CONV);
+		}
+		if (filename.contains(COVERS)) {
+			filename = filename.replace(COVERS, COVERS_CONV);
+		}
+		if (filename.contains(RADIOS)) {
+			filename = filename.replace(RADIOS, RADIOS_CONV);
+		}
+		
+		return filename;
+	}
+
+	private String getDirectory(String filename) {
+
+		String extStorageDirectory = Environment.getExternalStorageDirectory()
+				.toString();
+
+		String dirPath = extStorageDirectory + "/" + JAMENDO_DIR;
+		File dirFile = new File(dirPath);
+		dirFile.mkdir();
+
+		dirPath = dirPath + "/dat0";
+		dirFile = new File(dirPath);
+		dirFile.mkdir();
+
+		return dirPath;
+	}
+
+	private void updateFileTime(String dir, String fileName) {
+		// update time of album large covers		
+		if (!fileName.contains(ALBUM_COVER_MARKER)) {
+			return;
+		}
+		File file = new File(dir, fileName);		
+		long newModifiedTime = System.currentTimeMillis();
+		file.setLastModified(newModifiedTime);
+		
+	}
+
+	private void removeAlbumCoversCache(String dirPath, String filename) {
+
+		if (!filename.contains(ALBUM_COVER_MARKER)) {
+			return;
+
+		}
+
+		File dir = new File(dirPath);
+		File[] files = dir.listFiles();
+
+		if (files == null) {
+			// possible sd card is not present/cant write
+			return;
+		}
+
+		int dirSize = 0;
+
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].getName().contains(ALBUM_COVER_MARKER)) {
+				dirSize += files[i].length();
+			}
+		}
+
+		
+		
+		if (dirSize > CACHE_SIZE * MB || FREE_SD_SPACE_NEEDED_TO_CACHE > freeSpaceOnSd()) {
+			int removeFactor = (int) ((0.4 * files.length) + 1);
+			Arrays.sort(files, new FileLastModifSort());
+			Log.i(JamendoApplication.TAG, "Clear some album covers cache files ");
+			for (int i = 0; i < removeFactor; i++) {
+				if (files[i].getName().contains(ALBUM_COVER_MARKER)) {
+					files[i].delete();				
+				}
+			}
+		}
+
+	}
+
+	private void removeRadioCoversCache(String dirPath, String filename) {
+
+		if (filename.contains(ALBUM_COVER_MARKER)) {
+			return;
+		}
+
+		File file = new File(dirPath, filename);
+		if (System.currentTimeMillis() - file.lastModified() > mTimeDiff) {
+			Log.i(JamendoApplication.TAG, "Clear some album or radio thumbnail cache files ");
+			file.delete();
+		}
+
+	}
+
+	public void clearCache() {		
+		String extStorageDirectory = Environment.getExternalStorageDirectory()
+				.toString();
+
+		String dirPath = extStorageDirectory + "/" + JAMENDO_DIR + "/dat0";
+		File dir = new File(dirPath);
+		File[] files = dir.listFiles();
+
+		if (files == null) {
+			// possible that sd card is not present/can't write
+			return;
+		}
+
+		for (int i = 0; i < files.length; i++) {
+			files[i].delete();
+		}
+		
+	}
+
+	private int freeSpaceOnSd() {
+		StatFs stat = new StatFs(Environment.getExternalStorageDirectory()
+				.getPath());
+		double sdFreeMB = ((double) stat.getAvailableBlocks() * (double) stat
+				.getBlockSize()) / MB;
+
+		return (int) sdFreeMB;
+	}
+
+}
+
+
+
+
+class FileLastModifSort implements Comparator<File>{
+
+	public int compare(File arg0, File arg1) {
+		if (arg0.lastModified() > arg1.lastModified()) {
+			return 1;
+		} else if (arg0.lastModified() == arg1.lastModified()) {
+			return 0;
+		} else {
+			return -1;
+		}
+
+	}
 
 }
