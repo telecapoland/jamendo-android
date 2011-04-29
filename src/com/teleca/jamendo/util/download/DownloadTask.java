@@ -17,10 +17,13 @@
 package com.teleca.jamendo.util.download;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.json.JSONException;
@@ -32,6 +35,8 @@ import com.teleca.jamendo.api.Track;
 import com.teleca.jamendo.api.WSError;
 import com.teleca.jamendo.api.impl.JamendoGet2ApiImpl;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -140,8 +145,77 @@ public class DownloadTask extends AsyncTask<Void, Integer, Boolean>{
 		}
 
 		f.close();
+		
+		downloadCover(job);
 		return true;
 		
+	}
+	
+	
+	private static void downloadCover(DownloadJob job) {
+
+		PlaylistEntry mPlaylistEntry = job.getPlaylistEntry();
+		String mDestination = job.getDestination();
+		String path = DownloadHelper.getAbsolutePath(mPlaylistEntry,
+				mDestination);
+		File file = new File(path + "/" + "cover.jpg");
+		// check if cover already exists
+		if (file.exists()) {
+			Log.v(JamendoApplication.TAG, "File exists - nothing to do");
+			return;
+		}
+
+		String albumUrl = mPlaylistEntry.getAlbum().getImage();
+		if (albumUrl == null) {
+			Log.w(JamendoApplication.TAG,
+					"album Url = null. This should not happened");
+			return;
+		}
+		albumUrl = albumUrl.replace("1.100", "1.500");
+
+		InputStream stream = null;
+		URL imageUrl;
+		Bitmap bmp = null;
+
+		// download cover
+		try {
+			imageUrl = new URL(albumUrl);
+
+			try {
+				stream = imageUrl.openStream();
+				bmp = BitmapFactory.decodeStream(stream);
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				Log.v(JamendoApplication.TAG, "download Cover IOException");
+				e.printStackTrace();
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			Log.v(JamendoApplication.TAG, "download CoverMalformedURLException");
+			e.printStackTrace();
+		}
+
+		// save cover to album directory
+		if (bmp != null) {
+
+			try {
+				file.createNewFile();
+				OutputStream outStream = new FileOutputStream(file);
+				bmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+				outStream.flush();
+				outStream.close();
+
+				Log.v(JamendoApplication.TAG, "Album cover saved to sd");
+
+			} catch (FileNotFoundException e) {
+				Log.w(JamendoApplication.TAG, "FileNotFoundException");
+
+			} catch (IOException e) {
+				Log.w(JamendoApplication.TAG, "IOException");
+			}
+
+		}
 	}
 
 }
