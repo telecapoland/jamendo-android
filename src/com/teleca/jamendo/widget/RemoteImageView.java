@@ -371,7 +371,7 @@ public class RemoteImageView extends ImageView{
 
 		String dirPath = extStorageDirectory + "/" + JAMENDO_DIR;
 		File dirFile = new File(dirPath);
-		dirFile.mkdir();
+		dirFile.mkdirs();
 
 		dirPath = dirPath + "/dat0";
 		dirFile = new File(dirPath);
