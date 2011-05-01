@@ -4,22 +4,27 @@
 package com.teleca.jamendo.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
+import android.preference.PreferenceManager;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.CheckBox;
 
 import com.teleca.jamendo.R;
+import com.teleca.jamendo.dialog.TutorialDialog;
 
 /**
  * @author Marcin Gil
  *
  */
 public class SplashscreenActivity extends Activity {
-
+	public final static String FIRST_RUN_PREFERENCE = "first_run";
+	
 	private Animation endAnimation;
 	
 	private Handler endAnimationHandler;
@@ -49,7 +54,7 @@ public class SplashscreenActivity extends Activity {
 		
 		endAnimation.setAnimationListener(new AnimationListener() {
 			@Override
-			public void onAnimationStart(Animation animation) { }
+			public void onAnimationStart(Animation animation) {	}
 			
 			@Override
 			public void onAnimationRepeat(Animation animation) { }
@@ -61,8 +66,30 @@ public class SplashscreenActivity extends Activity {
 			}
 		});
 
-		endAnimationHandler.removeCallbacks(endAnimationRunnable);
-		endAnimationHandler.postDelayed(endAnimationRunnable, 2000);
-		
+		showTutorial();
+	}
+	
+	final void showTutorial() {
+		boolean showTutorial = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(FIRST_RUN_PREFERENCE, true);
+		if (showTutorial) {
+			final TutorialDialog dlg = new TutorialDialog(this);
+			dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+				@Override
+				public void onDismiss(DialogInterface dialog) {
+					CheckBox cb = (CheckBox) dlg.findViewById(R.id.toggleFirstRun);
+					if (cb != null && cb.isChecked()) {
+						SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SplashscreenActivity.this);
+						prefs.edit().putBoolean(FIRST_RUN_PREFERENCE, false).commit();
+					}
+					endAnimationHandler.removeCallbacks(endAnimationRunnable);
+					endAnimationHandler.postDelayed(endAnimationRunnable, 2000);
+				}
+			});
+			dlg.show();
+
+		} else {
+			endAnimationHandler.removeCallbacks(endAnimationRunnable);
+			endAnimationHandler.postDelayed(endAnimationRunnable, 1500);
+		}
 	}
 }

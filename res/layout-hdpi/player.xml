@@ -100,6 +100,16 @@
 			android:layout_height="300dip" android:layout_width="300dip"
 			android:background="@null" android:layout_centerHorizontal="true"
 			android:layout_alignTop="@id/ReflectableLayout">
+			<ImageButton android:id="@+id/ShuffleImageButton"
+                android:background="@null" android:src="@drawable/player_shuffle_off"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" android:layout_marginTop="10dip" android:layout_marginLeft="10dip"
+                android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:visibility="gone"></ImageButton>
+            <ImageButton android:id="@+id/RepeatImageButton"
+                android:background="@null" android:src="@drawable/player_repeat_off"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" android:layout_marginTop="10dip" android:layout_marginRight="10dip"
+                android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:visibility="gone"></ImageButton>
 			<ImageButton android:id="@+id/PlayImageButton"
 				android:background="@null" android:src="@drawable/player_play_light"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"

@@ -56,5 +56,8 @@ limitations under the License.
 			android:title="@string/gestures_support"
 			android:summary="@string/gestures_support_summary"/>
 	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/preference_reset_title">
+		<Preference android:key="reset_firstrun" android:summary="@string/preference_firstrun_reset_summary" android:title="@string/preference_firstrun_reset_title"></Preference>
+	</PreferenceCategory>
 
 </PreferenceScreen>

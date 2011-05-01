@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:padding="10dp" android:scrollbarAlwaysDrawVerticalTrack="true">
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent" android:layout_height="match_parent"
+		android:orientation="vertical">
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/tutorial_welcome"></TextView>
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/tutorial_gestures"
+			android:paddingTop="10dp" android:textStyle="bold" android:textSize="15sp"></TextView>
+		<LinearLayout android:layout_height="match_parent"
+			android:layout_width="fill_parent" android:gravity="center_vertical"
+			android:paddingTop="10sp">
+			<ImageView android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:src="@drawable/gesture_next"></ImageView>
+			<TextView android:text="@string/tutorial_gesture_next"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:paddingLeft="10sp"></TextView>
+		</LinearLayout>
+		<LinearLayout android:layout_height="match_parent"
+			android:layout_width="fill_parent" android:gravity="center_vertical"
+			android:paddingTop="15sp">
+			<ImageView android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:src="@drawable/gesture_prev"></ImageView>
+			<TextView android:text="@string/tutorial_gesture_prev"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:paddingLeft="10sp"></TextView>
+		</LinearLayout>
+		<LinearLayout android:layout_height="match_parent"
+			android:layout_width="fill_parent" android:gravity="center_vertical"
+			android:paddingTop="10sp">
+			<ImageView android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:src="@drawable/gesture_play_pause"></ImageView>
+			<TextView android:text="@string/tutorial_gesture_playpause"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:paddingLeft="10sp"></TextView>
+		</LinearLayout>
+		<LinearLayout android:layout_height="match_parent"
+			android:layout_width="fill_parent" android:gravity="center_vertical"
+			android:paddingTop="10sp">
+			<ImageView android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:src="@drawable/gesture_stop"></ImageView>
+			<TextView android:text="@string/tutorial_gesture_stop"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:paddingLeft="10sp"></TextView>
+		</LinearLayout>
+
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/tutorial_shufflerepeat"
+			android:paddingTop="10dp" android:textStyle="bold" android:textSize="15sp"></TextView>
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:paddingTop="10dp"
+			android:text="@string/tutorial_shufflerepeat_playlist"></TextView>
+
+		<TextView android:layout_width="match_parent"
+			android:layout_height="wrap_content" android:paddingBottom="10dp"></TextView>
+
+		<CheckBox android:layout_width="wrap_content" android:id="@+id/toggleFirstRun"
+			android:layout_height="wrap_content" android:text="@string/tutorial_toggle_firstrun"
+			android:paddingBottom="10dp"></CheckBox>
+
+		<TextView android:layout_width="match_parent"
+			android:layout_height="wrap_content" android:text="@string/tutorial_close"
+			android:textSize="10sp"></TextView>
+	</LinearLayout>
+</ScrollView>

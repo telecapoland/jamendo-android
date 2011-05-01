@@ -16,13 +16,18 @@
 
 package com.teleca.jamendo.activity;
 
-import com.teleca.jamendo.R;
-
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.view.Window;
+import android.widget.Toast;
+
+import com.teleca.jamendo.R;
 
 /**
  * Control of application-wide settings:
@@ -33,6 +38,7 @@ import android.view.Window;
  * @author Lukasz Wisniewski
  */
 public class SettingsActivity extends PreferenceActivity {
+	public static final String RESET_FIRST_RUN_PREFERENCE = "reset_firstrun";
 	
 	/**
 	 * Launch this Activity from the outside
@@ -51,6 +57,17 @@ public class SettingsActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
 		setContentView(R.layout.settings);
+	}
+
+	@Override
+	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
+			Preference preference) {
+		if (preference.getKey().equals(RESET_FIRST_RUN_PREFERENCE)) {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+			prefs.edit().putBoolean(SplashscreenActivity.FIRST_RUN_PREFERENCE, true).commit();
+			Toast.makeText(this, R.string.preference_firstrun_reset_title, Toast.LENGTH_SHORT).show();
+		}
+		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
 	
 }
