@@ -41,7 +41,7 @@ public class Playlist implements Serializable{
 	/**
 	 * Keep order in which tracks will be play
 	 */
-	private ArrayList<Integer> mPlayOrder = null;
+	private ArrayList<Integer> mPlayOrder = new ArrayList<Integer>();
 
 	/**
 	 * Keep playlist playback mode
@@ -87,7 +87,7 @@ public class Playlist implements Serializable{
 	/**
 	 * Keeps playlist's entries
 	 */
-	protected ArrayList<PlaylistEntry> playlist;
+	protected ArrayList<PlaylistEntry> playlist = null;
 
 	/**
 	 * Keeps record of currently selected track
@@ -291,39 +291,42 @@ public class Playlist implements Serializable{
 	 * @param force
 	 */
 	private void calculateOrder(boolean force){		
-		if(mPlayOrder == null || force){
+		if (mPlayOrder.isEmpty() || force) {
 			int oldSelected = 0;
-			if(mPlayOrder == null){
-				mPlayOrder = new ArrayList<Integer>();
-			}else{
+
+			if (!mPlayOrder.isEmpty()) {
 				oldSelected = mPlayOrder.get(selected);
 				mPlayOrder.clear();
 			}
-			for(int i = 0; i < size(); i++){
+
+			for (int i = 0; i < size(); i++) {
 				mPlayOrder.add(i, i);
 			}
-			if(mPlaylistPlaybackMode == null){
+			
+			if (mPlaylistPlaybackMode == null) {
 				mPlaylistPlaybackMode = PlaylistPlaybackMode.NORMAL;
 			}
-			if(Log.isLoggable(TAG, Log.DEBUG)){
+			
+			if (Log.isLoggable(TAG, Log.DEBUG)) {
 				Log.d(TAG, "Playlist has been maped in " + mPlaylistPlaybackMode + " mode.");
 			}
-			switch(mPlaylistPlaybackMode){
-				case NORMAL:
-				case REPEAT:
-					selected = oldSelected;
-					break;
-				case SHUFFLE:
-				case SHUFFLE_AND_REPEAT:
-					if(Log.isLoggable(TAG, Log.DEBUG)){
-						Log.d(TAG, "Before shuffle: " + Arrays.toString(mPlayOrder.toArray()));
-					}
-					Collections.shuffle(mPlayOrder);
-					selected = mPlayOrder.indexOf(selected);
-					if(Log.isLoggable(TAG, Log.DEBUG)){
-						Log.d(TAG, "After shuffle: " + Arrays.toString(mPlayOrder.toArray()));
-					}
-					break;
+			
+			switch (mPlaylistPlaybackMode) {
+			case NORMAL:
+			case REPEAT:
+				selected = oldSelected;
+				break;
+			case SHUFFLE:
+			case SHUFFLE_AND_REPEAT:
+				if (Log.isLoggable(TAG, Log.DEBUG)) {
+					Log.d(TAG, "Before shuffle: " + Arrays.toString(mPlayOrder.toArray()));
+				}
+				Collections.shuffle(mPlayOrder);
+				selected = mPlayOrder.indexOf(selected);
+				if (Log.isLoggable(TAG, Log.DEBUG)) {
+					Log.d(TAG, "After shuffle: " + Arrays.toString(mPlayOrder.toArray()));
+				}
+				break;
 			}
 		}
 	}
