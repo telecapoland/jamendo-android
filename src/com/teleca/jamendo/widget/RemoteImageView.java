@@ -26,7 +26,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.concurrent.RejectedExecutionException;
 
 import android.content.Context;
@@ -136,8 +135,10 @@ public class RemoteImageView extends ImageView{
 	 */
 	public void setImageUrl(String url){
 		
-		if(mUrl != null && mUrl.equals(url)){
-			mFailure++;
+		
+		if (mUrl != null && mUrl.equals(url) && (mCurrentlyGrabbedUrl == null ||
+				(mCurrentlyGrabbedUrl != null && !mCurrentlyGrabbedUrl.equals(url)))) {
+			mFailure++;			
 			if(mFailure > MAX_FAILURES){
 				Log.e(JamendoApplication.TAG, "Failed to download "+url+", falling back to default image");
 				loadDefaultImage();
