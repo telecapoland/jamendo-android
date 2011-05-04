@@ -29,6 +29,12 @@ limitations under the License.
                 android:summary="Select your preferred codec"
                 android:entries="@array/stream_codecs"
                 android:entryValues="@array/stream_codecs_values" />
+		<ListPreference
+                android:key="cache_option"
+                android:title="Cache option"
+                android:summary="Select size for caching"
+                android:entries="@array/cache_size"                 
+                android:entryValues="@array/cache_size_values"/>                
 		<CheckBoxPreference android:key="wifi_only"
 			android:defaultValue="false" 
 			android:title="Wifi only mode"

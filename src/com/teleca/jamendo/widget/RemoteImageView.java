@@ -34,6 +34,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.StatFs;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
@@ -57,16 +58,19 @@ public class RemoteImageView extends ImageView{
 
 	public RemoteImageView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		mContext = context;
 		init();
 	}
 
 	public RemoteImageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		mContext = context;
 		init();
 	}
 
 	public RemoteImageView(Context context) {
 		super(context);
+		mContext = context;
 		init();
 	}
 
@@ -109,6 +113,12 @@ public class RemoteImageView extends ImageView{
 
 	private long mTimeDiff;
 	
+	//init value diffrent that possible values of mCacheSize
+	private static int mPrevCacheSize= 1;
+	private static int mCacheSize= 150;
+	
+	private Context mContext;
+	
 	private final static String ALBUMS= "albums";
 	private final static String ALBUMS_CONV= "bgc";
 	private final static String RADIOS= "radios";
@@ -117,10 +127,7 @@ public class RemoteImageView extends ImageView{
 	private final static String COVERS_CONV= "dpw";
 	private final static String ALBUM_COVER_MARKER= "1.500";
 	private final static String JAMENDO_DIR= "Android/data/com.teleca.jamendo";
-	private final static int MB = 1048576;
-	// in mb, after exceded cache size the 40%(remove factor) of oldest album
-	// covers are removed
-	private final static int CACHE_SIZE= 150;
+	private final static int MB = 1048576;	
 	//every DAYS_OF_CACHE the radio and album thumbnails jpegs are deleted
 	private final static int DAYS_OF_CACHE= 45;
 	//minimum free space on sd card to enable cache
@@ -149,8 +156,9 @@ public class RemoteImageView extends ImageView{
 			mFailure = 0;
 		}
 
-	
-		if (url.contains(ALBUMS) || url.contains(RADIOS)) {			
+		updateCacheSize();
+		
+		if (mCacheSize>0 && (url.contains(ALBUMS) || url.contains(RADIOS))) {			
 			String fileName = convertUrlToFileName(url);
 			String dir = getDirectory(fileName);
 			String pathFileName = dir + "/" + fileName;						
@@ -313,8 +321,11 @@ public class RemoteImageView extends ImageView{
 	
 	private void saveBmpToSd(Bitmap bm, String url) {
 		
-		if (bm == null) {
-			Log.w(JamendoApplication.TAG, " trying to save null bitmap");
+		if (bm == null) {			
+			return;
+		}
+		
+		if (mCacheSize == 0){			
 			return;
 		}
 
@@ -417,7 +428,7 @@ public class RemoteImageView extends ImageView{
 
 		
 		
-		if (dirSize > CACHE_SIZE * MB || FREE_SD_SPACE_NEEDED_TO_CACHE > freeSpaceOnSd()) {
+		if (dirSize > mCacheSize * MB || FREE_SD_SPACE_NEEDED_TO_CACHE > freeSpaceOnSd()) {
 			int removeFactor = (int) ((0.4 * files.length) + 1);
 			Arrays.sort(files, new FileLastModifSort());
 			Log.i(JamendoApplication.TAG, "Clear some album covers cache files ");
@@ -437,14 +448,18 @@ public class RemoteImageView extends ImageView{
 		}
 
 		File file = new File(dirPath, filename);
-		if (System.currentTimeMillis() - file.lastModified() > mTimeDiff) {
+		if (file.lastModified() != 0
+				&& System.currentTimeMillis() - file.lastModified() > mTimeDiff) {
+			
+						
 			Log.i(JamendoApplication.TAG, "Clear some album or radio thumbnail cache files ");
 			file.delete();
 		}
 
 	}
 
-	public void clearCache() {		
+	private void clearCache() {
+		
 		String extStorageDirectory = Environment.getExternalStorageDirectory()
 				.toString();
 
@@ -471,10 +486,22 @@ public class RemoteImageView extends ImageView{
 
 		return (int) sdFreeMB;
 	}
+	
+	public void updateCacheSize() {
+		
+		mPrevCacheSize = mCacheSize;		
+		mCacheSize = Integer.parseInt(PreferenceManager
+				.getDefaultSharedPreferences(mContext).getString(
+						"cache_option", "100"));
+		
+		if(mPrevCacheSize!= 0 && mCacheSize == 0 ){
+		//do it only once after changing mCacheSize value to 0
+			clearCache();
+		}
+
+	}
 
 }
-
-
 
 
 class FileLastModifSort implements Comparator<File>{

@@ -52,5 +52,19 @@ limitations under the License.
         <item>lastfm</item>
         <item>simplefm</item>
     </string-array>
+        <string-array name="cache_size">
+        <item>Off</item>
+        <item>50 MB</item>
+        <item>100 MB</item>
+        <item>250 MB</item>
+        <item>500 MB</item>
+    </string-array>    
+    <string-array name="cache_size_values">
+        <item>0</item>
+        <item>50</item>
+        <item>100</item>
+        <item>250</item>
+        <item>500</item>
+    </string-array>
     
 </resources>
