@@ -16,6 +16,8 @@
 
 package com.teleca.jamendo.api;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +28,7 @@ import android.util.Log;
 /**
  * @author Lukasz Wisniewski
  */
-public class Playlist implements Serializable{
+public class Playlist implements Serializable {
 	/**
 	 * 
 	 */
@@ -34,8 +36,8 @@ public class Playlist implements Serializable{
 
 	private static final String TAG = "Playlist";
 
-	public enum PlaylistPlaybackMode{
-		NORMAL,SHUFFLE,REPEAT,SHUFFLE_AND_REPEAT
+	public enum PlaylistPlaybackMode {
+		NORMAL, SHUFFLE, REPEAT, SHUFFLE_AND_REPEAT
 	}
 
 	/**
@@ -50,6 +52,7 @@ public class Playlist implements Serializable{
 
 	/**
 	 * Give playlist playback mode
+	 * 
 	 * @return enum with playback mode
 	 */
 	public PlaylistPlaybackMode getPlaylistPlaybackMode() {
@@ -58,27 +61,31 @@ public class Playlist implements Serializable{
 
 	/**
 	 * Set playlist playback mode
+	 * 
 	 * @param aPlaylistPlaybackMode
 	 */
-	public void setPlaylistPlaybackMode(PlaylistPlaybackMode aPlaylistPlaybackMode) {
-		if(Log.isLoggable(TAG, Log.DEBUG)){
-			Log.d(TAG,"(Set mode) selected = "+selected);
-			Log.d(TAG,"Plyback mode set on: "+aPlaylistPlaybackMode);
+	public void setPlaylistPlaybackMode(
+			PlaylistPlaybackMode aPlaylistPlaybackMode) {
+		if (Log.isLoggable(TAG, Log.DEBUG)) {
+			Log.d(TAG, "(Set mode) selected = " + selected);
+			Log.d(TAG, "Plyback mode set on: " + aPlaylistPlaybackMode);
 		}
 		boolean force = false;
-		switch(aPlaylistPlaybackMode){
-			case NORMAL:
-			case REPEAT:
-				if(mPlaylistPlaybackMode == PlaylistPlaybackMode.SHUFFLE || mPlaylistPlaybackMode == PlaylistPlaybackMode.SHUFFLE_AND_REPEAT){
-					force= true;
-				}
-				break;
-			case SHUFFLE:
-			case SHUFFLE_AND_REPEAT:
-				if(mPlaylistPlaybackMode == PlaylistPlaybackMode.NORMAL || mPlaylistPlaybackMode == PlaylistPlaybackMode.REPEAT){
-					force= true;
-				}
-				break;
+		switch (aPlaylistPlaybackMode) {
+		case NORMAL:
+		case REPEAT:
+			if (mPlaylistPlaybackMode == PlaylistPlaybackMode.SHUFFLE
+					|| mPlaylistPlaybackMode == PlaylistPlaybackMode.SHUFFLE_AND_REPEAT) {
+				force = true;
+			}
+			break;
+		case SHUFFLE:
+		case SHUFFLE_AND_REPEAT:
+			if (mPlaylistPlaybackMode == PlaylistPlaybackMode.NORMAL
+					|| mPlaylistPlaybackMode == PlaylistPlaybackMode.REPEAT) {
+				force = true;
+			}
+			break;
 		}
 		mPlaylistPlaybackMode = aPlaylistPlaybackMode;
 		calculateOrder(force);
@@ -94,61 +101,64 @@ public class Playlist implements Serializable{
 	 */
 	protected int selected = -1;
 
-	public Playlist(){
-		if(Log.isLoggable(TAG, Log.DEBUG)){
-			Log.d(TAG,"Playlist constructor start");
+	public Playlist() {
+		if (Log.isLoggable(TAG, Log.DEBUG)) {
+			Log.d(TAG, "Playlist constructor start");
 		}
 		playlist = new ArrayList<PlaylistEntry>();
 		calculateOrder(true);
-		if(Log.isLoggable(TAG, Log.DEBUG)){
-			Log.d(TAG,"Playlist constructor stop");
+		if (Log.isLoggable(TAG, Log.DEBUG)) {
+			Log.d(TAG, "Playlist constructor stop");
 		}
 	}
 
 	/**
 	 * Add single track to the playlist
 	 * 
-	 * @param track <code>Track</code> instance
-	 * @param album <code>Album</code> instance
+	 * @param track
+	 *            <code>Track</code> instance
+	 * @param album
+	 *            <code>Album</code> instance
 	 */
 	public void addTrack(Track track, Album album) {
 		PlaylistEntry playlistEntry = new PlaylistEntry();
 		playlistEntry.setAlbum(album);
 		playlistEntry.setTrack(track);
-		
+
 		playlist.add(playlistEntry);
-		mPlayOrder.add(size()-1);
+		mPlayOrder.add(size() - 1);
 	}
 
 	/**
 	 * Add multiple tracks from one album to the playlist
 	 * 
-	 * @param album <code>Album</code> instance with loaded tracks
+	 * @param album
+	 *            <code>Album</code> instance with loaded tracks
 	 */
 	public void addTracks(Album album) {
-		for (Track track: album.getTracks()) {
+		for (Track track : album.getTracks()) {
 			addTrack(track, album);
 		}
 	}
 
 	/**
-	 * Checks if the playlist is empty 
+	 * Checks if the playlist is empty
 	 * 
 	 * @return boolean value
 	 */
-	public boolean isEmpty(){
+	public boolean isEmpty() {
 		return playlist.size() == 0;
 	}
 
 	/**
 	 * Selects next song from the playlist
 	 */
-	public void selectNext(){
-		if(!isEmpty()){
+	public void selectNext() {
+		if (!isEmpty()) {
 			selected++;
 			selected %= playlist.size();
-			if(Log.isLoggable(TAG, Log.DEBUG)){
-				Log.d("TAG","Current (next) selected = "+selected);
+			if (Log.isLoggable(TAG, Log.DEBUG)) {
+				Log.d("TAG", "Current (next) selected = " + selected);
 			}
 		}
 	}
@@ -156,14 +166,14 @@ public class Playlist implements Serializable{
 	/**
 	 * Selects previous song from the playlist
 	 */
-	public void selectPrev(){
-		if(!isEmpty()){
+	public void selectPrev() {
+		if (!isEmpty()) {
 			selected--;
-			if(selected < 0)
+			if (selected < 0)
 				selected = playlist.size() - 1;
 		}
-		if(Log.isLoggable(TAG, Log.DEBUG)){
-			Log.d("TAG","Current (prev) selected = "+selected);
+		if (Log.isLoggable(TAG, Log.DEBUG)) {
+			Log.d("TAG", "Current (prev) selected = " + selected);
 		}
 	}
 
@@ -172,26 +182,26 @@ public class Playlist implements Serializable{
 	 * 
 	 * @param index
 	 */
-	public void select(int index){
-		if(!isEmpty()){
-			if(index >= 0 && index < playlist.size())
+	public void select(int index) {
+		if (!isEmpty()) {
+			if (index >= 0 && index < playlist.size())
 				selected = mPlayOrder.indexOf(index);
 		}
 	}
 
-	public void selectOrAdd(Track track, Album album){
-		
+	public void selectOrAdd(Track track, Album album) {
+
 		// first search thru available tracks
-		for(int i=0; i<playlist.size(); i++){
-			if(playlist.get(i).getTrack().getId() == track.getId()){
+		for (int i = 0; i < playlist.size(); i++) {
+			if (playlist.get(i).getTrack().getId() == track.getId()) {
 				select(i);
 				return;
 			}
 		}
-		
+
 		// add track if necessary
 		addTrack(track, album);
-		select(playlist.size()-1);
+		select(playlist.size() - 1);
 	}
 
 	/**
@@ -199,11 +209,11 @@ public class Playlist implements Serializable{
 	 * 
 	 * @return int value (-1 if the playlist is empty)
 	 */
-	public int getSelectedIndex(){
-		if(isEmpty()){
+	public int getSelectedIndex() {
+		if (isEmpty()) {
 			selected = -1;
 		}
-		if(selected == -1 && !isEmpty()){
+		if (selected == -1 && !isEmpty()) {
 			selected = 0;
 		}
 		return selected;
@@ -214,17 +224,14 @@ public class Playlist implements Serializable{
 	 * 
 	 * @return <code>PlaylistEntry</code> instance
 	 */
-	public PlaylistEntry getSelectedTrack(){
+	public PlaylistEntry getSelectedTrack() {
 		PlaylistEntry playlistEntry = null;
-		
-		if(!isEmpty()){
-			calculateOrder(false);
-			int  index = mPlayOrder.get(getSelectedIndex());
-			playlistEntry = playlist.get(index);
-		}
-		
+
+		int index = mPlayOrder.get(getSelectedIndex());
+		playlistEntry = playlist.get(index);		
+
 		return playlistEntry;
-		
+
 	}
 
 	/**
@@ -232,38 +239,38 @@ public class Playlist implements Serializable{
 	 * 
 	 * @param playlistEntry
 	 */
-	public void addPlaylistEntry(PlaylistEntry playlistEntry){
-		if(playlistEntry != null)
-		{
+	public void addPlaylistEntry(PlaylistEntry playlistEntry) {
+		if (playlistEntry != null) {
 			playlist.add(playlistEntry);
-			mPlayOrder.add(size()-1);
+			mPlayOrder.add(size() - 1);
 		}
 	}
-	
+
 	/**
 	 * Count of playlist entries
 	 * 
 	 * @return
 	 */
-	public int size(){
+	public int size() {
 		return playlist == null ? 0 : playlist.size();
 	}
-	
+
 	/**
 	 * Given track index getter
 	 * 
 	 * @param index
 	 * @return
 	 */
-	public PlaylistEntry getTrack(int index){
+	public PlaylistEntry getTrack(int index) {
 		return playlist.get(index);
 	}
 
 	/**
 	 * Give all entrys in playlist
+	 * 
 	 * @return
 	 */
-	public PlaylistEntry[] getAllTracks(){
+	public PlaylistEntry[] getAllTracks() {
 		PlaylistEntry[] out = new PlaylistEntry[playlist.size()];
 		playlist.toArray(out);
 		return out;
@@ -275,9 +282,9 @@ public class Playlist implements Serializable{
 	 * @param position
 	 */
 	public void remove(int position) {
-		if(playlist != null && position < playlist.size() && position >= 0){
-			
-			if(selected >= position){
+		if (playlist != null && position < playlist.size() && position >= 0) {
+
+			if (selected >= position) {
 				selected--;
 			}
 
@@ -288,9 +295,10 @@ public class Playlist implements Serializable{
 
 	/**
 	 * Change order playback list when it is needed
+	 * 
 	 * @param force
 	 */
-	private void calculateOrder(boolean force){		
+	private void calculateOrder(boolean force) {
 		if (mPlayOrder.isEmpty() || force) {
 			int oldSelected = 0;
 
@@ -302,15 +310,16 @@ public class Playlist implements Serializable{
 			for (int i = 0; i < size(); i++) {
 				mPlayOrder.add(i, i);
 			}
-			
+
 			if (mPlaylistPlaybackMode == null) {
 				mPlaylistPlaybackMode = PlaylistPlaybackMode.NORMAL;
 			}
-			
+
 			if (Log.isLoggable(TAG, Log.DEBUG)) {
-				Log.d(TAG, "Playlist has been maped in " + mPlaylistPlaybackMode + " mode.");
+				Log.d(TAG, "Playlist has been maped in "
+						+ mPlaylistPlaybackMode + " mode.");
 			}
-			
+
 			switch (mPlaylistPlaybackMode) {
 			case NORMAL:
 			case REPEAT:
@@ -319,12 +328,14 @@ public class Playlist implements Serializable{
 			case SHUFFLE:
 			case SHUFFLE_AND_REPEAT:
 				if (Log.isLoggable(TAG, Log.DEBUG)) {
-					Log.d(TAG, "Before shuffle: " + Arrays.toString(mPlayOrder.toArray()));
+					Log.d(TAG, "Before shuffle: "
+							+ Arrays.toString(mPlayOrder.toArray()));
 				}
 				Collections.shuffle(mPlayOrder);
 				selected = mPlayOrder.indexOf(selected);
 				if (Log.isLoggable(TAG, Log.DEBUG)) {
-					Log.d(TAG, "After shuffle: " + Arrays.toString(mPlayOrder.toArray()));
+					Log.d(TAG, "After shuffle: "
+							+ Arrays.toString(mPlayOrder.toArray()));
 				}
 				break;
 			}
@@ -332,13 +343,26 @@ public class Playlist implements Serializable{
 	}
 
 	/**
-	 * Inform weather it is last track on playlist 
+	 * Inform weather it is last track on playlist
+	 * 
 	 * @return
 	 */
-	public boolean isLastTrackOnList(){
-		if(selected == size()-1)
+	public boolean isLastTrackOnList() {
+		if (selected == size() - 1)
 			return true;
 		else
 			return false;
+	}
+
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		//This method is used when playlist is deserializable form DB
+		in.defaultReadObject();
+		if(mPlayOrder == null){
+			if (Log.isLoggable(TAG, Log.DEBUG)) {
+				Log.d(TAG, "mPlayOrder is NULL");
+			}
+			mPlayOrder = new ArrayList<Integer>();
+			calculateOrder(true);
+		}
 	}
 }
