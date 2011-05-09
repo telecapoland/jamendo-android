@@ -122,7 +122,7 @@ limitations under the License.
     <string name="tutorial_close">Wciśnij [WSTECZ] by opuścić tę pomoc</string>
     <string name="scrobbler_app_summary">Wybierz zewnętrzną aplikację</string>
     <string name="tutorial_gesture_prev">Poprzedni utwór</string>
-    <string name="about_teleca">O Teleca</string>
+    <string name="about_teleca">O Twórcach</string>
     <string name="tutorial_title">Witaj w Jamendo Player!</string>
     <string name="tutorial_gestures">Gesty:</string>
     <string name="preference_reset_title">Resetuj ustawienia</string>
@@ -140,4 +140,5 @@ limitations under the License.
     <string name="tutorial_gesture_playpause">Rozpocznij/pauzuj odtwarzanie</string>
     <string name="play">Odtwarzaj</string>
     <string name="starred_albums_empty">Lista oznakowanych albumów jest pusta. Ta funkcjonalność jest ograniczona tylko do odczytu, gdyż Jamendo Web API nie umożliwia jej zmiany\n\nW celu oznakowania albumu wejdź na stronę jamendo.com i wciśnij przycisk \'love\'.</string>
+    <string name="contributors">Współpracownicy</string>
 </resources>

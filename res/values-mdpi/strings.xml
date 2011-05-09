@@ -65,7 +65,7 @@ limitations under the License.
     <string name="about_address">Teleca Poland Sp. z o.o.\n6 Kasprzaka Street\n90-083 Lodz, Poland</string>
     <string name="about_link">android@teleca.com</string>
     <string name="about_contact">Questions, bug reports or any feedback</string>
-    <string name="about_teleca">About Teleca</string>
+    <string name="about_teleca">About Developers</string>
     <string name="about_jamendo">About Jamendo</string>
     <string name="sd_card_insert">SD Card not mounted</string>
     <string name="added_down">Added to downloads...</string>
@@ -109,6 +109,7 @@ limitations under the License.
     <string name="playlist_exists">Playlist already exists</string>
     <string name="credits">Credits</string>
     <string name="maintainers">Development team</string>
+    <string name="contributors">Contributors</string>
     <string name="home">Home</string>
     <string name="loading_playlist">Loading playlist data...</string>
     <string name="loading_playlist_fail">Failed loading playlist data :\'(</string>
