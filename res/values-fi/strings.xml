@@ -51,7 +51,7 @@
     <string name="about_address">Teleca Poland Sp. z o.o.\n6 Kasprzaka katu\n90-083 Łódź, Puola</string>
     <string name="about_link">android@teleca.com</string>
     <string name="about_contact">Kysy, ilmoita virheistä tai anna palautetta</string>
-    <string name="about_teleca">Tietoja kehittäjille</string>
+    <string name="about_teleca">Tietoja Telecasta</string>
     <string name="about_jamendo">Tietoja Jamendosta</string>
     <string name="sd_card_insert">SD-korttia ei ole asennettu</string>
     <string name="added_down">Lisätty ladattavaksi...</string>
@@ -111,7 +111,6 @@
     <string name="gestures_support_summary">Ota eletuki käyttöön Jamendossa</string>
     <string name="scrobbler_app">Scrobblaus-sovellus</string>
     <string name="scrobbler_lastfm_official">Last.FM:n virallinen sovellus</string>
-    <string name="scrobbler_simplefm">Simple Last.FM Scrobbler</string>
     <string name="scrobbling_enabled">Otetaanko scrobblaus käyttöön?</string>
     <string name="scrobbler_app_summary">Valitse scrobblaus-sovellus</string>
     <string name="tutorial_welcome">Tämä opetusohjelmaruutu näyttää muutamia vinkkejä, joista voi olla sinulle hyötyä!</string>
@@ -128,5 +127,4 @@
     <string name="preference_reset_title">Palauta asetukset</string>
     <string name="preference_firstrun_reset_title">Palauta tervetuliaisruutu</string>
     <string name="preference_firstrun_reset_summary">Näytä tervetuliaisruutu seuraavalla kerralla, kun käynnistät sovelluksen</string>
-    <string name="contributors">Avustajat</string>
 </resources>
