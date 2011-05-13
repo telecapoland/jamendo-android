@@ -21,27 +21,28 @@ limitations under the License.
 
 		<EditTextPreference android:key="user_name"
 			android:defaultValue="@null" 
-			android:title="User Name"
-			android:summary="Personalize your Jamendo client" />
+			android:title="@string/preference_username_title"
+			android:summary="@string/preference_username_summary" />
 		<ListPreference
                 android:key="download_format"
-                android:title="Download format"
-                android:summary="Select your preferred codec"
+                android:title="@string/preference_codec_title"
+                android:summary="@string/preference_codec_summary"
                 android:entries="@array/stream_codecs"
                 android:entryValues="@array/stream_codecs_values" />
+
 		<CheckBoxPreference android:key="wifi_only"
 			android:defaultValue="false" 
-			android:title="Wifi only mode"
-			android:summary="Listen only in wifi network area" />
+			android:title="@string/preference_wifi_only_title"
+			android:summary="@string/preference_wifi_only_summary" />
 		<CheckBoxPreference android:key="roaming_protection"
 			android:defaultValue="true" 
-			android:title="Roaming Protection"
-			android:summary="Disable listening abroad" />
+			android:title="@string/preference_roaming_summary"
+			android:summary="@string/preference_roaming_summary" />
 		
 	</PreferenceCategory>
 
-	<PreferenceCategory android:title="3rd Party Applications"
-		android:summary="Interaction with outside applications">
+	<PreferenceCategory android:title="@string/preference_3rdparty_title"
+		android:summary="@string/preference_3rdparty_summary">
 
 		<CheckBoxPreference android:defaultValue="false" 
 			android:key="scrobbling_enabled" android:title="@string/scrobbling_enabled"/>

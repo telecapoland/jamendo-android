@@ -141,4 +141,17 @@ limitations under the License.
     <string name="play">Odtwarzaj</string>
     <string name="starred_albums_empty">Lista oznakowanych albumów jest pusta. Ta funkcjonalność jest ograniczona tylko do odczytu, gdyż Jamendo Web API nie umożliwia jej zmiany\n\nW celu oznakowania albumu wejdź na stronę jamendo.com i wciśnij przycisk \'love\'.</string>
     <string name="contributors">Współpracownicy</string>
+    <string name="preference_cache_summary">Ustaw rozmiar pamięci podręcznej</string>
+    <string name="preference_codec_title">Format ściągania plików</string>
+    <string name="preference_3rdparty_title">Zewnętrzne aplikacje</string>
+    <string name="preference_cache_title">Opcje pamięci podręcznej</string>
+    <string name="preference_3rdparty_summary">Wymiana danych z zewnętrznymi aplikacjami</string>
+    <string name="preference_codec_summary">Wybierz preferowany kodek</string>
+    <string name="preference_wifi_only_summary">Słuchaj muzyki tylko w zasięgu WiFi</string>
+    <string name="preference_wifi_only_title">Tylko w sieci wifi</string>
+    <string name="preference_roaming_summary">Wyłącz słuchanie muzyki w obcych sieciach</string>
+    <string name="preference_roaming_title">Zabezpieczenie roamingowe</string>
+    <string name="preference_username_title">Nazwa użytkownika</string>
+    <string name="preference_username_summary">Dostosuj klienta Jamendo do siebie</string>
+    <string name="failed_recomended_radios">Nie udało się pobrać rekomendowanych stacji</string>
 </resources>

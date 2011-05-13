@@ -88,10 +88,8 @@ limitations under the License.
     <string name="search_fail">Search fail :\'(</string>
     <string name="no_results">No results found</string>
     <string name="search_list_hint">Type your search query above</string>
-    <string name="no_playlists">Type playlist name above and click \'New\'
-	</string>
-    <string name="no_tracks">This playlist does not contains any tracks yet
-	</string>
+    <string name="no_playlists">Type playlist name above and click \'New\'</string>
+    <string name="no_tracks">This playlist does not contains any tracks yet</string>
     <string name="no_items">No items</string>
     <string name="cancel">Cancel</string>
     <string name="apply">Apply</string>
@@ -145,4 +143,16 @@ limitations under the License.
     <string name="preference_reset_title">Reset settings</string>
     <string name="preference_firstrun_reset_title">Reset welcome screen</string>
     <string name="preference_firstrun_reset_summary">Show welcome screen on next program start</string>
+    <string name="preference_username_title">User name</string>
+    <string name="preference_username_summary">Personalize your Jamendo client</string>
+    <string name="preference_codec_title">Download format</string>
+    <string name="preference_codec_summary">Select your preferred codec</string>
+    <string name="preference_cache_title">Cache option</string>
+    <string name="preference_cache_summary">Select size for caching</string>
+    <string name="preference_wifi_only_title">Wifi only mode</string>
+    <string name="preference_wifi_only_summary">Listen only in wifi network area</string>
+    <string name="preference_roaming_title">Roaming protection</string>
+    <string name="preference_roaming_summary">Disable listening abroad</string>
+    <string name="preference_3rdparty_title">3rd Party Applications</string>
+    <string name="preference_3rdparty_summary">Interaction with outside applications</string>
 </resources>

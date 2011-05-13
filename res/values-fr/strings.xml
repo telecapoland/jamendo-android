@@ -60,8 +60,7 @@ limitations under the License.
     <string name="no_lyrics">Paroles non disponibles</string>
     <string name="about_note">(c) Teleca Poland sp. z o.o. 2009</string>
     <string name="about_link">android@teleca.com</string>
-    <string name="about_contact">Questions, problèmes ou autres
-	</string>
+    <string name="about_contact">Questions, problèmes ou autres</string>
     <string name="sd_card_insert">Carte Mémoire non trouvée</string>
     <string name="added_down">Ajoutés aux téléchargements</string>
     <string name="downloaded">Téléchargés</string>
@@ -111,5 +110,34 @@ limitations under the License.
     <string name="albums">Albums</string>
     <string name="my_library">Ma sélection</string>
     <string name="browse_jamendo">Catalogue Jamendo</string>
-    <string name="contributors">Contributeurs</string>
+    <string name="about_teleca">A propos de Teleca</string>
+    <string name="add_to_favorites">Ajouter aux favoris</string>
+    <string name="about_jamendo">A propos de Jamendo</string>
+    <string name="failed_recomended_radios">Impossible de charger les radios recommandées</string>
+    <string name="gestures_preference_summary">Préférences des gestures</string>
+    <string name="loading_recomended_radios">Chargement des radios recommandés</string>
+    <string name="tutorial_close">Appuyez sur [Arrière] pour fermer l\'écran</string>
+    <string name="gestures_support">Gestes en route</string>
+    <string name="scrobbler_app_summary">Application de scrobbling</string>
+    <string name="tutorial_gesture_prev">Chanson précédente</string>
+    <string name="tutorial_gestures">Gestes:</string>
+    <string name="tutorial_title">Bienvenue sur Jamendo Player !</string>
+    <string name="gestures_support_summary">Mettre en route les gestes dans Jamendo</string>
+    <string name="preference_reset_title">Remettre à zéro les paramètres</string>
+    <string name="about_address">Teleca Poland Sp. z o.o.\n6 Kasprzaka Street\n90-083 Lodz, Pologne</string>
+    <string name="preference_firstrun_reset_summary">Montrer l\'écran d\'accueil au prochain démarrage</string>
+    <string name="scrobbler_lastfm_official">Last.FM scrobbleur officiel</string>
+    <string name="tutorial_shufflerepeat">Aléatoire/Répéter</string>
+    <string name="preference_firstrun_reset_title">Remettre à zéro l\'écran d\'accueil</string>
+    <string name="tutorial_gesture_stop">Arreêter la chanson</string>
+    <string name="tutorial_shufflerepeat_playlist">Toucher la pochette de l\'album pour montrer tous les contrôles et aussi pour révéler les nouveaux boutons aléatoire/répéter</string>
+    <string name="scrobbling_enabled">Mettre en route le scrobling</string>
+    <string name="gestures_preference_title">Gestes</string>
+    <string name="tutorial_toggle_firstrun">Ne pas montrer la prochaine fois</string>
+    <string name="starred_albums_empty">La liste d\'albums favoris est vide. Cette fonctionnalité est en lecture seule comme l\'API Jamendo ne supporte pas l\'authentification \n\nPour ajouter un album à cette liste appuyez sur le bouton \'Aimer\' une fois sur le site web Jamendo.</string>
+    <string name="scrobbler_app">Application</string>
+    <string name="tutorial_welcome">This tutorial screen contains a few tips you might find useful so check it out!</string>
+    <string name="tutorial_gesture_next">Chanson suivante</string>
+    <string name="tutorial_gesture_playpause">Jouer/Arrêter la chanson</string>
+    <string name="play">Jouer</string>
 </resources>
