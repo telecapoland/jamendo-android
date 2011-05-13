@@ -16,7 +16,6 @@ limitations under the License.
 -->
 <resources>
     <string name="popular_this_week">popularne w tym tygodniu</string>
-    <string name="app_name">Jamendo</string>
     <string name="player_name">Jamendo Player</string>
     <string name="settings">Ustawienia</string>
     <string name="about">O programie</string>
@@ -58,8 +57,6 @@ limitations under the License.
     <string name="add">Dodaj</string>
     <string name="lyrics">Tekst</string>
     <string name="no_lyrics">Tekst piosenki niedostępny</string>
-    <string name="about_note">(c) Teleca Poland sp. z o.o. 2009</string>
-    <string name="about_link">android@teleca.com</string>
     <string name="about_contact">Pytania, raporty błędów, spostrzeżenia
 	</string>
     <string name="sd_card_insert">Karta SD niedostępna</string>
@@ -97,7 +94,6 @@ limitations under the License.
     <string name="delete_playlist_q">Usunąć listę odtwarzania?</string>
     <string name="download_track_q">Pobrać utwór?</string>
     <string name="download_album_q">Pobrać album?</string>
-    <string name="ok">OK</string>
     <string name="terms_of_use">Jamendo Player oferuje dostęp do katalogu muzycznego JAMENDO.\n\nJAMENDO to internetowa platforma dystrybuująca utwory muzyczne na licencjach Creative Commons.\n\nProszę przeczytaj Ogólne Warunki Korzystania uważnie: Używając JAMENDO oraz stając się członkiem JAMENDO, zobowiązujesz się je wszystkie przestrzegać i respektować.</string>
     <string name="terms_button">Otwórz ogólne warunki korzystania w przeglądarce</string>
     <string name="sms_fail">Błąd wysyłania wiadomości SMS :\'(</string>

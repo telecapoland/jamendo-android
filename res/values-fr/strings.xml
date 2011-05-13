@@ -16,7 +16,6 @@ limitations under the License.
 -->
 <resources>
     <string name="popular_this_week">Populaire cette semaine</string>
-    <string name="app_name">Jamendo</string>
     <string name="player_name">Jamendo Player</string>
     <string name="settings">Réglages</string>
     <string name="about">A propos</string>
@@ -58,8 +57,6 @@ limitations under the License.
     <string name="add">Ajouter</string>
     <string name="lyrics">Paroles</string>
     <string name="no_lyrics">Paroles non disponibles</string>
-    <string name="about_note">(c) Teleca Poland sp. z o.o. 2009</string>
-    <string name="about_link">android@teleca.com</string>
     <string name="about_contact">Questions, problèmes ou autres</string>
     <string name="sd_card_insert">Carte Mémoire non trouvée</string>
     <string name="added_down">Ajoutés aux téléchargements</string>
@@ -94,7 +91,6 @@ limitations under the License.
     <string name="delete_playlist_q">Supprimer la liste?</string>
     <string name="download_track_q">Télécharger la piste?</string>
     <string name="download_album_q">Télécharger l\'album?</string>
-    <string name="ok">OK</string>
     <string name="terms_of_use">Jamendo Player accède au catalogue JAMENDO.\n\nJAMENDO est une plateforme de distribution en ligne d’œuvres musicales sous licences Creative Commons.\n\nMerci de lire attentivement les présentes Conditions d’Utilisation : en utilisant JAMENDO et en devenant Membre de JAMENDO, Vous Vous engagez à les respecter.</string>
     <string name="terms_button">Lire les Conditions d\'Utilisation dans Navigateur</string>
     <string name="sms_fail">Echec de l\'envoi du SMS :\'(</string>
@@ -110,7 +106,7 @@ limitations under the License.
     <string name="albums">Albums</string>
     <string name="my_library">Ma sélection</string>
     <string name="browse_jamendo">Catalogue Jamendo</string>
-    <string name="about_teleca">A propos de Teleca</string>
+    <string name="about_teleca">A propos des développeurs</string>
     <string name="add_to_favorites">Ajouter aux favoris</string>
     <string name="about_jamendo">A propos de Jamendo</string>
     <string name="failed_recomended_radios">Impossible de charger les radios recommandées</string>
@@ -124,7 +120,6 @@ limitations under the License.
     <string name="tutorial_title">Bienvenue sur Jamendo Player !</string>
     <string name="gestures_support_summary">Mettre en route les gestes dans Jamendo</string>
     <string name="preference_reset_title">Remettre à zéro les paramètres</string>
-    <string name="about_address">Teleca Poland Sp. z o.o.\n6 Kasprzaka Street\n90-083 Lodz, Pologne</string>
     <string name="preference_firstrun_reset_summary">Montrer l\'écran d\'accueil au prochain démarrage</string>
     <string name="scrobbler_lastfm_official">Last.FM scrobbleur officiel</string>
     <string name="tutorial_shufflerepeat">Aléatoire/Répéter</string>
@@ -140,4 +135,16 @@ limitations under the License.
     <string name="tutorial_gesture_next">Chanson suivante</string>
     <string name="tutorial_gesture_playpause">Jouer/Arrêter la chanson</string>
     <string name="play">Jouer</string>
+    <string name="preference_username_title">Nom d\'utilisateur</string>
+    <string name="preference_username_summary">Personaliser le client Jamendo</string>
+    <string name="preference_codec_title">Format de téléchargement</string>
+    <string name="preference_codec_summary">Sélectionner votre codec préféré</string>
+    <string name="preference_cache_title">Options de cache</string>
+    <string name="preference_cache_summary">Sélectionner la taille du cache</string>
+    <string name="preference_wifi_only_title">Mode Seulement sur Wifi</string>
+    <string name="preference_wifi_only_summary">Ecouter seulement sur Wifi</string>
+    <string name="preference_roaming_title">Protection contre l\'itinérance</string>
+    <string name="preference_roaming_summary">Désactiver l\'écouter à l\'étranger</string>
+    <string name="preference_3rdparty_title">Applications tierces</string>
+    <string name="preference_3rdparty_summary">Interaction avec les applications extérieures</string>
 </resources>

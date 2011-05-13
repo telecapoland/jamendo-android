@@ -86,7 +86,7 @@ limitations under the License.
 
 				<TextView android:layout_width="wrap_content" android:gravity="center" android:id="@+id/AuthorText"
 					android:textSize="12dip" android:layout_gravity="center_horizontal"
-					android:layout_height="wrap_content" android:text="Patrik Selin (Finnish translation)\n"></TextView>
+					android:layout_height="wrap_content" android:text="Patrik Selin (Finnish translation)\nMatthieu Berthomé (French translation)\n"></TextView>
 
 				<TextView android:layout_width="wrap_content"
 					android:layout_gravity="center_horizontal" android:textSize="14dip"
