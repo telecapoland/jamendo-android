@@ -14,7 +14,7 @@
 		License.
 	-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.teleca.jamendo" android:installLocation="auto" android:versionName="1.0 [BETA]" android:versionCode="31">
+	package="com.teleca.jamendo" android:installLocation="auto" android:versionCode="32" android:versionName="1.0.1 [BETA]">
 	<application android:icon="@drawable/icon" android:label="@string/app_name" android:name="JamendoApplication">
 		<activity android:name=".activity.HomeActivity"
 			android:label="@string/app_name">
