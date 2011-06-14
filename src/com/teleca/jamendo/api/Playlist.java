@@ -227,7 +227,14 @@ public class Playlist implements Serializable {
 	public PlaylistEntry getSelectedTrack() {
 		PlaylistEntry playlistEntry = null;
 
-		int index = mPlayOrder.get(getSelectedIndex());
+		int index = getSelectedIndex();
+		if (index == -1) {
+			return null;
+		}
+		index = mPlayOrder.get(index);
+		if (index == -1) {
+			return null;
+		}
 		playlistEntry = playlist.get(index);		
 
 		return playlistEntry;
