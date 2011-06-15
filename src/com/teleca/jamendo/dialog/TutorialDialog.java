@@ -5,6 +5,8 @@ package com.teleca.jamendo.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.view.View;
+import android.widget.Button;
 
 import com.teleca.jamendo.R;
 
@@ -49,5 +51,16 @@ public class TutorialDialog extends Dialog {
 	private final void initialize(final Context context) {
 		setContentView(R.layout.tutorial);
 		setTitle(R.string.tutorial_title);
+		
+		Button mCloseButton = (Button)findViewById(R.id.closeTutorial);
+		if (mCloseButton != null) {
+			mCloseButton.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					dismiss();
+				}
+			});
+		}
 	}
 }
