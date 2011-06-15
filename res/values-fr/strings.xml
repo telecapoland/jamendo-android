@@ -147,4 +147,5 @@ limitations under the License.
     <string name="preference_roaming_summary">Désactiver l\'écouter à l\'étranger</string>
     <string name="preference_3rdparty_title">Applications tierces</string>
     <string name="preference_3rdparty_summary">Interaction avec les applications extérieures</string>
+    <string name="close">Fermer</string>
 </resources>
