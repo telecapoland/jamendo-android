@@ -150,4 +150,5 @@ limitations under the License.
     <string name="preference_username_title">Nazwa użytkownika</string>
     <string name="preference_username_summary">Dostosuj klienta Jamendo do siebie</string>
     <string name="failed_recomended_radios">Nie udało się pobrać rekomendowanych stacji</string>
+    <string name="close">Zamknij</string>
 </resources>
