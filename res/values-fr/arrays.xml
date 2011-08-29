@@ -25,13 +25,13 @@ limitations under the License.
     </string-array>
     
     <string-array name="radio_modes">
-        <item>Récent</item>
+        <item>Récents</item>
         <item>Recommandés</item>
     </string-array>
     
     <string-array name="download_modes">
         <item>Tous</item>
-        <item>Terminé</item>
+        <item>Terminés</item>
         <item>En file d\'attente</item>
     </string-array>
     
