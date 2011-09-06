@@ -124,7 +124,7 @@ limitations under the License.
     <string name="scrobbler_lastfm_official">Last.FM scrobbleur officiel</string>
     <string name="tutorial_shufflerepeat">Aléatoire/Répéter</string>
     <string name="preference_firstrun_reset_title">Remettre à zéro l\'écran d\'accueil</string>
-    <string name="tutorial_gesture_stop">Arreêter la chanson</string>
+    <string name="tutorial_gesture_stop">Arrêter la chanson</string>
     <string name="tutorial_shufflerepeat_playlist">Toucher la pochette de l\'album pour montrer tous les contrôles et aussi pour révéler les nouveaux boutons aléatoire/répéter</string>
     <string name="scrobbling_enabled">Mettre en route le scrobling</string>
     <string name="gestures_preference_title">Gestes</string>
