@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+Copyright (C) 2009 Teleca Poland Sp. z o.o. <android@teleca.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. 
+-->
+<resources>
+    <string name="popular_this_week">Bu hafta popüler</string>
+    <string name="player_name">Jamendo Player</string>
+    <string name="settings">Ayarlar</string>
+    <string name="about">Hakkında</string>
+    <string name="album">Albüm</string>
+    <string name="artist">Sanatçı</string>
+    <string name="playlist">Liste</string>
+    <string name="playlist_small">liste</string>
+    <string name="player">Player</string>
+    <string name="album_small">albüm</string>
+    <string name="search">Arama</string>
+    <string name="discography">diskografi</string>
+    <string name="remove">Kaldır</string>
+    <string name="download">İndir</string>
+    <string name="delete">Sil</string>
+    <string name="save">Kaydet</string>
+    <string name="load">Yükle</string>
+    <string name="neew">Yeni</string>
+    <string name="move">Taşı</string>
+    <string name="added_to_playlist">Listeye eklendi</string>
+    <string name="favorites">Favoriler</string>
+    <string name="radio">Radyo</string>
+    <string name="playlists">Listeler</string>
+    <string name="most_listened">En çok dinlenenler</string>
+    <string name="open">Aç</string>
+    <string name="review">Eleştiri</string>
+    <string name="tracks">Parçalar</string>
+    <string name="radio_hint">Radyo numarası veya ismi</string>
+    <string name="search_hint">Jamendo\'da Ara</string>
+    <string name="loading_news">Yükleme</string>
+    <string name="loading">Yükleniyor...</string>
+    <string name="add_to_favs">Favorilere eklenenler</string>
+    <string name="top100_fail">Top 100 yüklenemedi :\'(</string>
+    <string name="license">Albümün lisansı</string>
+    <string name="donate">Bağış</string>
+    <string name="all_languages">Bütün diller</string>
+    <string name="loading_top100">En çok dinlenenler yükleniyor...</string>
+    <string name="retry">Tekrar deneme</string>
+    <string name="connection_fail">Bağlantı başarısız</string>
+    <string name="add">Ekle</string>
+    <string name="lyrics">Şarkı sözleri</string>
+    <string name="no_lyrics">Şarkı sözleri mevcut değil</string>
+    <string name="about_contact">Sorular, sorunlar vb.</string>
+    <string name="sd_card_insert">Hafıza kartı bulunamadı</string>
+    <string name="added_down">İndirilenlere eklendi</string>
+    <string name="downloaded">İndirilenler</string>
+    <string name="download_album">İndir</string>
+    <string name="send">Gönder</string>
+    <string name="phone_hint">Telefon numarası</string>
+    <string name="song_recommendation">Bir şarkı öner</string>
+    <string name="recommendation_sent">Öneri yollandı</string>
+    <string name="webpage">Ağ Sayfası</string>
+    <string name="artist_fail">Sanatçı hakkında bilgiler yüklenemedi :\'(</string>
+    <string name="artist_loading">Sanatçı hakkında bilgiler yükleniyor</string>
+    <string name="adding_to_playlist">Albüm listeye ekleniyor</string>
+    <string name="adding_to_playlist_fail">Albüm listeye eklenemedi :\'(</string>
+    <string name="album_fail">Albüm hakkında bilgiler yüklenemedi :\'(</string>
+    <string name="album_loading">Albüm hakkında bilgiler yükleniyor...</string>
+    <string name="items">Unsur</string>
+    <string name="share">Paylaş</string>
+    <string name="searching">Arama sürüyor...</string>
+    <string name="search_fail">Arama sırasında bir sorun çıktı :\'(</string>
+    <string name="no_results">Hiçbir sonuç bulunamadı</string>
+    <string name="search_list_hint">Arama kriterlerinizi giriniz</string>
+    <string name="no_playlists">Listenin ismini girip \'Yeni\'ye dokununuz</string>
+    <string name="no_tracks">Bu liste boştur</string>
+    <string name="no_items">Hiçbir unsur yok</string>
+    <string name="cancel">İptal</string>
+    <string name="apply">Uygula</string>
+    <string name="no_album">Hiçbir albüm yok</string>
+    <string name="no_artist">Hiçbir sanatçı yok</string>
+    <string name="long_press_playlist">Liste eklemek için uzun bir süre dokunun</string>
+    <string name="overwrite_playlist_q">Listeyi değiştirmek istediğinize emin misiniz?</string>
+    <string name="delete_playlist_q">Listeyi silmek istediğinize emin misiniz?</string>
+    <string name="download_track_q">Şarkıyı indirmek istediğinize emin misiniz?</string>
+    <string name="download_album_q">Albümü indirmek istediğinize emin misiniz?</string>
+    <string name="terms_of_use">Jamendo Player JAMENDO kataloğuna erişir.\n\nJAMENDO Creative Commons lisansları kapsamında müzik yapıtları çevrimiçi dağıtım platformudur.\n\nKullanım şartlarını dikkatle okuyunuz: JAMENDO\'yu kullanarak ve JAMENDO\'ya üye olarak bu şartlara uyacağınızı beyan etmiş olursunuz.</string>
+    <string name="terms_button">Kullanım şartlarını tarayıcıda oku</string>
+    <string name="sms_fail">SMS yollanamadı :\'(</string>
+    <string name="playlist_exists">Liste zaten mevcut</string>
+    <string name="credits">Emeği geçenler</string>
+    <string name="maintainers">Bakımcılar</string>
+    <string name="home">Ana Menü</string>
+    <string name="loading_playlist">Liste bilgileri yükleniyor...</string>
+    <string name="loading_playlist_fail">Liste bilgileri yüklenemedi :\'(</string>
+    <string name="stream_error">Bu parçanın dinlemek için yüklenmesi başarısız oldu :\'(</string>
+    <string name="loading_fail">Yüklenemedi :\'(</string>
+    <string name="add_to_playlist">Listeye ekle</string>
+    <string name="albums">Albümler</string>
+    <string name="my_library">Seçimim</string>
+    <string name="browse_jamendo">Jamendo kataloğu</string>
+    <string name="about_teleca">Geliştiriciler hakkında</string>
+    <string name="add_to_favorites">Favorilere ekle</string>
+    <string name="about_jamendo">Jamendo hakkında</string>
+    <string name="failed_recomended_radios">Önerilen radyolar yüklenemedi</string>
+    <string name="gestures_preference_summary">Hareketlerle kontrol tercihleri</string>
+    <string name="loading_recomended_radios">Önerilen radyolar yükleniyor</string>
+    <string name="tutorial_close">Ekranı kapatmak için [Geri]`ye basınız</string>
+    <string name="gestures_support">Hareketlerle kontrol etkin</string>
+    <string name="scrobbler_app_summary">Scrobbling uygulaması</string>
+    <string name="tutorial_gesture_prev">Önceki parça</string>
+    <string name="tutorial_gestures">Hareketler:</string>
+    <string name="tutorial_title">Jamendo Player\'a hoş geldiniz!</string>
+    <string name="gestures_support_summary">Hareketlerle kontrolü etkinleştirir</string>
+    <string name="preference_reset_title">Ayarları sıfırla</string>
+    <string name="preference_firstrun_reset_summary">Hoş geldin ekranını gelecek açılışta göster</string>
+    <string name="scrobbler_lastfm_official">Last.FM resmi scrobbler</string>
+    <string name="tutorial_shufflerepeat">Rastgele/Tekrar</string>
+    <string name="preference_firstrun_reset_title">Hoş geldin ekranın sıfırla</string>
+    <string name="tutorial_gesture_stop">Şarkıyı durdur</string>
+    <string name="tutorial_shufflerepeat_playlist">Kontrolleri ve yeni rastgele/tekrar butonlarını görmek için albüm poşetine dokununuz</string>
+    <string name="scrobbling_enabled">Scrobbling`i etkinleştir</string>
+    <string name="gestures_preference_title">Hareketlerle Kontrol</string>
+    <string name="tutorial_toggle_firstrun">Gelecek sefer gösterme</string>
+    <string name="starred_albums_empty">Favori albüm listesi boştur. Bu işlev sadece okunur çünkü JAMENDO\'nun APİ\'si oturum açmayı desteklemez. \n\nBu listeye bir albüm eklemek için Jamendo sitesinde \'Like\' (beğendim) butonuna basınız.</string>
+    <string name="scrobbler_app">Uygulama</string>
+    <string name="tutorial_welcome">Bu sayfa yararlı ipuçları içerir, okumanızı öneririz!</string>
+    <string name="tutorial_gesture_next">Sonraki şarkı</string>
+    <string name="tutorial_gesture_playpause">Şarkıyı Çal/Durdur</string>
+    <string name="play">Çal</string>
+    <string name="preference_username_title">Kullanıcı ismi</string>
+    <string name="preference_username_summary">Jamendo istemcisinin kişiselleştirilmesi</string>
+    <string name="preference_codec_title">İndirilecek dosya biçimi</string>
+    <string name="preference_codec_summary">Tercih ettiğiniz kodeği seçin</string>
+    <string name="preference_cache_title">Ön bellek tercihleri</string>
+    <string name="preference_cache_summary">Ön belleğin boyutunu seçin</string>
+    <string name="preference_wifi_only_title">Salt Wifi modu</string>
+    <string name="preference_wifi_only_summary">Sadece Wifi yoluyla dinle</string>
+    <string name="preference_roaming_title">Dolaşıma karşı koruma</string>
+    <string name="preference_roaming_summary">Ülke dışında dinlemeyi devre dışı bırak</string>
+    <string name="preference_3rdparty_title">Harici uygulamalar</string>
+    <string name="preference_3rdparty_summary">Harici uygulamalar ile etkileşim</string>
+    <string name="close">Kapat</string>
+</resources>
