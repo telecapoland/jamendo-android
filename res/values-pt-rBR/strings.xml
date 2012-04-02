@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!-- Copyright (C) 2009 Teleca Poland Sp. z o.o. <android@teleca.com> Licensed
+	under the Apache License, Version 2.0 (the "License"); you may not use this
+	file except in compliance with the License. You may obtain a copy of the
+	License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+	applicable law or agreed to in writing, software distributed under the License
+	is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+	KIND, either express or implied. See the License for the specific language
+	governing permissions and limitations under the License. -->
+<resources>
+	<string name="popular_this_week">Popular nesta semana</string>
+	<string name="player_name">Jamendo Player</string>
+	<string name="settings">Configurações</string>
+	<string name="about">Sobre</string>
+	<string name="album">Álbum</string>
+	<string name="artist">Artista</string>
+	<string name="playlist">Playlist</string>
+	<string name="playlist_small">Lista</string>
+	<string name="player">Player</string>
+	<string name="album_small">Álbum</string>
+	<string name="search">Pesquisa</string>
+	<string name="discography">Discografia</string>
+	<string name="remove">Remover</string>
+	<string name="download">Baixar</string>
+	<string name="delete">Apagar</string>
+	<string name="save">Salvar</string>
+	<string name="load">Carregar</string>
+	<string name="neew">Novo</string>
+	<string name="move">Mover</string>
+	<string name="added_to_playlist">Adicionada a playlist</string>
+	<string name="favorites">Favoritos</string>
+	<string name="radio">Rádio</string>
+	<string name="playlists">Playlists</string>
+	<string name="most_listened">Mais ouvidas</string>
+	<string name="open">Abrir</string>
+	<string name="review">Review</string>
+	<string name="tracks">Músicas</string>
+	<string name="radio_hint">N° de Rádio ou Nome</string>
+	<string name="search_hint">Pesquisa Jamendo</string>
+	<string name="loading_news">Carregando</string>
+	<string name="loading">Carregando....</string>
+	<string name="add_to_favs">Adicionar às favoritas</string>
+	<string name="top100_fail">Impossível carregar o Top 100 :\'(</string>
+	<string name="license">Licensa do álbum</string>
+	<string name="donate">Doar</string>
+	<string name="all_languages">Todas as línguas</string>
+	<string name="loading_top100">Carregando as mais ouvidas....</string>
+	<string name="retry">Tentar novamente</string>
+	<string name="connection_fail">Falha na conexão</string>
+	<string name="add">Adicionar</string>
+	<string name="lyrics">Letras</string>
+	<string name="no_lyrics">Letras não disponíveis</string>
+	<string name="about_contact">Dúvidas, problemas ou outros</string>
+	<string name="sd_card_insert">Cartão de memória não encontrado</string>
+	<string name="added_down">Adicionado aos downloads</string>
+	<string name="downloaded">Transferido</string>
+	<string name="download_album">Baixar</string>
+	<string name="send">Enviar</string>
+	<string name="phone_hint">N° do telefone</string>
+	<string name="song_recommendation">Recomendação de uma música</string>
+	<string name="recommendation_sent">Recomendação enviada</string>
+	<string name="webpage">Página Web</string>
+	<string name="artist_fail">Não foi possível carregar informações para o artista :\'(
+	</string>
+	<string name="artist_loading">Carregando informações do artista</string>
+	<string name="adding_to_playlist">Adicionando álbum à lista</string>
+	<string name="adding_to_playlist_fail">Falha ao adicionar à lista de álbuns :\'(
+	</string>
+	<string name="album_fail">Impossível carregar as informações do álbum :\'(
+	</string>
+	<string name="album_loading">Carregando as informações do álbum</string>
+	<string name="items">Itens</string>
+	<string name="share">Compartilhar</string>
+	<string name="searching">Procurando....</string>
+	<string name="search_fail">Falha ao pesquisar :\'(</string>
+	<string name="no_results">Não foram encontrados resultados</string>
+	<string name="search_list_hint">Digite os seus critérios de busca</string>
+	<string name="no_playlists">Digite o nome da lista e pressione \'New \'	</string>
+	<string name="no_tracks">Esta lista está vazia</string>
+	<string name="no_items">Nenhum item</string>
+	<string name="cancel">Cancelar</string>
+	<string name="apply">Aplicar</string>
+	<string name="no_album">Nenhum álbum</string>
+	<string name="no_artist">Nenhum artista</string>
+	<string name="long_press_playlist">Pressione e segure para adicionar uma lista</string>
+	<string name="overwrite_playlist_q">Substituir a lista?</string>
+	<string name="delete_playlist_q">Excluir a lista?</string>
+	<string name="download_track_q">Caminho certo do download?</string>
+	<string name="download_album_q">Baixar o álbum?</string>
+	<string name="terms_of_use">Termos do JAMENDO.\n\nJAMENDO é uma plataforma de distribuição online de obras musicais sob as licenças da Creative Commons. \n\n Por favor leia cuidadosamente os Termos de Uso: usando Jamendo e como membro do Jamendo, você concorda com o respeito. </string>
+	<string name="terms_button">Leia os Termos de Uso no navegador	</string>
+	<string name="sms_fail">Falha ao enviar o SMS :\'(</string>
+	<string name="playlist_exists">A lista já exite</string>
+	<string name="credits">Créditos</string>
+	<string name="maintainers">Mantenedores</string>
+	<string name="home">Principal</string>
+	<string name="loading_playlist">Carregando informações da lista....</string>
+	<string name="loading_playlist_fail">Não foi possível carregar informações da lista  :\'(
+	</string>
+	<string name="stream_error">Não é possível transmitir esta faixa :\'(</string>
+	<string name="loading_fail">Impossível de carregar :\'(</string>
+	<string name="add_to_playlist">Adicionar à lista</string>
+	<string name="albums">Álbuns</string>
+	<string name="my_library">Minha Seleção</string>
+	<string name="browse_jamendo">Catálogo Jamendo</string>
+	<string name="about_teleca">Sobre os desenvolvedores</string>
+	<string name="add_to_favorites">Adicionar aos favoritos</string>
+	<string name="about_jamendo">Sobre o Jamendo</string>
+	<string name="failed_recomended_radios">Não foi possível carregar as rádios recomendadas	</string>
+	<string name="gestures_preference_summary">Preferências gestuais</string>
+	<string name="loading_recomended_radios">Carregando rádios recomendadas</string>
+	<string name="tutorial_close">Pressione [Backspace] para fechar a tela </string>
+	<string name="gestures_support">Suporte a gestos</string>
+	<string name="scrobbler_app_summary">Aplicativo de scrobbling</string>
+	<string name="tutorial_gesture_prev">Música anterior</string>
+	<string name="tutorial_gestures">Gestos:</string>
+	<string name="tutorial_title">Bem-Vindo ao Jamendo Player!</string>
+	<string name="gestures_support_summary">Iniciar gestos no Jamendo</string>
+	<string name="preference_reset_title">Redefinir os parâmetros</string>
+	<string name="preference_firstrun_reset_summary">Mostrar a tela inicial na próxima inicialização</string>
+	<string name="scrobbler_lastfm_official">Scrobbler oficial Last.FM</string>
+	<string name="tutorial_shufflerepeat">Repetir / Aleatório</string>
+	<string name="preference_firstrun_reset_title">Redefinir a tela inicial</string>
+	<string name="tutorial_gesture_stop">Parar a música</string>
+	<string name="tutorial_shufflerepeat_playlist">Toque na capa do álbum para exibir todos os controles e também para revelar os novos botões</string>
+	<string name="scrobbling_enabled">Inicie o scrobbling</string>
+	<string name="gestures_preference_title">Gestos</string>
+	<string name="tutorial_toggle_firstrun">Não mostrar da próxima vez</string>
+	<string name="starred_albums_empty">Lista de d\'álbuns favoritos está vazia. Esta funcionalidade só está disponível em modo leitura como a l\'API Jamendo não oferece superte à l\'autenticação. \n\n Para adicionar um álbum vá ao site do Jamendo.</string>
+	<string name="scrobbler_app">Aplicativo</string>
+    <string name="tutorial_welcome">Esta janela contém um tutorial de dicas que pode ser bastante útil, por isso, recomendamos que você confira!</string>
+	<string name="tutorial_gesture_next">Próxima música</string>
+	<string name="tutorial_gesture_playpause">Reproduzir / Parar Canção</string>
+	<string name="play">Iniciar</string>
+	<string name="preference_username_title">Nome de usuário</string>
+	<string name="preference_username_summary">Personalize o cliente Jamendo</string>
+	<string name="preference_codec_title">Formato de download</string>
+	<string name="preference_codec_summary">Selecione o seu codec preferido</string>
+	<string name="preference_cache_title">Opções de Cache</string>
+	<string name="preference_cache_summary">Selecione o tamanho do cache</string>
+	<string name="preference_wifi_only_title">Apenas no modo Wi-fi</string>
+	<string name="preference_wifi_only_summary">Ouvir só por Wi-fi</string>
+	<string name="preference_roaming_title">Proteção contra Roaming</string>
+	<string name="preference_roaming_summary">Desativar Roaming público</string>
+	<string name="preference_3rdparty_title">Aplicações de terceiros</string>
+	<string name="preference_3rdparty_summary">Interação com aplicações externas</string>
+	<string name="close">Fechar</string>
+</resources>
