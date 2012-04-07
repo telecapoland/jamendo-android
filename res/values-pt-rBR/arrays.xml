@@ -18,21 +18,21 @@ limitations under the License.
 
     <string-array name="search_modes">
         <!-- <item>Album</item>  -->
-        <item>Artiste</item>
+        <item>Artista</item>
         <item>Tag</item>
-        <item>Liste de lecture de l\'utilisateur</item>
-        <item>Albums favoris de l\'utilisateur</item>
+        <item>Lista de Reprodução do usuário</item>
+        <item>Álbuns favoritos do usuário</item>
     </string-array>
 
     <string-array name="radio_modes">
-        <item>Récents</item>
-        <item>Recommandés</item>
+        <item>Recentes</item>
+        <item>Recomendadas</item>
     </string-array>
 
     <string-array name="download_modes">
-        <item>Tous</item>
-        <item>Terminés</item>
-        <item>En file d\'attente</item>
+        <item>Todos</item>
+        <item>Concluído</item>
+        <item>Pendente</item>
     </string-array>
 
 </resources>
