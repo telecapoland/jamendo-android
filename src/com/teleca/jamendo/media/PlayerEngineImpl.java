@@ -101,6 +101,10 @@ public class PlayerEngineImpl implements PlayerEngine {
 	 */
 	private Playlist mPlaylist = null;
 	
+	/**
+	 * Playlist of song played before
+	 */
+	private Playlist prevPlaylist = null;
 	
 	/**
 	 * Handler to the context thread
@@ -143,8 +147,10 @@ public class PlayerEngineImpl implements PlayerEngine {
 
 	@Override
 	public void openPlaylist(Playlist playlist) {
-		if(!playlist.isEmpty())
+		if(!playlist.isEmpty()){
+			prevPlaylist = mPlaylist;
 			mPlaylist = playlist;
+		}
 		else
 			mPlaylist = null;
 	}
@@ -424,5 +430,13 @@ public class PlayerEngineImpl implements PlayerEngine {
 	@Override
 	public void rewind(int time) {
 		mCurrentMediaPlayer.seekTo( mCurrentMediaPlayer.getCurrentPosition()-time );
+	}
+	
+	@Override
+	public void prevList() {
+		if(prevPlaylist != null){
+			openPlaylist(prevPlaylist);
+			play();
+		}
 	}
 }

@@ -109,6 +109,7 @@ public class PlayerActivity extends Activity {
 	private ImageButton mNextImageButton;
 	private ImageButton mPrevImageButton;
 	private ImageButton mStopImageButton;
+	private ImageButton mPrevListImageButton;
 	private ImageButton mShuffleImageButton;
 	private ImageButton mRepeatImageButton;
 	private RemoteImageView mCoverImageView;
@@ -232,6 +233,9 @@ public class PlayerActivity extends Activity {
 		mStopImageButton = (ImageButton)findViewById(R.id.StopImageButton);
 		mStopImageButton.setOnClickListener(mStopOnClickListener);
 
+		mPrevListImageButton = (ImageButton)findViewById(R.id.PrevListImageButton);
+		mPrevListImageButton.setOnClickListener(mPrevListOnClickListener);
+		
 		mShuffleImageButton = (ImageButton)findViewById(R.id.ShuffleImageButton);
 		mShuffleImageButton.setOnClickListener(mShuffleOnClickListener);
 
@@ -378,6 +382,7 @@ public class PlayerActivity extends Activity {
 		mNextImageButton.setVisibility(View.VISIBLE);
 		mPrevImageButton.setVisibility(View.VISIBLE);
 		mStopImageButton.setVisibility(View.VISIBLE);
+		mPrevListImageButton.setVisibility(View.VISIBLE);
 		mShuffleImageButton.setVisibility(View.VISIBLE);
 		mRepeatImageButton.setVisibility(View.VISIBLE);
 	}
@@ -390,6 +395,7 @@ public class PlayerActivity extends Activity {
 		mNextImageButton.setVisibility(View.GONE);
 		mPrevImageButton.setVisibility(View.GONE);
 		mStopImageButton.setVisibility(View.GONE);
+		mPrevListImageButton.setVisibility(View.GONE);
 		mShuffleImageButton.setVisibility(View.GONE);
 		mRepeatImageButton.setVisibility(View.GONE);
 	}
@@ -402,6 +408,7 @@ public class PlayerActivity extends Activity {
 		mNextImageButton.setAnimation(mFadeOutAnimation);
 		mPrevImageButton.setAnimation(mFadeOutAnimation);
 		mStopImageButton.setAnimation(mFadeOutAnimation);
+		mPrevListImageButton.setAnimation(mFadeOutAnimation);
 		mShuffleImageButton.setAnimation(mFadeOutAnimation);
 		mRepeatImageButton.setAnimation(mFadeOutAnimation);
 	}
@@ -414,6 +421,7 @@ public class PlayerActivity extends Activity {
 		mNextImageButton.setAnimation(mFadeInAnimation);
 		mPrevImageButton.setAnimation(mFadeInAnimation);
 		mStopImageButton.setAnimation(mFadeInAnimation);
+		mPrevListImageButton.setAnimation(mFadeInAnimation);
 		mShuffleImageButton.setAnimation(mFadeInAnimation);
 		mRepeatImageButton.setAnimation(mFadeInAnimation);
 	}
@@ -475,6 +483,18 @@ public class PlayerActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			getPlayerEngine().stop();
+		}
+
+	};
+	
+	/**
+	 * previous list button action
+	 */
+	private OnClickListener mPrevListOnClickListener = new OnClickListener(){
+
+		@Override
+		public void onClick(View v) {
+			getPlayerEngine().prevList();
 		}
 
 	};

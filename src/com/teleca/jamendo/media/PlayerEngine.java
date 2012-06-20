@@ -74,6 +74,11 @@ public interface PlayerEngine {
 	public void prev();
 	
 	/**
+	 * Jump to the last playList
+	 */
+	public void prevList();
+	
+	/**
 	 * Skip to the track on the playlist
 	 * 
 	 * @param index Track number on the playlist
