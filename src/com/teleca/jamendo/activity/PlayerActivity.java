@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.gesture.GestureOverlayView;
-import android.media.audiofx.Equalizer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -290,7 +289,6 @@ public class PlayerActivity extends Activity {
 		// cupcake backwards compability
 		int sdkVersion = Integer.parseInt(Build.VERSION.SDK);
 		if(sdkVersion == Build.VERSION_CODES.CUPCAKE){
-			Log.d("Equalizer", "Criando Cupcake");
 			new CupcakeListener();
 		}
 

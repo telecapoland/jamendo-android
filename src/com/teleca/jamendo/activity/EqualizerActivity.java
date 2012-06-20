@@ -19,26 +19,16 @@ package com.teleca.jamendo.activity;
 import com.teleca.jamendo.R;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.audiofx.Equalizer;
-import android.media.audiofx.Visualizer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
 
 /**
  * Equalizer View - Sound Settings
@@ -49,40 +39,34 @@ import android.widget.ViewFlipper;
 public class EqualizerActivity extends Activity{
 	private static final String TAG = "AudioFxDemo";
 
-    private static final float VISUALIZER_HEIGHT_DIP = 50f;
+	private static final float VISUALIZER_HEIGHT_DIP = 50f;
 
     private MediaPlayer mMediaPlayer;
-    private Visualizer mVisualizer;
     private Equalizer mEqualizer;
 
     private LinearLayout mLinearLayout;
-    private VisualizerView mVisualizerView;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.equalizer);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
+        mLinearLayout = new LinearLayout(this);
+        mLinearLayout.setOrientation(LinearLayout.VERTICAL);
 
-//        setupVisualizerFxAndUI();
-//        setupEqualizerFxAndUI();
+        setContentView(mLinearLayout);
 
-        // Make sure the visualizer is enabled only when you actually want to receive data, and
-        // when it makes sense to receive data.
-//        mVisualizer.setEnabled(true);
+        setupEqualizerFxAndUI();
     }
 
     private void setupEqualizerFxAndUI() {
         // Create the Equalizer object (an AudioEffect subclass) and attach it to our media player,
         // with a default priority (0).
+    	mMediaPlayer = new MediaPlayer();
         mEqualizer = new Equalizer(0, mMediaPlayer.getAudioSessionId());
         mEqualizer.setEnabled(true);
-
-        TextView eqTextView = new TextView(this);
-        eqTextView.setText("Equalizer:");
-        mLinearLayout.addView(eqTextView);
 
         short bands = mEqualizer.getNumberOfBands();
 
@@ -140,95 +124,5 @@ public class EqualizerActivity extends Activity{
 
             mLinearLayout.addView(row);
         }
-    }
-
-    private void setupVisualizerFxAndUI() {
-        // Create a VisualizerView (defined below), which will render the simplified audio
-        // wave form to a Canvas.
-        mVisualizerView = new VisualizerView(this);
-        mVisualizerView.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.FILL_PARENT,
-                (int)(VISUALIZER_HEIGHT_DIP * getResources().getDisplayMetrics().density)));
-        mLinearLayout.addView(mVisualizerView);
-
-        // Create the Visualizer object and attach it to our media player.
-        mVisualizer = new Visualizer(mMediaPlayer.getAudioSessionId());
-        mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
-        mVisualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
-            public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes,
-                    int samplingRate) {
-                mVisualizerView.updateVisualizer(bytes);
-            }
-
-            public void onFftDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {}
-        }, Visualizer.getMaxCaptureRate() / 2, true, false);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        if (isFinishing() && mMediaPlayer != null) {
-            mVisualizer.release();
-            mEqualizer.release();
-            mMediaPlayer.release();
-            mMediaPlayer = null;
-        }
-    }
-}
-
-/**
- * A simple class that draws waveform data received from a
- * {@link Visualizer.OnDataCaptureListener#onWaveFormDataCapture }
- */
-class VisualizerView extends View {
-    private byte[] mBytes;
-    private float[] mPoints;
-    private Rect mRect = new Rect();
-
-    private Paint mForePaint = new Paint();
-
-    public VisualizerView(Context context) {
-        super(context);
-        init();
-    }
-
-    private void init() {
-        mBytes = null;
-
-        mForePaint.setStrokeWidth(1f);
-        mForePaint.setAntiAlias(true);
-        mForePaint.setColor(Color.rgb(0, 128, 255));
-    }
-
-    public void updateVisualizer(byte[] bytes) {
-        mBytes = bytes;
-        invalidate();
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        if (mBytes == null) {
-            return;
-        }
-
-        if (mPoints == null || mPoints.length < mBytes.length * 4) {
-            mPoints = new float[mBytes.length * 4];
-        }
-
-        mRect.set(0, 0, getWidth(), getHeight());
-
-        for (int i = 0; i < mBytes.length - 1; i++) {
-            mPoints[i * 4] = mRect.width() * i / (mBytes.length - 1);
-            mPoints[i * 4 + 1] = mRect.height() / 2
-                    + ((byte) (mBytes[i] + 128)) * (mRect.height() / 2) / 128;
-            mPoints[i * 4 + 2] = mRect.width() * (i + 1) / (mBytes.length - 1);
-            mPoints[i * 4 + 3] = mRect.height() / 2
-                    + ((byte) (mBytes[i + 1] + 128)) * (mRect.height() / 2) / 128;
-        }
-
-        canvas.drawLines(mPoints, mForePaint);
     }
 }
