@@ -143,7 +143,7 @@
 					android:pathPrefix="/it/album/" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".activity.Equalizador"
+		<activity android:name=".activity.EqualizerActivity"
                   android:label="@string/equalizer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

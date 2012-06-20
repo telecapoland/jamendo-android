@@ -204,7 +204,7 @@
 					android:layout_height="wrap_content" android:text="@string/add_to_playlist"
 					android:layout_marginTop="10dip">
 				</Button>
-				<Button android:onClick="addOnClick" android:id="@+id/SliderEqualizer"
+				<Button android:onClick="equalizerOnClick" android:id="@+id/SliderEqualizer"
 					android:layout_width="fill_parent" android:layout_height="wrap_content"
 					android:text="@string/equalizer" android:layout_marginTop="10dip">
 				</Button>
