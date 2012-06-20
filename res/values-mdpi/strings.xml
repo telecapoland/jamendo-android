@@ -156,4 +156,5 @@ limitations under the License.
     <string name="preference_3rdparty_title">3rd Party Applications</string>
     <string name="preference_3rdparty_summary">Interaction with outside applications</string>
     <string name="close">Close</string>
+    <string name="equalizer">Equalizer</string>
 </resources>

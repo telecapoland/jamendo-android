@@ -289,6 +289,7 @@ public class PlayerActivity extends Activity {
 		// cupcake backwards compability
 		int sdkVersion = Integer.parseInt(Build.VERSION.SDK);
 		if(sdkVersion == Build.VERSION_CODES.CUPCAKE){
+			Log.d("Equalizer", "Criando Cupcake");
 			new CupcakeListener();
 		}
 
@@ -860,6 +861,7 @@ public class PlayerActivity extends Activity {
 			// buttons
 			findViewById(R.id.SliderLyrics).setOnClickListener(this);
 			findViewById(R.id.SliderAddToPlaylist).setOnClickListener(this);
+			findViewById(R.id.SliderEqualizer).setOnClickListener(this);
 			findViewById(R.id.SliderShare).setOnClickListener(this);
 			findViewById(R.id.SliderDownload).setOnClickListener(this);
 			
@@ -892,6 +894,9 @@ public class PlayerActivity extends Activity {
 				lyricsOnClick(v);
 				break;
 			case R.id.SliderAddToPlaylist:
+				addOnClick(v);
+				break;
+			case R.id.SliderEqualizer:
 				addOnClick(v);
 				break;
 			case R.id.SliderShare:

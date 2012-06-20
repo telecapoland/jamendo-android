@@ -143,6 +143,13 @@
 					android:pathPrefix="/it/album/" />
 			</intent-filter>
 		</activity>
+		<activity android:name=".activity.Equalizador"
+                  android:label="@string/equalizer">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 		<activity android:name=".activity.SplashscreenActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"></action>
@@ -152,8 +159,9 @@
 	</application>
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"></uses-sdk>
+	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="10"></uses-sdk>
 	<uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 	<uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+	<uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
 </manifest> 
