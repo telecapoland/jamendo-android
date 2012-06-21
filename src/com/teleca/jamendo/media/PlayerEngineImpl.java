@@ -210,7 +210,7 @@ public class PlayerEngineImpl implements PlayerEngine {
                     
                     Equalizer equalizer = JamendoApplication.getInstance().getMyEqualizer();
 
-                    // Matain the settings of the equalizer
+                    // Mantain the settings of the equalizer
                     Equalizer newEqualizer = new Equalizer(0, mCurrentMediaPlayer.getAudioSessionId());
                     if (equalizer != null) {
                     	newEqualizer.setProperties(equalizer.getProperties());

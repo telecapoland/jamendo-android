@@ -27,7 +27,12 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -44,6 +49,7 @@ public class EqualizerActivity extends Activity{
     private Equalizer mEqualizer;
 
     private LinearLayout mLinearLayout;
+    private RadioGroup mRadioGroup;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +60,13 @@ public class EqualizerActivity extends Activity{
         
         mLinearLayout = new LinearLayout(this);
         mLinearLayout.setOrientation(LinearLayout.VERTICAL);
-
+        
+        mRadioGroup = new RadioGroup(this);
+        mRadioGroup.setOrientation(RadioGroup.VERTICAL);
+        mRadioGroup.setLayoutParams(new ViewGroup.LayoutParams(
+				ViewGroup.LayoutParams.FILL_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT));
+        
         setContentView(mLinearLayout);
 
         setupEqualizerFxAndUI();
@@ -65,63 +77,39 @@ public class EqualizerActivity extends Activity{
         // with a default priority (0).
     	mEqualizer = JamendoApplication.getInstance().getMyEqualizer();
     	mEqualizer.setEnabled(true);
-
-    	short bands = mEqualizer.getNumberOfBands();
-
-    	final short minEQLevel = mEqualizer.getBandLevelRange()[0];
-    	final short maxEQLevel = mEqualizer.getBandLevelRange()[1];
-
-    	for (short i = 0; i < bands; i++) {
-    		final short band = i;
-
-    		TextView freqTextView = new TextView(this);
-    		freqTextView.setLayoutParams(new ViewGroup.LayoutParams(
-    				ViewGroup.LayoutParams.FILL_PARENT,
-    				ViewGroup.LayoutParams.WRAP_CONTENT));
-    		freqTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-    		freqTextView.setText((mEqualizer.getCenterFreq(band) / 1000) + " Hz");
-    		mLinearLayout.addView(freqTextView);
-
-    		LinearLayout row = new LinearLayout(this);
-    		row.setOrientation(LinearLayout.HORIZONTAL);
-
-    		TextView minDbTextView = new TextView(this);
-    		minDbTextView.setLayoutParams(new ViewGroup.LayoutParams(
+    	
+    	Log.v("Settings", JamendoApplication.getInstance().getMyEqualizer().getProperties().toString());
+    	
+    	short presets = mEqualizer.getNumberOfPresets();
+    	int checked = 5;
+    	
+    	for (int i = 0; i < presets; i++) {
+    		final short level = (short) i;
+    		
+    		final RadioButton radioPreset = new RadioButton(this);
+    		radioPreset.setLayoutParams(new ViewGroup.LayoutParams(
     				ViewGroup.LayoutParams.WRAP_CONTENT,
     				ViewGroup.LayoutParams.WRAP_CONTENT));
-    		minDbTextView.setText((minEQLevel / 100) + " dB");
-
-    		TextView maxDbTextView = new TextView(this);
-    		maxDbTextView.setLayoutParams(new ViewGroup.LayoutParams(
-    				ViewGroup.LayoutParams.WRAP_CONTENT,
-    				ViewGroup.LayoutParams.WRAP_CONTENT));
-    		maxDbTextView.setText((maxEQLevel / 100) + " dB");
-
-    		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-    				ViewGroup.LayoutParams.FILL_PARENT,
-    				ViewGroup.LayoutParams.WRAP_CONTENT);
-    		layoutParams.weight = 1;
-    		SeekBar bar = new SeekBar(this);
-    		bar.setLayoutParams(layoutParams);
-    		bar.setMax(maxEQLevel - minEQLevel);
-    		bar.setProgress(mEqualizer.getBandLevel(band) - minEQLevel);
-
-    		bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-    			public void onProgressChanged(SeekBar seekBar, int progress,
-    					boolean fromUser) {
-    				mEqualizer.setBandLevel(band, (short) (progress + minEQLevel));
-    				JamendoApplication.getInstance().getMyEqualizer().setProperties(mEqualizer.getProperties());
-    			}
-
-    			public void onStartTrackingTouch(SeekBar seekBar) {}
-    			public void onStopTrackingTouch(SeekBar seekBar) {}
+    		radioPreset.setText(mEqualizer.getPresetName((short) i));
+    		radioPreset.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+					if (isChecked) {
+						mEqualizer.usePreset(level);
+						Log.v("Radio",""+mRadioGroup.getCheckedRadioButtonId());
+						JamendoApplication.getInstance().getMyEqualizer().setProperties(mEqualizer.getProperties());
+					}
+				}
     		});
-
-    		row.addView(minDbTextView);
-    		row.addView(bar);
-    		row.addView(maxDbTextView);
-
-    		mLinearLayout.addView(row);
+    		if (((short) i) == (mEqualizer.getCurrentPreset())) {
+    			radioPreset.setChecked(true);
+    		}
+    		
+    		mRadioGroup.addView(radioPreset);
     	}
+    	
+    	Log.v("Radio",""+mRadioGroup.getCheckedRadioButtonId());
+    	mRadioGroup.check(mRadioGroup.getCheckedRadioButtonId());
+    	mLinearLayout.addView(mRadioGroup);
     }
 }
