@@ -22,6 +22,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.MediaPlayer;
+import android.media.audiofx.Equalizer;
+import android.media.audiofx.Equalizer.Settings;
 import android.preference.PreferenceManager;
 import com.teleca.jamendo.api.JamendoGet2Api;
 import com.teleca.jamendo.api.Playlist;
@@ -79,6 +81,11 @@ public class JamendoApplication extends Application {
 	 */
 	private MediaPlayer mCurrentMedia;
 
+	/**
+	 * Equalizer settings
+	 */
+	private Equalizer mEqualizer;
+	
 	/**
 	 * Intent player engine
 	 */
@@ -146,6 +153,14 @@ public class JamendoApplication extends Application {
 	
 	public MediaPlayer getMyCurrentMedia(){
 		return this.mCurrentMedia;
+	}
+	
+	public void setMyEqualizer(Equalizer equalizer){
+		this.mEqualizer = equalizer;
+	}
+	
+	public Equalizer getMyEqualizer(){
+		return this.mEqualizer;
 	}
 
 	/**

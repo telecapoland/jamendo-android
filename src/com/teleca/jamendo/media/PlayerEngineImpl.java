@@ -22,11 +22,14 @@ import com.teleca.jamendo.JamendoApplication;
 import com.teleca.jamendo.api.Playlist;
 import com.teleca.jamendo.api.PlaylistEntry;
 import com.teleca.jamendo.api.Playlist.PlaylistPlaybackMode;
+
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
+import android.media.audiofx.Equalizer;
 import android.os.Handler;
 import android.util.Log;
 
@@ -204,8 +207,18 @@ public class PlayerEngineImpl implements PlayerEngine {
 					// starting timer
                     mHandler.removeCallbacks(mUpdateTimeTask);
                     mHandler.postDelayed(mUpdateTimeTask, 1000);
-					
-					mCurrentMediaPlayer.start();
+                    
+                    Equalizer equalizer = JamendoApplication.getInstance().getMyEqualizer();
+
+                    // Matain the settings of the equalizer
+                    Equalizer newEqualizer = new Equalizer(0, mCurrentMediaPlayer.getAudioSessionId());
+                    if (equalizer != null) {
+                    	newEqualizer.setProperties(equalizer.getProperties());
+					}
+                    
+                    JamendoApplication.getInstance().setMyEqualizer(newEqualizer);
+                    JamendoApplication.getInstance().getMyEqualizer().setEnabled(true);
+                    mCurrentMediaPlayer.start();
 				}
 			} else {
 				// tell the mediaplayer to play the song as soon as it ends preparing

@@ -16,19 +16,12 @@
 
 package com.teleca.jamendo.activity;
 
-import java.io.IOException;
-import java.net.URI;
-
 import com.teleca.jamendo.JamendoApplication;
-import com.teleca.jamendo.api.PlaylistEntry;
-import com.teleca.jamendo.media.PlayerEngine;
 
 import android.app.Activity;
-import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.audiofx.Equalizer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -47,12 +40,6 @@ import android.widget.TextView;
 public class EqualizerActivity extends Activity{
 	private static final String TAG = "AudioFxDemo";
 
-	private static final float VISUALIZER_HEIGHT_DIP = 50f;
-
-	private PlayerEngine getPlayerEngine(){
-		return JamendoApplication.getInstance().getPlayerEngineInterface();
-	};
-	
     private MediaPlayer mMediaPlayer;
     private Equalizer mEqualizer;
 
@@ -76,9 +63,7 @@ public class EqualizerActivity extends Activity{
     private void setupEqualizerFxAndUI() {
         // Create the Equalizer object (an AudioEffect subclass) and attach it to our media player,
         // with a default priority (0).
-    	mMediaPlayer = JamendoApplication.getInstance().getMyCurrentMedia();
-    	
-    	mEqualizer = new Equalizer(0, mMediaPlayer.getAudioSessionId());
+    	mEqualizer = JamendoApplication.getInstance().getMyEqualizer();
     	mEqualizer.setEnabled(true);
 
     	short bands = mEqualizer.getNumberOfBands();
@@ -119,12 +104,13 @@ public class EqualizerActivity extends Activity{
     		SeekBar bar = new SeekBar(this);
     		bar.setLayoutParams(layoutParams);
     		bar.setMax(maxEQLevel - minEQLevel);
-    		bar.setProgress(mEqualizer.getBandLevel(band));
+    		bar.setProgress(mEqualizer.getBandLevel(band) - minEQLevel);
 
     		bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
     			public void onProgressChanged(SeekBar seekBar, int progress,
     					boolean fromUser) {
     				mEqualizer.setBandLevel(band, (short) (progress + minEQLevel));
+    				JamendoApplication.getInstance().getMyEqualizer().setProperties(mEqualizer.getProperties());
     			}
 
     			public void onStartTrackingTouch(SeekBar seekBar) {}
