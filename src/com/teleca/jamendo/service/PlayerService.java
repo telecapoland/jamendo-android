@@ -217,6 +217,12 @@ public class PlayerService extends Service{
 			if(mRemoteEngineListener != null){
 				mRemoteEngineListener.onTrackStop();
 			}
+			
+			// Scrobbling
+			boolean scrobblingEnabled = PreferenceManager.getDefaultSharedPreferences(PlayerService.this).getBoolean("scrobbling_enabled", false);
+			if (scrobblingEnabled) {
+				scrobblerPlaybackStop();
+			}
 		}
 
 		@Override
@@ -299,6 +305,16 @@ public class PlayerService extends Service{
 				// somehow the scrobbling app is not selected properly
 			}
 		}
+	}
+	
+	private void scrobblerPlaybackStop() {
+		String scrobblerApp = PreferenceManager.getDefaultSharedPreferences(PlayerService.this).getString("scrobbler_app", "");
+		assert(scrobblerApp.length() > 0);
+		
+		if (scrobblerApp.equalsIgnoreCase("lastfm")) {
+			Intent i = new Intent("fm.last.android.playbackpaused");
+			sendBroadcast(i);
+		}		
 	}
 
 	private void displayNotifcation(PlaylistEntry playlistEntry)
