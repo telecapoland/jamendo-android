@@ -212,6 +212,8 @@ public class PlayerEngineImpl implements PlayerEngine {
 				mCurrentMediaPlayer.playAfterPrepare = true;
 			}
 		}
+		
+		JamendoApplication.getInstance().setMyCurrentMedia(mCurrentMediaPlayer);
 	}
 
 	@Override

@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
 import com.teleca.jamendo.api.JamendoGet2Api;
 import com.teleca.jamendo.api.Playlist;
@@ -71,7 +72,12 @@ public class JamendoApplication extends Application {
 	/**
 	 * Service player engine
 	 */
-	private PlayerEngine mServicePlayerEngine;
+	public PlayerEngine mServicePlayerEngine;
+	
+	/**
+	 * Media player playing
+	 */
+	private MediaPlayer mCurrentMedia;
 
 	/**
 	 * Intent player engine
@@ -132,6 +138,14 @@ public class JamendoApplication extends Application {
 	 */
 	public void setConcretePlayerEngine(PlayerEngine playerEngine) {
 		this.mServicePlayerEngine = playerEngine;
+	}
+	
+	public void setMyCurrentMedia(MediaPlayer player){
+		this.mCurrentMedia = player;
+	}
+	
+	public MediaPlayer getMyCurrentMedia(){
+		return this.mCurrentMedia;
 	}
 
 	/**

@@ -16,13 +16,21 @@
 
 package com.teleca.jamendo.activity;
 
-import com.teleca.jamendo.R;
+import java.io.IOException;
+import java.net.URI;
+
+import com.teleca.jamendo.JamendoApplication;
+import com.teleca.jamendo.api.PlaylistEntry;
+import com.teleca.jamendo.media.PlayerEngine;
 
 import android.app.Activity;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.audiofx.Equalizer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -41,6 +49,10 @@ public class EqualizerActivity extends Activity{
 
 	private static final float VISUALIZER_HEIGHT_DIP = 50f;
 
+	private PlayerEngine getPlayerEngine(){
+		return JamendoApplication.getInstance().getPlayerEngineInterface();
+	};
+	
     private MediaPlayer mMediaPlayer;
     private Equalizer mEqualizer;
 
@@ -64,65 +76,66 @@ public class EqualizerActivity extends Activity{
     private void setupEqualizerFxAndUI() {
         // Create the Equalizer object (an AudioEffect subclass) and attach it to our media player,
         // with a default priority (0).
-    	mMediaPlayer = new MediaPlayer();
-        mEqualizer = new Equalizer(0, mMediaPlayer.getAudioSessionId());
-        mEqualizer.setEnabled(true);
+    	mMediaPlayer = JamendoApplication.getInstance().getMyCurrentMedia();
+    	
+    	mEqualizer = new Equalizer(0, mMediaPlayer.getAudioSessionId());
+    	mEqualizer.setEnabled(true);
 
-        short bands = mEqualizer.getNumberOfBands();
+    	short bands = mEqualizer.getNumberOfBands();
 
-        final short minEQLevel = mEqualizer.getBandLevelRange()[0];
-        final short maxEQLevel = mEqualizer.getBandLevelRange()[1];
+    	final short minEQLevel = mEqualizer.getBandLevelRange()[0];
+    	final short maxEQLevel = mEqualizer.getBandLevelRange()[1];
 
-        for (short i = 0; i < bands; i++) {
-            final short band = i;
+    	for (short i = 0; i < bands; i++) {
+    		final short band = i;
 
-            TextView freqTextView = new TextView(this);
-            freqTextView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.FILL_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            freqTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-            freqTextView.setText((mEqualizer.getCenterFreq(band) / 1000) + " Hz");
-            mLinearLayout.addView(freqTextView);
+    		TextView freqTextView = new TextView(this);
+    		freqTextView.setLayoutParams(new ViewGroup.LayoutParams(
+    				ViewGroup.LayoutParams.FILL_PARENT,
+    				ViewGroup.LayoutParams.WRAP_CONTENT));
+    		freqTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+    		freqTextView.setText((mEqualizer.getCenterFreq(band) / 1000) + " Hz");
+    		mLinearLayout.addView(freqTextView);
 
-            LinearLayout row = new LinearLayout(this);
-            row.setOrientation(LinearLayout.HORIZONTAL);
+    		LinearLayout row = new LinearLayout(this);
+    		row.setOrientation(LinearLayout.HORIZONTAL);
 
-            TextView minDbTextView = new TextView(this);
-            minDbTextView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            minDbTextView.setText((minEQLevel / 100) + " dB");
+    		TextView minDbTextView = new TextView(this);
+    		minDbTextView.setLayoutParams(new ViewGroup.LayoutParams(
+    				ViewGroup.LayoutParams.WRAP_CONTENT,
+    				ViewGroup.LayoutParams.WRAP_CONTENT));
+    		minDbTextView.setText((minEQLevel / 100) + " dB");
 
-            TextView maxDbTextView = new TextView(this);
-            maxDbTextView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            maxDbTextView.setText((maxEQLevel / 100) + " dB");
+    		TextView maxDbTextView = new TextView(this);
+    		maxDbTextView.setLayoutParams(new ViewGroup.LayoutParams(
+    				ViewGroup.LayoutParams.WRAP_CONTENT,
+    				ViewGroup.LayoutParams.WRAP_CONTENT));
+    		maxDbTextView.setText((maxEQLevel / 100) + " dB");
 
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.FILL_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.weight = 1;
-            SeekBar bar = new SeekBar(this);
-            bar.setLayoutParams(layoutParams);
-            bar.setMax(maxEQLevel - minEQLevel);
-            bar.setProgress(mEqualizer.getBandLevel(band));
+    		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+    				ViewGroup.LayoutParams.FILL_PARENT,
+    				ViewGroup.LayoutParams.WRAP_CONTENT);
+    		layoutParams.weight = 1;
+    		SeekBar bar = new SeekBar(this);
+    		bar.setLayoutParams(layoutParams);
+    		bar.setMax(maxEQLevel - minEQLevel);
+    		bar.setProgress(mEqualizer.getBandLevel(band));
 
-            bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                public void onProgressChanged(SeekBar seekBar, int progress,
-                        boolean fromUser) {
-                    mEqualizer.setBandLevel(band, (short) (progress + minEQLevel));
-                }
+    		bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+    			public void onProgressChanged(SeekBar seekBar, int progress,
+    					boolean fromUser) {
+    				mEqualizer.setBandLevel(band, (short) (progress + minEQLevel));
+    			}
 
-                public void onStartTrackingTouch(SeekBar seekBar) {}
-                public void onStopTrackingTouch(SeekBar seekBar) {}
-            });
+    			public void onStartTrackingTouch(SeekBar seekBar) {}
+    			public void onStopTrackingTouch(SeekBar seekBar) {}
+    		});
 
-            row.addView(minDbTextView);
-            row.addView(bar);
-            row.addView(maxDbTextView);
+    		row.addView(minDbTextView);
+    		row.addView(bar);
+    		row.addView(maxDbTextView);
 
-            mLinearLayout.addView(row);
-        }
+    		mLinearLayout.addView(row);
+    	}
     }
 }
