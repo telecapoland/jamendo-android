@@ -41,8 +41,8 @@ public class RSSFunctions {
 		if (responseXML == null)
 			return null;
 		
-		// node list with items
-		NodeList items = responseXML.getElementsByTagName("item");
+		// node list with enclosures
+		NodeList items = responseXML.getElementsByTagName("enclosure");
 		if (items == null)
 			return null;
 		
@@ -55,22 +55,13 @@ public class RSSFunctions {
 		// iterate over items
 		for(int i = 0; i < n; i++){
 			Node item_node = items.item(i);
-			
-			if( item_node.getNodeType() == Node.ELEMENT_NODE ){
-				Element item_element = (Element)item_node;
-				
-				// getting to link node in order to extract track id's
-				Node link_node = item_element.getElementsByTagName("link").item(0);
-				
-				// link with track id
-				String link = link_node.getFirstChild().getNodeValue();
-				
-				// parsing
-				String trackidStr = link.replaceAll("http://www.jamendo.com/track/", "");
-				tracks_id[i] = Integer.parseInt(trackidStr);
-			}
+			Element item_element = (Element)item_node;
+			// link with track id
+			String link = item_element.getAttribute("url");
+			// parsing
+			String trackidStr = link.replace("http://storage-new.newjamendo.com/?trackid=", "");
+			tracks_id[i] = Integer.parseInt(trackidStr);
 		}
-		
 		return tracks_id;
 	}
 	

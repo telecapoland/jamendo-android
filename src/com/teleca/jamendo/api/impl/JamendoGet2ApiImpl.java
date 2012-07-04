@@ -179,7 +179,7 @@ public class JamendoGet2ApiImpl implements JamendoGet2Api {
 
 	@Override
 	public int[] getTop100Listened() throws WSError {
-		String rssString = Caller.doGet("http://www.jamendo.com/en/rss/top-track-week");						
+		String rssString = Caller.doGet("http://www.jamendo.com/en/rss/top-track-week");
 		return RSSFunctions.getTracksIdFromRss(rssString);
 	}
 
