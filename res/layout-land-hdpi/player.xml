@@ -65,6 +65,13 @@
 						android:text="Artist" />
 				    <RelativeLayout android:layout_width="fill_parent"
                         android:layout_height="fill_parent">
+                         <LinearLayout android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+                        android:layout_above="@id/ShuffleImageButton" android:layout_marginTop="70dip">
+                        <ImageButton android:id="@+id/PrevListImageButton"
+                            android:background="@null" android:src="@drawable/player_prev_list_light"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageButton>
+                        </LinearLayout>
                         <LinearLayout android:layout_width="wrap_content"
                         android:layout_height="wrap_content" android:layout_centerHorizontal="true"
                         android:layout_alignParentBottom="true" android:layout_marginBottom="70dip" >
