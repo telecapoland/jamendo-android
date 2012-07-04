@@ -123,6 +123,11 @@
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:layout_centerHorizontal="true" android:layout_marginBottom="10dip"
 				android:layout_alignParentBottom="true" android:visibility="gone"></ImageButton>
+			<ImageButton android:id="@+id/PrevListImageButton"
+                android:background="@null" android:src="@drawable/player_prev_list_light"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" android:layout_marginBottom="10dip" android:layout_marginLeft="10dip"
+                android:layout_alignParentLeft="true" android:layout_alignParentBottom="true" android:visibility="gone"></ImageButton>
 			<ImageButton android:id="@+id/NextImageButton"
 				android:background="@null" android:src="@drawable/player_next_light"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"

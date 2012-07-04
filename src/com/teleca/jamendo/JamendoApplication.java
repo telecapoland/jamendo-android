@@ -357,6 +357,14 @@ public class JamendoApplication extends Application {
 			}
 			
 		}
+
+		@Override
+		public void prevList() {
+			if(mServicePlayerEngine != null){
+				mServicePlayerEngine.prevList();
+			}
+			
+		}
 		
 	}	
 
