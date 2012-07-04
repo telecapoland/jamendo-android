@@ -16,25 +16,20 @@
 
 package com.teleca.jamendo.activity;
 
+import java.util.HashMap;
+
 import com.teleca.jamendo.JamendoApplication;
+import com.teleca.jamendo.R;
 
 import android.app.Activity;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.audiofx.Equalizer;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 /**
  * Equalizer View - Sound Settings
@@ -43,73 +38,54 @@ import android.widget.TextView;
  *
  */
 public class EqualizerActivity extends Activity{
-	private static final String TAG = "AudioFxDemo";
-
-    private MediaPlayer mMediaPlayer;
     private Equalizer mEqualizer;
 
-    private LinearLayout mLinearLayout;
     private RadioGroup mRadioGroup;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        setContentView(R.layout.equalizer);
         
-        mLinearLayout = new LinearLayout(this);
-        mLinearLayout.setOrientation(LinearLayout.VERTICAL);
-        
-        mRadioGroup = new RadioGroup(this);
-        mRadioGroup.setOrientation(RadioGroup.VERTICAL);
-        mRadioGroup.setLayoutParams(new ViewGroup.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT));
-        
-        setContentView(mLinearLayout);
+        mRadioGroup = (RadioGroup) findViewById(R.id.equalizerPreset);
 
         setupEqualizerFxAndUI();
     }
 
     private void setupEqualizerFxAndUI() {
-        // Create the Equalizer object (an AudioEffect subclass) and attach it to our media player,
-        // with a default priority (0).
     	mEqualizer = JamendoApplication.getInstance().getMyEqualizer();
     	mEqualizer.setEnabled(true);
     	
     	Log.v("Settings", JamendoApplication.getInstance().getMyEqualizer().getProperties().toString());
+    	Log.v("Settings", ""+this.mRadioGroup.getChildCount());
     	
-    	short presets = mEqualizer.getNumberOfPresets();
-    	int checked = 5;
+    	final HashMap<Integer, Short> group = new HashMap<Integer, Short>();
+    	int radios = this.mRadioGroup.getChildCount() - 1;
+
+    	for (int i = mEqualizer.getNumberOfPresets(); i >= 0; i--) {
+			RadioButton button = (RadioButton) this.mRadioGroup.getChildAt(radios);
+			group.put(button.getId(), (short) i);
+			
+			if(mEqualizer.getCurrentPreset() == i){
+				mRadioGroup.check(button.getId());
+			}
+			
+			radios--;
+		}
     	
-    	for (int i = 0; i < presets; i++) {
-    		final short level = (short) i;
-    		
-    		final RadioButton radioPreset = new RadioButton(this);
-    		radioPreset.setLayoutParams(new ViewGroup.LayoutParams(
-    				ViewGroup.LayoutParams.WRAP_CONTENT,
-    				ViewGroup.LayoutParams.WRAP_CONTENT));
-    		radioPreset.setText(mEqualizer.getPresetName((short) i));
-    		radioPreset.setOnCheckedChangeListener(new OnCheckedChangeListener(){
-				public void onCheckedChanged(CompoundButton buttonView,
-						boolean isChecked) {
-					if (isChecked) {
-						mEqualizer.usePreset(level);
-						Log.v("Radio",""+mRadioGroup.getCheckedRadioButtonId());
-						JamendoApplication.getInstance().getMyEqualizer().setProperties(mEqualizer.getProperties());
-					}
-				}
-    		});
-    		if (((short) i) == (mEqualizer.getCurrentPreset())) {
-    			radioPreset.setChecked(true);
-    		}
-    		
-    		mRadioGroup.addView(radioPreset);
-    	}
+    	this.mRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+			public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+				mEqualizer.usePreset(group.get(checkedId));
+				
+				mRadioGroup.check(checkedId);
+				Log.v("Radio",""+mRadioGroup.getCheckedRadioButtonId());
+				JamendoApplication.getInstance().getMyEqualizer().setProperties(mEqualizer.getProperties());
+			}
+    	});
     	
     	Log.v("Radio",""+mRadioGroup.getCheckedRadioButtonId());
-    	mRadioGroup.check(mRadioGroup.getCheckedRadioButtonId());
-    	mLinearLayout.addView(mRadioGroup);
     }
 }

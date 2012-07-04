@@ -157,4 +157,15 @@ limitations under the License.
     <string name="preference_3rdparty_summary">Interaction with outside applications</string>
     <string name="close">Close</string>
     <string name="equalizer">Equalizer</string>
+    <string name="normal">Normal</string>
+    <string name="classical">Classical</string>
+    <string name="dance">Dance</string>
+    <string name="flat">Flat</string>
+    <string name="folk">Folk</string>
+    <string name="heavy_metal">Heavy Metal</string>
+    <string name="hip_hop">Hip Hop</string>
+    <string name="jazz">Jazz</string>
+    <string name="pop">Pop</string>
+    <string name="rock">Rock</string>
+    <string name="custom">Custom</string>
 </resources>
