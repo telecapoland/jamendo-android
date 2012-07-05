@@ -20,12 +20,15 @@ import java.util.HashMap;
 
 import com.teleca.jamendo.JamendoApplication;
 import com.teleca.jamendo.R;
+import com.teleca.jamendo.api.Radio;
+import com.teleca.jamendo.dialog.CustomEqualizer;
 
 import android.app.Activity;
 import android.media.AudioManager;
 import android.media.audiofx.Equalizer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -39,10 +42,9 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
  */
 public class EqualizerActivity extends Activity{
     private Equalizer mEqualizer;
-
     private RadioGroup mRadioGroup;
+    private Activity mActivity = this;
     
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -60,12 +62,16 @@ public class EqualizerActivity extends Activity{
     	mEqualizer.setEnabled(true);
     	
     	Log.v("Settings", JamendoApplication.getInstance().getMyEqualizer().getProperties().toString());
-    	Log.v("Settings", ""+this.mRadioGroup.getChildCount());
+    	Log.v("Settings", ""+mEqualizer.getNumberOfPresets());
+    	
+    	RadioButton custom = (RadioButton) this.mRadioGroup.getChildAt(this.mRadioGroup.getChildCount() - 1);
     	
     	final HashMap<Integer, Short> group = new HashMap<Integer, Short>();
-    	int radios = this.mRadioGroup.getChildCount() - 1;
+    	
+    	// The last child of radioGroup will be the costum, so it doesn't have a associated preset
+    	int radios = this.mRadioGroup.getChildCount() - 2;
 
-    	for (int i = mEqualizer.getNumberOfPresets(); i >= 0; i--) {
+    	for (int i = mEqualizer.getNumberOfPresets() - 1; i >= 0; i--) {
 			RadioButton button = (RadioButton) this.mRadioGroup.getChildAt(radios);
 			group.put(button.getId(), (short) i);
 			
@@ -76,13 +82,25 @@ public class EqualizerActivity extends Activity{
 			radios--;
 		}
     	
+    	if (mEqualizer.getCurrentPreset() == -1) {
+			mRadioGroup.check(custom.getId());
+		}
+    	
+    	custom.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				new CustomEqualizer(mActivity).show();
+			}
+		});
+    	
     	this.mRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-				mEqualizer.usePreset(group.get(checkedId));
-				
-				mRadioGroup.check(checkedId);
-				Log.v("Radio",""+mRadioGroup.getCheckedRadioButtonId());
-				JamendoApplication.getInstance().getMyEqualizer().setProperties(mEqualizer.getProperties());
+				if(group.containsKey(checkedId)){
+					mEqualizer.usePreset(group.get(checkedId));
+					
+					mRadioGroup.check(checkedId);
+					Log.v("Radio",""+mRadioGroup.getCheckedRadioButtonId());
+					JamendoApplication.getInstance().getMyEqualizer().setProperties(mEqualizer.getProperties());
+				}
 			}
     	});
     	
