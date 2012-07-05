@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Copyright (C) 2009 Teleca Poland Sp. z o.o. <android@teleca.com>
+
+		Licensed under the Apache License, Version 2.0 (the "License"); you
+		may not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+
+		http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+
+
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:background="#000000" android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		
+		<android.gesture.GestureOverlayView
+	xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/gestures"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+
+	android:gestureStrokeType="multiple" android:eventsInterceptionEnabled="false"
+	android:orientation="vertical">
+
+		<RelativeLayout android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:padding="10dip">
+
+			<!-- reflective layout -->
+			<com.teleca.jamendo.widget.ReflectableLayout
+				android:id="@+id/ReflectableLayout" android:layout_width="fill_parent"
+				android:layout_alignParentTop="true" android:layout_height="wrap_content">
+
+				<!-- cover -->
+				<RelativeLayout android:id="@+id/CoverLayout"
+					android:layout_marginRight="10dip" android:layout_width="220dip"
+					android:layout_alignParentTop="true" android:layout_height="220dip">
+					<com.teleca.jamendo.widget.RemoteImageView
+						android:layout_width="fill_parent" android:layout_height="fill_parent"
+						android:id="@+id/CoverImageView"></com.teleca.jamendo.widget.RemoteImageView>
+					<com.teleca.jamendo.widget.RemoteImageView
+						android:layout_width="64dip" android:layout_height="22dip"
+						android:background="@drawable/cc_loading" android:onClick="licenseClickHandler"
+						android:layout_alignParentBottom="true"
+						android:layout_alignParentRight="true" android:layout_marginRight="4dip"
+						android:layout_marginBottom="4dip" android:id="@+id/LicenseImageView"></com.teleca.jamendo.widget.RemoteImageView>
+				</RelativeLayout>
+
+				<!-- progress bar -->
+				<ProgressBar android:id="@+id/ProgressBar"
+					android:layout_marginBottom="4dip" android:layout_alignParentRight="true"
+					android:layout_height="2dip" android:indeterminateOnly="false"
+					android:progressDrawable="@+drawable/progress_dotted"
+					android:layout_width="180dip" android:layout_alignBottom="@id/CoverLayout" />
+
+				<!-- text -->
+				<LinearLayout android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:orientation="vertical"
+					android:layout_marginTop="-7dip" android:layout_alignLeft="@id/ProgressBar"
+					android:layout_alignTop="@id/CoverLayout">
+					<TextView android:id="@+id/SongTextView"
+						android:layout_height="wrap_content" android:singleLine="true"
+						android:layout_width="wrap_content" android:text="Song"
+						android:textSize="25dip" />
+					<TextView android:id="@+id/ArtistTextView"
+						android:layout_height="wrap_content" android:singleLine="true"
+						android:layout_width="wrap_content" android:textSize="14dip"
+						android:text="Artist" />
+					<RelativeLayout android:layout_width="190dip"
+                        android:layout_height="fill_parent">
+                        <LinearLayout android:layout_width="190dip"
+                        android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+                        android:layout_above="@id/ShuffleImageButton" android:layout_marginTop="70dip">
+                        <ImageButton android:id="@+id/PrevListImageButton"
+                            android:background="@null" android:src="@drawable/player_prev_list_light"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginLeft="70dip"></ImageButton>
+                        </LinearLayout>
+                        <LinearLayout android:layout_width="190dip"
+                        android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true" android:layout_marginBottom="70dip" >
+                        <ImageButton android:id="@+id/ShuffleImageButton"
+                            android:background="@null" android:src="@drawable/player_shuffle_off"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dip"></ImageButton>
+                        <ImageButton android:id="@+id/RepeatImageButton"
+                            android:background="@null" android:src="@drawable/player_repeat_off"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dip"></ImageButton>
+                        </LinearLayout>
+                        
+                    </RelativeLayout>
+				</LinearLayout>
+
+				<RelativeLayout android:layout_width="180dip"
+					android:layout_alignLeft="@id/ProgressBar"
+					android:layout_marginBottom="4dip" android:layout_above="@id/ProgressBar"
+					android:layout_height="wrap_content">
+
+					<TextView android:id="@+id/CurrentTimeTextView"
+						android:layout_height="wrap_content" android:layout_width="48dip"
+						android:gravity="left" android:text="--:--" android:textColor="#fff"
+						android:layout_alignParentLeft="true" />
+
+
+					<TextView android:id="@+id/TotalTimeTextView"
+						android:layout_height="wrap_content" android:layout_width="48dip"
+						android:gravity="right" android:text="--:--" android:textColor="#fff"
+						android:layout_alignParentRight="true" />
+
+				</RelativeLayout>
+			</com.teleca.jamendo.widget.ReflectableLayout>
+
+			<!-- reflectable surface -->
+			<com.teleca.jamendo.widget.ReflectiveSurface
+				android:id="@+id/ReflectiveSurface" android:layout_height="35dip"
+				android:layout_below="@id/ReflectableLayout" android:layout_width="fill_parent"
+				android:layout_marginTop="1dip"></com.teleca.jamendo.widget.ReflectiveSurface>
+
+			<!-- gradient overlaying reflected cover and the license -->
+			<ImageView android:layout_marginTop="1dip"
+				android:layout_below="@id/ReflectableLayout" android:id="@+id/ReflectShade"
+				android:layout_height="35dip" android:layout_width="fill_parent"
+				android:background="@drawable/gradient_reflect"></ImageView>
+
+			<!-- playback controls -->
+			<RelativeLayout android:id="@+id/PlaybackControlLayout"
+				android:layout_alignParentBottom="true" android:layout_height="wrap_content"
+				android:layout_width="fill_parent" android:background="@null"
+				android:layout_centerInParent="true">
+				<!-- android:background="@drawable/no_cover_48" -->
+				<ImageButton android:id="@+id/PrevImageButton"
+					android:background="@null" android:src="@drawable/player_prev_light"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:layout_alignParentLeft="true"></ImageButton>
+				<ImageButton android:id="@+id/NextImageButton"
+					android:background="@null" android:src="@drawable/player_next_light"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"></ImageButton>
+				<ImageButton android:id="@+id/StopImageButton"
+					android:background="@null" android:src="@drawable/player_stop_light"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:layout_toRightOf="@id/PrevImageButton" android:paddingLeft="110dip"></ImageButton>
+				<ImageButton android:id="@+id/PlayImageButton"
+					android:background="@null" android:src="@drawable/player_play_light"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:layout_centerHorizontal="true" android:layout_toLeftOf="@id/NextImageButton"
+					android:paddingRight="110dip"></ImageButton>
+
+			</RelativeLayout>
+
+		</RelativeLayout>
+		</android.gesture.GestureOverlayView>
+
+		<SlidingDrawer android:id="@+id/drawer"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:handle="@+id/handle" android:content="@+id/content"
+			android:orientation="horizontal">
+
+			<RelativeLayout android:id="@id/handle"
+				android:layout_width="49dip" android:background="@null"
+				android:layout_height="125dip">
+				<ImageView android:layout_width="wrap_content"
+					android:src="@drawable/handle" android:layout_height="wrap_content"
+					android:id="@+id/handle_bg" android:layout_alignParentTop="true" />
+				<ImageView android:layout_width="wrap_content"
+					android:src="@drawable/drag" android:layout_height="wrap_content"
+					android:layout_alignParentTop="true" android:layout_marginTop="17dip"
+					android:layout_marginLeft="22dip" />
+			</RelativeLayout>
+
+			<LinearLayout android:id="@id/content"
+				android:background="@drawable/gradient_orange" android:layout_width="fill_parent"
+				android:orientation="horizontal" android:layout_height="fill_parent">
+
+				<ImageView android:layout_width="wrap_content"
+					android:src="@drawable/tray_line_normal" android:paddingRight="20dip"
+					android:layout_gravity="left" android:layout_height="fill_parent" />
+
+				<LinearLayout android:id="@id/content"
+					android:background="@drawable/gradient_orange"
+					android:layout_width="fill_parent" android:orientation="vertical"
+					android:layout_height="fill_parent" android:gravity="center"
+					android:paddingLeft="20dip" android:paddingRight="20dip">
+
+					<!-- the content of the sliding-drawer -->
+					<LinearLayout android:layout_width="fill_parent"
+						android:orientation="horizontal" android:layout_height="wrap_content"
+						android:gravity="center">
+						<LinearLayout android:layout_width="wrap_content"
+							android:id="@+id/SliderHome" android:layout_marginLeft="15dip"
+							android:layout_marginRight="15dip" android:orientation="vertical"
+							android:layout_height="wrap_content" android:gravity="center"
+							android:onClick="homeClickHandler">
+							<ImageView android:layout_width="wrap_content"
+								android:src="@drawable/ic_menu_home" android:layout_height="wrap_content" />
+							<TextView android:text="@string/home" android:textColor="#5a5a5a"
+								android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+						</LinearLayout>
+						<LinearLayout android:layout_width="wrap_content"
+							android:id="@+id/SliderAlbum" android:layout_marginRight="15dip"
+							android:orientation="vertical" android:layout_height="wrap_content"
+							android:gravity="center" android:onClick="albumClickHandler">
+							<ImageView android:layout_width="wrap_content"
+								android:src="@drawable/ic_menu_cd" android:layout_height="wrap_content" />
+							<TextView android:text="@string/album"
+								android:textColor="#5a5a5a" android:layout_width="wrap_content"
+								android:layout_height="wrap_content"></TextView>
+						</LinearLayout>
+						<LinearLayout android:layout_width="wrap_content"
+							android:id="@+id/SliderArtist" android:layout_marginRight="15dip"
+							android:orientation="vertical" android:layout_height="wrap_content"
+							android:gravity="center" android:onClick="artistClickHandler">
+							<ImageView android:layout_width="wrap_content"
+								android:src="@drawable/ic_menu_artist" android:layout_height="wrap_content" />
+							<TextView android:text="@string/artist"
+								android:textColor="#5a5a5a" android:layout_width="wrap_content"
+								android:layout_height="wrap_content"></TextView>
+						</LinearLayout>
+						<LinearLayout android:layout_width="wrap_content"
+							android:id="@+id/SliderPlaylist" android:layout_marginRight="15dip"
+							android:orientation="vertical" android:layout_height="wrap_content"
+							android:gravity="center" android:onClick="playlistClickHandler">
+							<ImageView android:layout_width="wrap_content"
+								android:src="@drawable/ic_menu_playlist" android:layout_height="wrap_content" />
+							<TextView android:text="@string/playlist"
+								android:textColor="#5a5a5a" android:layout_width="wrap_content"
+								android:layout_height="wrap_content"></TextView>
+						</LinearLayout>
+					</LinearLayout>
+
+					<!-- Lyrics, Add, Download & Share Buttons -->
+					<TableLayout android:id="@+id/TableLayout"
+						android:layout_marginTop="15dip" android:layout_width="wrap_content"
+						android:layout_height="wrap_content">
+						<TableRow android:id="@+id/TableRow01"
+							android:layout_width="wrap_content" android:layout_height="wrap_content">
+							<Button android:onClick="lyricsOnClick" android:id="@+id/SliderLyrics"
+								android:layout_width="150dip" android:layout_height="wrap_content"
+								android:text="@string/lyrics" android:layout_marginRight="7dip">
+							</Button>
+							<Button android:onClick="addOnClick" android:layout_width="150dip"
+								android:id="@+id/SliderAddToPlaylist" android:layout_height="wrap_content"
+								android:text="@string/add_to_playlist"
+								android:layout_marginLeft="7dip">
+							</Button>
+						</TableRow>
+						<TableRow android:id="@+id/TableRow01"
+							android:layout_marginTop="14dip" android:layout_width="wrap_content"
+							android:layout_height="wrap_content">
+							<Button android:onClick="shareOnClick" android:id="@+id/SliderShare"
+								android:layout_width="150dip" android:layout_height="wrap_content"
+								android:text="@string/share" android:layout_marginRight="7dip">
+							</Button>
+							<Button android:onClick="downloadOnClick" android:id="@+id/SliderDownload"
+								android:layout_width="150dip" android:layout_height="wrap_content"
+								android:text="@string/download" android:layout_marginLeft="7dip">
+							</Button>
+						</TableRow>
+					</TableLayout>
+				</LinearLayout>
+			</LinearLayout>
+
+		</SlidingDrawer>
+
+
+	</RelativeLayout>
