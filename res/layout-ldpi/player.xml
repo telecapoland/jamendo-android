@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Copyright (C) 2009 Teleca Poland Sp. z o.o. <android@teleca.com>
+
+	Licensed under the Apache License, Version 2.0 (the "License"); you
+	may not use this file except in compliance with the License. You may
+	obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+	applicable law or agreed to in writing, software distributed under the
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+	CONDITIONS OF ANY KIND, either express or implied. See the License for
+	the specific language governing permissions and limitations under the
+	License.
+-->
+
+<android.gesture.GestureOverlayView
+	xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/gestures"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+
+	android:gestureStrokeType="multiple" android:eventsInterceptionEnabled="false"
+	android:orientation="vertical">
+
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:background="#000000" android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+		<LinearLayout android:layout_width="fill_parent"
+			android:id="@+id/TopBar" android:layout_height="wrap_content"
+			android:background="@drawable/player_back_background"
+			android:orientation="vertical" android:gravity="center"
+			android:minHeight="74dip" android:paddingLeft="10dip"
+			android:paddingRight="10dip">
+
+
+			<TextView android:id="@+id/ArtistTextView"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:text="Artist - Album" android:textSize="14dip"
+				android:textColor="#fff" android:gravity="center"
+				android:scrollHorizontally="true" android:marqueeRepeatLimit="2"
+				android:singleLine="true" android:ellipsize="marquee"></TextView>
+
+			<TextView android:id="@+id/SongTextView"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="Song" android:textSize="21dip" android:textColor="#fff"
+				android:singleLine="true"></TextView>
+			<RelativeLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+
+				<TextView android:id="@+id/CurrentTimeTextView"
+					android:layout_height="wrap_content" android:layout_width="48dip"
+					android:gravity="left" android:text="--:--" android:textColor="#fff"
+					android:layout_alignParentLeft="true" />
+
+				<TextView android:id="@+id/TotalTimeTextView"
+					android:layout_height="wrap_content" android:layout_width="48dip"
+					android:gravity="right" android:text="--:--" android:textColor="#fff"
+					android:layout_alignParentRight="true" />
+
+			</RelativeLayout>
+		</LinearLayout>
+
+		<ProgressBar android:id="@+id/ProgressBar"
+			android:layout_below="@id/TopBar" android:layout_marginTop="5dip"
+			android:layout_height="2dip" android:indeterminateOnly="false"
+			android:progressDrawable="@+drawable/progress_dotted"
+			android:layout_width="300dip" android:layout_centerHorizontal="true" />
+
+		<com.teleca.jamendo.widget.ReflectableLayout
+			android:layout_width="fill_parent" android:layout_height="300dip"
+			android:layout_below="@id/ProgressBar" android:layout_marginTop="15dip"
+			android:id="@+id/ReflectableLayout">
+			<RelativeLayout android:id="@+id/CoverLayout"
+				android:layout_height="fill_parent" android:layout_width="300dip"
+				android:background="@null" android:layout_centerInParent="true">
+				<!-- cover and the license -->
+				<com.teleca.jamendo.widget.RemoteImageView
+					android:layout_width="fill_parent" android:layout_height="fill_parent"
+					android:id="@+id/CoverImageView"></com.teleca.jamendo.widget.RemoteImageView>
+				<com.teleca.jamendo.widget.RemoteImageView
+					android:src="@drawable/cc_loading" android:onClick="licenseClickHandler"
+					android:layout_width="90dip" android:layout_height="30dip"
+					android:id="@+id/LicenseImageView" android:layout_alignParentRight="true"
+					android:layout_marginRight="5dip" android:layout_marginBottom="5dip"
+					android:layout_alignParentBottom="true"></com.teleca.jamendo.widget.RemoteImageView>
+			</RelativeLayout>
+		</com.teleca.jamendo.widget.ReflectableLayout>
+
+		<!-- reflected cover and the license -->
+		<com.teleca.jamendo.widget.ReflectiveSurface
+			android:layout_below="@id/ReflectableLayout" android:id="@+id/ReflectiveSurface"
+			android:layout_height="50dip" android:layout_width="fill_parent"
+			android:layout_marginTop="1dip"></com.teleca.jamendo.widget.ReflectiveSurface>
+
+		<!-- gradient overlaying reflected cover and the license -->
+		<ImageView android:layout_below="@id/ReflectableLayout"
+			android:id="@+id/ReflectShade" android:layout_height="50dip"
+			android:layout_width="fill_parent" android:layout_marginTop="1dip"
+			android:background="@drawable/gradient_reflect"></ImageView>
+
+		<!-- 4-way media buttons -->
+		<RelativeLayout android:id="@+id/FourWayMediaLayout"
+			android:layout_height="300dip" android:layout_width="300dip"
+			android:background="@null" android:layout_centerHorizontal="true"
+			android:layout_alignTop="@id/ReflectableLayout">
+			<ImageButton android:id="@+id/ShuffleImageButton"
+	            android:background="@null" android:src="@drawable/player_shuffle_off"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true" android:layout_marginTop="10dip" android:layout_marginLeft="10dip"
+	            android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:visibility="gone"></ImageButton>
+            <ImageButton android:id="@+id/RepeatImageButton"
+	            android:background="@null" android:src="@drawable/player_repeat_off"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true" android:layout_marginTop="10dip" android:layout_marginRight="10dip"
+	            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:visibility="gone"></ImageButton>
+			<ImageButton android:id="@+id/PlayImageButton"
+				android:background="@null" android:src="@drawable/player_play_light"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:layout_centerHorizontal="true" android:layout_marginTop="10dip"
+				android:layout_alignParentTop="true" android:visibility="gone"></ImageButton>
+			<ImageButton android:id="@+id/StopImageButton"
+				android:background="@null" android:src="@drawable/player_stop_light"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:layout_centerHorizontal="true" android:layout_centerVertical="true"
+				android:visibility="gone"></ImageButton>
+			<ImageButton android:id="@+id/PrevListImageButton"
+                android:background="@null" android:src="@drawable/player_prev_list_light"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" android:layout_marginBottom="10dip" android:layout_marginLeft="10dip"
+                android:layout_alignParentLeft="true" android:layout_alignParentBottom="true" android:visibility="gone"></ImageButton>
+			<ImageButton android:id="@+id/NextImageButton"
+				android:background="@null" android:src="@drawable/player_next_light"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:layout_centerVertical="true" android:layout_marginRight="10dip"
+				android:layout_alignParentRight="true" android:visibility="gone"></ImageButton>
+			<ImageButton android:id="@+id/PrevImageButton"
+				android:background="@null" android:src="@drawable/player_prev_light"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:layout_centerVertical="true" android:layout_marginLeft="10dip"
+				android:layout_alignParentLeft="true" android:visibility="gone"></ImageButton>
+		</RelativeLayout>
+
+		<SlidingDrawer android:id="@+id/drawer"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:bottomOffset="7dip" android:handle="@+id/handle"
+			android:content="@+id/content">
+
+			<LinearLayout android:id="@id/handle"
+				android:background="@drawable/handle" android:layout_width="fill_parent"
+				android:orientation="vertical" android:layout_height="wrap_content"
+				android:gravity="center">
+				<ImageView android:layout_width="wrap_content"
+					android:src="@drawable/drag" android:layout_height="wrap_content" />
+			</LinearLayout>
+
+			<LinearLayout android:id="@id/content"
+				android:background="@drawable/gradient_orange" android:layout_width="fill_parent"
+				android:orientation="vertical" android:layout_height="wrap_content"
+				android:gravity="center" android:paddingLeft="20dip"
+				android:paddingRight="20dip">
+
+				<!-- the content of the sliding-drawer -->
+				<LinearLayout android:layout_width="fill_parent"
+					android:orientation="horizontal" android:layout_height="wrap_content"
+					android:gravity="center">
+					<LinearLayout android:layout_width="wrap_content"
+						android:id="@+id/SliderHome" android:layout_marginRight="15dip"
+						android:orientation="vertical" android:layout_height="wrap_content"
+						android:gravity="center" android:onClick="homeClickHandler">
+						<ImageView android:layout_width="wrap_content"
+							android:src="@drawable/ic_menu_home" android:layout_height="wrap_content" />
+						<TextView android:text="@string/home" android:textColor="#5a5a5a"
+							android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+					</LinearLayout>
+					<LinearLayout android:layout_width="wrap_content"
+						android:id="@+id/SliderAlbum" android:layout_marginRight="15dip"
+						android:orientation="vertical" android:layout_height="wrap_content"
+						android:gravity="center" android:onClick="albumClickHandler">
+						<ImageView android:layout_width="wrap_content"
+							android:src="@drawable/ic_menu_cd" android:layout_height="wrap_content" />
+						<TextView android:text="@string/album" android:textColor="#5a5a5a"
+							android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+					</LinearLayout>
+					<LinearLayout android:layout_width="wrap_content"
+						android:id="@+id/SliderArtist" android:layout_marginRight="15dip"
+						android:orientation="vertical" android:layout_height="wrap_content"
+						android:gravity="center" android:onClick="artistClickHandler">
+						<ImageView android:layout_width="wrap_content"
+							android:src="@drawable/ic_menu_artist" android:layout_height="wrap_content" />
+						<TextView android:text="@string/artist"
+							android:textColor="#5a5a5a" android:layout_width="wrap_content"
+							android:layout_height="wrap_content"></TextView>
+					</LinearLayout>
+					<LinearLayout android:layout_width="wrap_content"
+						android:id="@+id/SliderPlaylist" android:layout_marginRight="15dip"
+						android:orientation="vertical" android:layout_height="wrap_content"
+						android:gravity="center" android:onClick="playlistClickHandler">
+						<ImageView android:layout_width="wrap_content"
+							android:src="@drawable/ic_menu_playlist" android:layout_height="wrap_content" />
+						<TextView android:text="@string/playlist"
+							android:textColor="#5a5a5a" android:layout_width="wrap_content"
+							android:layout_height="wrap_content"></TextView>
+					</LinearLayout>
+				</LinearLayout>
+
+				<Button android:onClick="lyricsOnClick" android:id="@+id/SliderLyrics"
+					android:layout_marginTop="30dip" android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:text="@string/lyrics">
+				</Button>
+				<Button android:onClick="addOnClick" android:id="@+id/SliderAddToPlaylist"
+					android:layout_width="fill_parent" android:layout_height="wrap_content"
+					android:text="@string/add_to_playlist" android:layout_marginTop="10dip">
+				</Button>
+				<Button android:onClick="shareOnClick" android:id="@+id/SliderShare"
+					android:layout_width="fill_parent" android:layout_height="wrap_content"
+					android:text="@string/share" android:layout_marginTop="10dip">
+				</Button>
+				<Button android:onClick="downloadOnClick" android:id="@+id/SliderDownload"
+					android:layout_width="fill_parent" android:layout_height="wrap_content"
+					android:text="@string/download" android:layout_marginTop="10dip">
+				</Button>
+
+			</LinearLayout>
+
+		</SlidingDrawer>
+
+
+
+	</RelativeLayout>
+
+</android.gesture.GestureOverlayView>
