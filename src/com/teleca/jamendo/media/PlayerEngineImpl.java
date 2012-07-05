@@ -208,14 +208,16 @@ public class PlayerEngineImpl implements PlayerEngine {
                     mHandler.removeCallbacks(mUpdateTimeTask);
                     mHandler.postDelayed(mUpdateTimeTask, 1000);
                     
+                    // Actual equalizer
                     Equalizer equalizer = JamendoApplication.getInstance().getMyEqualizer();
 
-                    // Mantain the settings of the equalizer
+                    // Mantain the settings of the equalizer for the new media
                     Equalizer newEqualizer = new Equalizer(0, mCurrentMediaPlayer.getAudioSessionId());
                     if (equalizer != null) {
                     	newEqualizer.setProperties(equalizer.getProperties());
 					}
                     
+                    // Enable equalizer before media starts
                     JamendoApplication.getInstance().setMyEqualizer(newEqualizer);
                     JamendoApplication.getInstance().getMyEqualizer().setEnabled(true);
                     mCurrentMediaPlayer.start();
@@ -226,6 +228,7 @@ public class PlayerEngineImpl implements PlayerEngine {
 			}
 		}
 		
+		// Change application media
 		JamendoApplication.getInstance().setMyCurrentMedia(mCurrentMediaPlayer);
 	}
 

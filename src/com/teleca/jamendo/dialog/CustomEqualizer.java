@@ -17,6 +17,12 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+/**
+ * Dialog with custom equalizer
+ * 
+ * @author jessica
+ *
+ */
 public class CustomEqualizer extends Dialog{
 	private Equalizer mEqualizer;
 	
@@ -40,21 +46,27 @@ public class CustomEqualizer extends Dialog{
         mLinearLayout.setPadding(20, 0, 20, 5);
         setContentView(mLinearLayout);
 
-        getWindow().setLayout( LayoutParams.FILL_PARENT,
-                			   LayoutParams.WRAP_CONTENT);
+        // Fills diaolog in the window
+        getWindow().setLayout(LayoutParams.FILL_PARENT,
+                			  LayoutParams.WRAP_CONTENT);
 
         setupEqualizerFxAndUI();
     }
 
+    /**
+     * Create equalizer custom settings
+     */
     private void setupEqualizerFxAndUI() {
         short bands = mEqualizer.getNumberOfBands();
 
         final short minEQLevel = mEqualizer.getBandLevelRange()[0];
         final short maxEQLevel = mEqualizer.getBandLevelRange()[1];
 
+        // Create dynamically the settings using seekbars
         for (short i = 0; i < bands; i++) {
             final short band = i;
 
+            // Frequency textview
             TextView freqTextView = new TextView(this.mActivity);
             freqTextView.setLayoutParams(new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.FILL_PARENT,
@@ -63,6 +75,7 @@ public class CustomEqualizer extends Dialog{
             freqTextView.setText((mEqualizer.getCenterFreq(band) / 1000) + " Hz");
             mLinearLayout.addView(freqTextView);
 
+            // Row with minEQLevel, maxEQLevel and the seekbar
             LinearLayout row = new LinearLayout(this.mActivity);
             row.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -78,11 +91,14 @@ public class CustomEqualizer extends Dialog{
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             maxDbTextView.setText((maxEQLevel / 100) + " dB");
 
+            // Params for the seekbar
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.FILL_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.weight = 1;
             layoutParams.setMargins(0, 0, 0, 10);
+            
+            // Seekbar with the frequency
             SeekBar bar = new SeekBar(this.mActivity);
             bar.setLayoutParams(layoutParams);
             bar.setMax(maxEQLevel - minEQLevel);
@@ -91,6 +107,7 @@ public class CustomEqualizer extends Dialog{
             bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 public void onProgressChanged(SeekBar seekBar, int progress,
                         boolean fromUser) {
+                	// Sets the application equalizer
                     mEqualizer.setBandLevel(band, (short) (progress + minEQLevel));
                 }
 
@@ -105,6 +122,7 @@ public class CustomEqualizer extends Dialog{
             mLinearLayout.addView(row);
         }
         
+        // Button for confirm change
         this.mButton = new Button(this.mActivity);
         this.mButton.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.FILL_PARENT,
