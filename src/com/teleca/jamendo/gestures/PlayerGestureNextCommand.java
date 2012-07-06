@@ -19,6 +19,8 @@ public class PlayerGestureNextCommand implements GestureCommand {
 	@Override
 	public void execute() {
 		Log.v(JamendoApplication.TAG, "PlayerGestureNextCommand");
+		if(!mPlayerEngine.isPlaying())
+			mPlayerEngine.SendScrobbleFromMusic();
 		mPlayerEngine.next();
 	}
 	

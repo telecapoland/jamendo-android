@@ -123,6 +123,14 @@ public class PlayerEngineImpl implements PlayerEngine {
                     }
             }
     };
+    
+    /**
+     * 
+     * */
+    
+    private long timeActual = 0;
+    
+    private long variation = 0;
 
 	/**
 	 * Default constructor
@@ -161,6 +169,11 @@ public class PlayerEngineImpl implements PlayerEngine {
 			// check if we play, then pause
 			if(mCurrentMediaPlayer.isPlaying()){
 				mCurrentMediaPlayer.pause();
+				
+				//part of the music performed
+				variation = variation + System.currentTimeMillis() - timeActual;
+				
+				
 				if(mPlayerEngineListener != null)
 					mPlayerEngineListener.onTrackPause();
 				return;
@@ -205,6 +218,18 @@ public class PlayerEngineImpl implements PlayerEngine {
                     mHandler.removeCallbacks(mUpdateTimeTask);
                     mHandler.postDelayed(mUpdateTimeTask, 1000);
 					
+                    long time = mCurrentMediaPlayer.getCurrentPosition();
+                    
+                    // if the music is continuing
+                    if(time > 0)
+                    {
+                    	SendScrobbleFromMusic();
+                    }
+                    else{
+                    	// music is started
+                    	variation = 0;
+                    }
+                    timeActual = System.currentTimeMillis();
 					mCurrentMediaPlayer.start();
 				}
 			} else {
@@ -424,5 +449,21 @@ public class PlayerEngineImpl implements PlayerEngine {
 	@Override
 	public void rewind(int time) {
 		mCurrentMediaPlayer.seekTo( mCurrentMediaPlayer.getCurrentPosition()-time );
+	}
+
+	@Override
+	public void ScrobbleWhenPaused() {
+		mPlayerEngineListener.SendScrobbleWhenPaused();
+		
+	}
+
+	@Override
+	public void SendScrobbleFromMusic() {
+		long time = 0;
+		if(!mCurrentMediaPlayer.isPlaying())
+			time = variation;
+		else
+			time = System.currentTimeMillis() - timeActual + variation;
+		mPlayerEngineListener.sendScrobblerMetaChanged(mCurrentMediaPlayer.getCurrentPosition());		
 	}
 }

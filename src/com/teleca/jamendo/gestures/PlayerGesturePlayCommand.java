@@ -17,6 +17,7 @@ public class PlayerGesturePlayCommand implements GestureCommand {
 	public void execute() {
 		Log.v(JamendoApplication.TAG, "PlayerGesturePlayCommand");
 		if (mPlayerEngine.isPlaying()) {
+			mPlayerEngine.ScrobbleWhenPaused();
 			mPlayerEngine.pause();
 		} else {
 			mPlayerEngine.play();

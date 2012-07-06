@@ -77,6 +77,8 @@ public class OnSeekToListenerImp implements OnTouchListener {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			startTime = System.currentTimeMillis();
 			mSeekTimer.start();
+			if(!mPlayerEngine.isPlaying())
+				mPlayerEngine.SendScrobbleFromMusic();
 			mPlayerEngine.pause();
 			mPlayerActivity.onStartSeekToProcess();
 			stepOfSeekTo = INIT_SEEK_TO_STEP;

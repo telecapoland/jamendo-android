@@ -112,4 +112,15 @@ public interface PlayerEngine {
 	 * @param miliseconds to rewind
 	 */
 	public void rewind(int time);
+	
+	/**
+	 * Send scrobbler to inform you that the music stopped
+	 * */	
+	public void ScrobbleWhenPaused();
+	
+	
+	/**
+	 * Send scrobbler with position from music actual
+	 * */	
+	public void SendScrobbleFromMusic();
 }

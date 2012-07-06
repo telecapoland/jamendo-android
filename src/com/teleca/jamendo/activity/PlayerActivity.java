@@ -444,6 +444,7 @@ public class PlayerActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			if(getPlayerEngine().isPlaying()){
+				getPlayerEngine().ScrobbleWhenPaused();
 				getPlayerEngine().pause();
 			} else {
 				getPlayerEngine().play();
@@ -598,6 +599,18 @@ public class PlayerActivity extends Activity {
 		@Override
 		public void onTrackStreamError() {
 			Toast.makeText(PlayerActivity.this, R.string.stream_error, Toast.LENGTH_LONG).show();
+		}
+
+		@Override
+		public void sendScrobblerMetaChanged(long time) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void SendScrobbleWhenPaused() {
+			// TODO Auto-generated method stub
+			
 		}
 
 	};

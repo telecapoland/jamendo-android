@@ -196,7 +196,7 @@ public class PlayerService extends Service{
 			// Scrobbling
 			boolean scrobblingEnabled = PreferenceManager.getDefaultSharedPreferences(PlayerService.this).getBoolean("scrobbling_enabled", false);
 			if (scrobblingEnabled) {
-				scrobblerMetaChanged();
+				scrobblerMetaChanged(0);
 			}
 		}
 
@@ -266,13 +266,45 @@ public class PlayerService extends Service{
 				mRemoteEngineListener.onTrackStreamError();
 			}
 		}
+		
+		@Override
+		public void sendScrobblerMetaChanged(long time)
+		{
+			boolean scrobblingEnabled = PreferenceManager.getDefaultSharedPreferences(PlayerService.this).getBoolean("scrobbling_enabled", false);
+			if (scrobblingEnabled) {
+				scrobblerMetaChanged(time);
+			}
+		}
+		
+		@Override
+		public void SendScrobbleWhenPaused()
+		{
+			boolean scrobblingEnabled = PreferenceManager.getDefaultSharedPreferences(PlayerService.this).getBoolean("scrobbling_enabled", false);
+			if (scrobblingEnabled) {
+				scrobblerPlaybackPaused();
+			}
+		}
 
 	};
+	
+	/**
+	 * Send that selected scrobbling was paused 
+	 * */
+	
+	private void scrobblerPlaybackPaused() {
+		String scrobblerApp = PreferenceManager.getDefaultSharedPreferences(PlayerService.this).getString("scrobbler_app", "");
+		assert(scrobblerApp.length() > 0);
+		
+		if (scrobblerApp.equalsIgnoreCase("lastfm")) {
+			Intent i = new Intent("fm.last.android.playbackpaused");
+			sendBroadcast(i);
+		}		
+	}
 
 	/**
 	 * Send changes to selected scrobbling application
 	 */
-	private void scrobblerMetaChanged() {
+	public void scrobblerMetaChanged(long milliseconds) {
 		PlaylistEntry entry = mPlayerEngine.getPlaylist().getSelectedTrack();
 		
 		if (entry != null) {
@@ -289,6 +321,10 @@ public class PlayerService extends Service{
 				i.putExtra("album", entry.getAlbum().getName());
 				i.putExtra("track", entry.getTrack().getName());
 				i.putExtra("duration", entry.getTrack().getDuration()*1000); // duration in milliseconds
+				if(milliseconds > 0)
+				{
+					i.putExtra("position", milliseconds); //intent indicating the number of milliseconds from the start of the track that playback will start from
+				}	
 				sendBroadcast(i);
 			} else if (scrobblerApp.equalsIgnoreCase("simplefm")) {
 				Intent i = new Intent(SIMPLEFM_INTENT);

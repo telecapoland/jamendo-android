@@ -16,7 +16,10 @@
 
 package com.teleca.jamendo.media;
 
+import android.preference.PreferenceManager;
+
 import com.teleca.jamendo.api.PlaylistEntry;
+import com.teleca.jamendo.service.PlayerService;
 
 
 /**
@@ -71,5 +74,18 @@ public interface PlayerEngineListener {
 	 * streaming
 	 */
 	public void onTrackStreamError();
+	
+	/**
+	 * Callback invoked when a scrobbler is started
+	 * */
+	
+	public void sendScrobblerMetaChanged(long time);
+	
+	/**
+	 * Callback invoked when a scrobbler is paused
+	 * 
+	 * @param time
+	 * */
+	public void SendScrobbleWhenPaused();
 
 }

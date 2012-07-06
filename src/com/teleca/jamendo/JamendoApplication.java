@@ -357,6 +357,21 @@ public class JamendoApplication extends Application {
 			}
 			
 		}
+
+		@Override
+		public void ScrobbleWhenPaused() {
+			if(mServicePlayerEngine != null){
+				mServicePlayerEngine.ScrobbleWhenPaused();
+			}
+			
+		}
+
+		@Override
+		public void SendScrobbleFromMusic() {
+			if(mServicePlayerEngine != null){
+				mServicePlayerEngine.SendScrobbleFromMusic();
+			}			
+		}
 		
 	}	
 
