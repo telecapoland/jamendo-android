@@ -772,6 +772,12 @@ public class PlayerActivity extends Activity {
 		mSlidingDrawer.animateClose();
 	}
 	
+	public void equalizerOnClick(View v) {
+		Intent intent = new Intent(this, EqualizerActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+	}
+	
 	public void lyricsOnClick(View v) {
 		Track track = getPlayerEngine().getPlaylist().getSelectedTrack().getTrack();
 		new LyricsDialog(PlayerActivity.this, track).show();
@@ -880,6 +886,7 @@ public class PlayerActivity extends Activity {
 			// buttons
 			findViewById(R.id.SliderLyrics).setOnClickListener(this);
 			findViewById(R.id.SliderAddToPlaylist).setOnClickListener(this);
+			findViewById(R.id.SliderEqualizer).setOnClickListener(this);
 			findViewById(R.id.SliderShare).setOnClickListener(this);
 			findViewById(R.id.SliderDownload).setOnClickListener(this);
 			
@@ -913,6 +920,9 @@ public class PlayerActivity extends Activity {
 				break;
 			case R.id.SliderAddToPlaylist:
 				addOnClick(v);
+				break;
+			case R.id.SliderEqualizer:
+				equalizerOnClick(v);
 				break;
 			case R.id.SliderShare:
 				shareOnClick(v);

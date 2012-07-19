@@ -145,4 +145,16 @@
 	<string name="preference_3rdparty_title">Aplicações de terceiros</string>
 	<string name="preference_3rdparty_summary">Interação com aplicações externas</string>
 	<string name="close">Fechar</string>
+	<string name="equalizer">Equalizador</string>
+    <string name="normal">Normal</string>
+    <string name="classical">Clássico</string>
+    <string name="dance">Dance</string>
+    <string name="flat">Plana</string>
+    <string name="folk">Folk</string>
+    <string name="heavy_metal">Heavy Metal</string>
+    <string name="hip_hop">Hip Hop</string>
+    <string name="jazz">Jazz</string>
+    <string name="pop">Pop</string>
+    <string name="rock">Rock</string>
+    <string name="custom">Personalizado</string>
 </resources>
