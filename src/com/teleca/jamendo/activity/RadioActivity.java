@@ -246,17 +246,8 @@ public class RadioActivity extends Activity {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 				long arg3) {
 			Radio radio = (Radio)mRadioAdapter.getItem(position);
-			try {
-				Playlist playlist = new JamendoGet2ApiImpl().getRadioPlaylist(radio, 20, JamendoApplication.getInstance().getStreamEncoding());
-				new DatabaseImpl(RadioActivity.this).addRadioToRecent(radio);
-				PlayerActivity.launch(RadioActivity.this, playlist);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			} catch (WSError e) {
-				// connection problem or sth/ finish
-				Toast.makeText(RadioActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-				finish();
-			}
+			new RadioPlaylistLoadingDialog(RadioActivity.this, R.string.loading_playlist,
+					R.string.loading_playlist_fail).execute(radio);
 		}
 
 	};
@@ -303,6 +294,37 @@ public class RadioActivity extends Activity {
 				setupListView();
 			}
 		}
+	}
 
+	/**
+	 * Dialog displayed while downloading selected radio playlist.
+	 */
+	private static class RadioPlaylistLoadingDialog extends LoadingDialog<Radio, Playlist> {
+
+		public RadioPlaylistLoadingDialog(Activity activity, int loadingMsg, int failMsg) {
+			super(activity, loadingMsg, failMsg);
+		}
+
+		@Override
+		public Playlist doInBackground(Radio... params) {
+			Playlist playlist = null;
+			try {
+				Radio radio = params[0];
+				playlist = new JamendoGet2ApiImpl().getRadioPlaylist(radio, 20, JamendoApplication.getInstance().getStreamEncoding());
+				new DatabaseImpl(mActivity).addRadioToRecent(radio);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (WSError e) {
+				// connection problem or sth/ finish
+				publishProgress(e);
+			}
+			return playlist;
+		}
+
+		@Override
+		public void doStuffWithResult(Playlist playlist) {
+			if (playlist != null)
+				PlayerActivity.launch(mActivity, playlist);
+		}
 	}
 }
