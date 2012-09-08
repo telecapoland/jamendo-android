@@ -97,7 +97,6 @@ public class RadioActivity extends Activity {
 	private RadioLoadingDialog mRadioLoadingDialog;
 
 	/** Called when the activity is first created. */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

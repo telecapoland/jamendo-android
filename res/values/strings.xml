@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <string name="about_address">Teleca Poland Sp. z o.o.\n6 Kasprzaka Street\n90-083 Lodz, Poland</string>
+    <string name="about_link">android@teleca.com</string>
+    <string name="app_name">Jamendo</string>
+    <string name="about_note">(c) Teleca Poland sp. z o.o. 2009-2012</string>
+</resources>

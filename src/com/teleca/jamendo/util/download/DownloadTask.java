@@ -134,6 +134,7 @@ public class DownloadTask extends AsyncTask<Void, Integer, Boolean>{
 
 		if(in == null){
 			// When InputStream is a NULL
+			f.close();
 			return false;
 		}
 

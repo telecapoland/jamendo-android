@@ -28,11 +28,9 @@ public class RequestCache {
 	
 	private static int CACHE_LIMIT = 10;
 	
-	@SuppressWarnings("unchecked")
 	private LinkedList history;
 	private Hashtable<String, String> cache;
 	
-	@SuppressWarnings("unchecked")
 	public RequestCache(){
 		history = new LinkedList();
 		cache = new Hashtable<String, String>();

@@ -16,7 +16,6 @@ limitations under the License.
 -->
 <resources>
     <string name="popular_this_week">popular this week</string>
-    <string name="app_name">Jamendo</string>
     <string name="player_name">Jamendo Player</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
@@ -61,9 +60,6 @@ limitations under the License.
     <string name="add">Add</string>
     <string name="lyrics">Lyrics</string>
     <string name="no_lyrics">Lyrics unavailable</string>
-    <string name="about_note">(c) Teleca Poland sp. z o.o. 2009-2011</string>
-    <string name="about_address">Teleca Poland Sp. z o.o.\n6 Kasprzaka Street\n90-083 Lodz, Poland</string>
-    <string name="about_link">android@teleca.com</string>
     <string name="about_contact">Questions, bug reports or any feedback</string>
     <string name="about_teleca">About Developers</string>
     <string name="about_jamendo">About Jamendo</string>

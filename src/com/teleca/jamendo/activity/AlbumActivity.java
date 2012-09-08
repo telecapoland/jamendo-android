@@ -229,7 +229,6 @@ public class AlbumActivity extends TabActivity{
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void loadTracks(){
 		PlaylistAdapter playlistAdapter = new PlaylistAdapter(this);
 		Playlist playlist = new Playlist();

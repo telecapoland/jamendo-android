@@ -88,7 +88,6 @@ public class DownloadActivity extends Activity implements DownloadObserver {
 	}
 	
 	/** Called when the activity is first created. */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
