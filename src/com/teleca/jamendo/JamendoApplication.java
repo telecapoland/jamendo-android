@@ -17,6 +17,7 @@
 package com.teleca.jamendo;
 
 import android.app.Application;
+import android.app.backup.RestoreObserver;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -25,6 +26,8 @@ import android.media.MediaPlayer;
 import android.media.audiofx.Equalizer;
 import android.media.audiofx.Equalizer.Settings;
 import android.preference.PreferenceManager;
+
+import com.teleca.jamendo.activity.EqualizerActivity;
 import com.teleca.jamendo.api.JamendoGet2Api;
 import com.teleca.jamendo.api.Playlist;
 import com.teleca.jamendo.api.Playlist.PlaylistPlaybackMode;
@@ -126,6 +129,7 @@ public class JamendoApplication extends Application {
 		instance = this;
 
 		mDownloadManager = new DownloadManagerImpl(this);
+		restoreEqualizerSettings();
 	}
 
 	/**
@@ -169,6 +173,21 @@ public class JamendoApplication extends Application {
 			mEqualizer.setProperties(settings);
 		}
 		mEqualizerSettings = settings;
+		storeEqualizerSettings(mEqualizerSettings);
+	}
+
+	private void storeEqualizerSettings(Settings equalizerSettings) {
+		PreferenceManager.getDefaultSharedPreferences(this).edit()
+			.putString(EqualizerActivity.PREFERENCE_EQUALIZER, equalizerSettings.toString())
+			.apply();
+	}
+
+	private void restoreEqualizerSettings() {
+		String settingsStr = PreferenceManager.getDefaultSharedPreferences(this)
+			.getString(EqualizerActivity.PREFERENCE_EQUALIZER, null);
+		if (settingsStr != null && settingsStr.length() > 0) {
+			mEqualizerSettings = new Settings(settingsStr);
+		}
 	}
 
 	private boolean isEqualizerRunning() {

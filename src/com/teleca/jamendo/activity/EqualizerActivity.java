@@ -39,6 +39,9 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
  *
  */
 public class EqualizerActivity extends Activity{
+
+	public static final String PREFERENCE_EQUALIZER = "equalizer";
+
     private Equalizer mEqualizer;
     private RadioGroup mRadioGroup;
     private Activity mActivity = this;
