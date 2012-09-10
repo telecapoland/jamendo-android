@@ -21,9 +21,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import android.R;
-
-import com.teleca.jamendo.api.WSError;
 import com.teleca.jamendo.api.util.XMLUtil;
 
 /**
@@ -60,7 +57,12 @@ public class RSSFunctions {
 			String link = item_element.getAttribute("url");
 			// parsing
 			String trackidStr = link.replace("http://storage-new.newjamendo.com/?trackid=", "");
-			tracks_id[i] = Integer.parseInt(trackidStr);
+			try {
+				tracks_id[i] = Integer.parseInt(trackidStr);
+			} catch( NumberFormatException e ) {
+				// be prepared for incorrect jamendo input
+				// incorrect enclosure URL happen from time to time
+			}
 		}
 		return tracks_id;
 	}
