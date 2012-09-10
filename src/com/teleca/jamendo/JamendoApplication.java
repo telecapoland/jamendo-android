@@ -23,6 +23,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.MediaPlayer;
 import android.media.audiofx.Equalizer;
+import android.media.audiofx.Equalizer.Settings;
 import android.preference.PreferenceManager;
 import com.teleca.jamendo.api.JamendoGet2Api;
 import com.teleca.jamendo.api.Playlist;
@@ -76,10 +77,15 @@ public class JamendoApplication extends Application {
 	private MediaPlayer mCurrentMedia;
 
 	/**
-	 * Equalizer settings
+	 * Equalizer instance for runtime manipulation
 	 */
 	private Equalizer mEqualizer;
 	
+	/**
+	 * Equalizer settings
+	 */
+	private Equalizer.Settings mEqualizerSettings;
+
 	/**
 	 * Intent player engine
 	 */
@@ -151,6 +157,31 @@ public class JamendoApplication extends Application {
 	
 	public Equalizer getMyEqualizer(){
 		return this.mEqualizer;
+	}
+
+	public Equalizer.Settings getEqualizerSettigns() {
+		return mEqualizerSettings;
+	}
+
+	public void updateEqualizerSettings(Equalizer.Settings settings) {
+		if (isEqualizerRunning()) {
+			// update running equalizer
+			mEqualizer.setProperties(settings);
+		}
+		mEqualizerSettings = settings;
+	}
+
+	private boolean isEqualizerRunning() {
+		if (mEqualizer != null) {
+			try {
+				mEqualizer.getProperties();
+				return true;
+			} catch (RuntimeException e) {
+				// this will be thrown if Equalizer instance is unusable
+				// it happens e.g. on ICS and JB
+			}
+		}
+		return false;
 	}
 
 	/**

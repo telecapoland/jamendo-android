@@ -214,13 +214,11 @@ public class PlayerEngineImpl implements PlayerEngine {
                     mHandler.removeCallbacks(mUpdateTimeTask);
                     mHandler.postDelayed(mUpdateTimeTask, 1000);
                     
-                    // Actual equalizer
-                    Equalizer equalizer = JamendoApplication.getInstance().getMyEqualizer();
-
                     // Mantain the settings of the equalizer for the new media
                     Equalizer newEqualizer = new Equalizer(0, mCurrentMediaPlayer.getAudioSessionId());
-                    if (equalizer != null) {
-                    	newEqualizer.setProperties(equalizer.getProperties());
+                    Equalizer.Settings eqSettings = JamendoApplication.getInstance().getEqualizerSettigns();
+                    if (eqSettings != null) {
+                        newEqualizer.setProperties(eqSettings);
 					}
                     
                     // Enable equalizer before media starts
@@ -266,7 +264,7 @@ public class PlayerEngineImpl implements PlayerEngine {
 	 */
 	private void cleanUp(){
 		// nice clean-up job
-		if(mCurrentMediaPlayer != null)
+		if(mCurrentMediaPlayer != null) {
 			try{
 				mCurrentMediaPlayer.stop();
 			} catch (IllegalStateException e){
@@ -275,6 +273,13 @@ public class PlayerEngineImpl implements PlayerEngine {
 				mCurrentMediaPlayer.release();
 				mCurrentMediaPlayer = null;
 			}
+			// reset equalizer - it cannot be reused that way on API level 14+
+			Equalizer eq = JamendoApplication.getInstance().getMyEqualizer();
+			if (eq != null) {
+				eq.release();
+				JamendoApplication.getInstance().setMyEqualizer(null);
+			}
+		}
 	}
 
 	private InternalMediaPlayer build(PlaylistEntry playlistEntry){
