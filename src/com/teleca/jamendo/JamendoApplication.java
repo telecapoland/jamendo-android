@@ -17,7 +17,6 @@
 package com.teleca.jamendo;
 
 import android.app.Application;
-import android.app.backup.RestoreObserver;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -170,7 +169,13 @@ public class JamendoApplication extends Application {
 	public void updateEqualizerSettings(Equalizer.Settings settings) {
 		if (isEqualizerRunning()) {
 			// update running equalizer
-			mEqualizer.setProperties(settings);
+			try {
+				mEqualizer.setProperties(settings);
+			} catch (UnsupportedOperationException e) {
+				// applying equalizer settings after resuming
+				// from pause is not supported
+				// it may be ignored - the settings will remain unchanged
+			}
 		}
 		mEqualizerSettings = settings;
 		storeEqualizerSettings(mEqualizerSettings);
