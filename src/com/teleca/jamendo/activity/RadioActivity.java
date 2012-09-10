@@ -18,6 +18,27 @@ package com.teleca.jamendo.activity;
 
 import org.json.JSONException;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.gesture.GestureOverlayView;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.ViewFlipper;
+
+import com.teleca.jamendo.JamendoApplication;
+import com.teleca.jamendo.R;
 import com.teleca.jamendo.adapter.RadioAdapter;
 import com.teleca.jamendo.api.JamendoGet2Api;
 import com.teleca.jamendo.api.Playlist;
@@ -26,29 +47,6 @@ import com.teleca.jamendo.api.WSError;
 import com.teleca.jamendo.api.impl.JamendoGet2ApiImpl;
 import com.teleca.jamendo.db.DatabaseImpl;
 import com.teleca.jamendo.dialog.LoadingDialog;
-import com.teleca.jamendo.JamendoApplication;
-import com.teleca.jamendo.R;
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.gesture.GestureOverlayView;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.Toast;
-import android.widget.ViewFlipper;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 /**
  * Radio navigation activity
@@ -191,36 +189,9 @@ public class RadioActivity extends Activity {
 			
 			if(mEditText.getText().toString().length() == 0)
 				return;
-			
-			int id = 0;
-			String idstr = null;
-			try {
-				id = Integer.parseInt(mEditText.getText().toString()); // search by id
-			} catch (NumberFormatException e) {
-				idstr = mEditText.getText().toString(); // search by name
-			}
-			
-			Radio[] radio = null;
-			try {
-				JamendoGet2Api service = new JamendoGet2ApiImpl();
-				if(idstr == null && id > 0){
-					int[] ids = {id};
-					radio = service.getRadiosByIds(ids);
-				} else if (idstr != null) {
-					radio = service.getRadiosByIdstr(idstr);
-				}
-				mRadioAdapter.setList(radio);
-				
-				setupListView();
-				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			} catch (WSError e) {
-				// connection problem or sth/ finish
-				Toast.makeText(RadioActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-				finish();
-			}
 
+			new RadioSearchDialog(RadioActivity.this, R.string.searching,
+					R.string.search_fail).execute(mEditText.getText().toString());
 		}
 
 	};
@@ -292,6 +263,52 @@ public class RadioActivity extends Activity {
 				mRadioAdapter.setList(mRecommendedRadios);
 				setupListView();
 			}
+		}
+	}
+
+	/**
+	 * Dialog displayed while searching for a radio.
+	 */
+	private class RadioSearchDialog extends LoadingDialog<String, Radio[]> {
+
+		public RadioSearchDialog(Activity activity, int loadingMsg, int failMsg) {
+			super(activity, loadingMsg, failMsg);
+		}
+
+		@Override
+		public Radio[] doInBackground(String... params) {
+			String input = params[0];
+			int id = 0;
+			String idstr = null;
+			try {
+				id = Integer.parseInt(input); // search by id
+			} catch (NumberFormatException e) {
+				idstr = input; // search by name
+			}
+
+			Radio[] radio = null;
+			try {
+				JamendoGet2Api service = new JamendoGet2ApiImpl();
+				if(idstr == null && id > 0){
+					int[] ids = {id};
+					radio = service.getRadiosByIds(ids);
+				} else if (idstr != null) {
+					radio = service.getRadiosByIdstr(idstr);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (WSError e) {
+				// connection problem or sth/ finish
+				publishProgress(e);
+				finish();
+			}
+			return radio;
+		}
+
+		@Override
+		public void doStuffWithResult(Radio[] radio) {
+			mRadioAdapter.setList(radio);
+			setupListView();
 		}
 	}
 
