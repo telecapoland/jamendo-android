@@ -25,7 +25,10 @@ import com.teleca.jamendo.dialog.CustomEqualizer;
 import android.app.Activity;
 import android.media.AudioManager;
 import android.media.audiofx.Equalizer;
+import android.media.audiofx.Equalizer.Settings;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.Window;
 import android.widget.RadioButton;
@@ -42,7 +45,6 @@ public class EqualizerActivity extends Activity{
 
 	public static final String PREFERENCE_EQUALIZER = "equalizer";
 
-    private Equalizer mEqualizer;
     private RadioGroup mRadioGroup;
     private Activity mActivity = this;
     
@@ -61,34 +63,33 @@ public class EqualizerActivity extends Activity{
      * Create the equalizer view
      */
     private void setupEqualizerFxAndUI() {
-    	// Get equalizer instance
-    	mEqualizer = JamendoApplication.getInstance().getMyEqualizer();
-    	mEqualizer.setEnabled(true);
-    	
+        // Since there is no guarantee that app equalizer may be usable
+        // a global equalizer may be used only to access presets
+        final Equalizer equalizer = new Equalizer(0, 0);
+        Log.i(JamendoApplication.TAG, "setupEqualizerFxAndUI " + equalizer.getNumberOfPresets());
+        Settings settings = JamendoApplication.getInstance().getEqualizerSettigns();
     	// radio button that custom the equalization
     	RadioButton custom = (RadioButton) this.mRadioGroup.getChildAt(this.mRadioGroup.getChildCount() - 1);
-    	
     	// Association between radio button and prest equalization 
-    	final HashMap<Integer, Short> group = new HashMap<Integer, Short>();
+        final SparseArray<Short> group = new SparseArray<Short>();
     	
-    	// The last child of radioGroup will be the costum, so it doesn't have a associated preset
-    	int radios = this.mRadioGroup.getChildCount() - 2;
+        // The last child of radioGroup will be the custom, so it doesn't have an associated preset
+        int radios = this.mRadioGroup.getChildCount() - 2;
+    	
+        for (int i = equalizer.getNumberOfPresets() - 1; i >= 0; i--) {
+            RadioButton button = (RadioButton) this.mRadioGroup.getChildAt(radios);
+            group.put(button.getId(), (short) i);
+            if (settings != null && settings.curPreset == i) {
+                button.setChecked(true);
+            }
+            radios--;
+        }
+        Log.i(JamendoApplication.TAG, "settings: " + settings);
+        if (settings == null || settings.curPreset == -1) {
+            mRadioGroup.check(custom.getId());
+        }
 
-    	for (int i = mEqualizer.getNumberOfPresets() - 1; i >= 0; i--) {
-			RadioButton button = (RadioButton) this.mRadioGroup.getChildAt(radios);
-			group.put(button.getId(), (short) i);
-			
-			if(mEqualizer.getCurrentPreset() == i){
-				mRadioGroup.check(button.getId());
-			}
-			
-			radios--;
-		}
-    	
-    	// If neither preset was choosed so custom button is checked
-    	if (mEqualizer.getCurrentPreset() == -1) {
-			mRadioGroup.check(custom.getId());
-		}
+        equalizer.release();
     	
     	// Activity for custom button, will always show the dialog
     	custom.setOnClickListener(new View.OnClickListener() {
@@ -100,12 +101,18 @@ public class EqualizerActivity extends Activity{
     	// Event for radio button
     	this.mRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-				if(group.containsKey(checkedId)){
+				Short preset = group.get(checkedId);
+				if (preset != null) {
 					mRadioGroup.check(checkedId);
 
-					// Sets preset and equalizer for the application
-					mEqualizer.usePreset(group.get(checkedId));
-					JamendoApplication.getInstance().getMyEqualizer().setProperties(mEqualizer.getProperties());
+					if (JamendoApplication.getInstance().isEqualizerRunning()) {
+						final Equalizer eq = JamendoApplication.getInstance().getMyEqualizer();
+						eq.usePreset(preset);
+						JamendoApplication.getInstance().updateEqualizerSettings(eq.getProperties());
+					} else {
+						// save for later use
+						JamendoApplication.getInstance().setEqualizerPreset(preset);
+					}
 				}
 			}
     	});

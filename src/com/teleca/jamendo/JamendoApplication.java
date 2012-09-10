@@ -190,7 +190,7 @@ public class JamendoApplication extends Application {
 		}
 	}
 
-	private boolean isEqualizerRunning() {
+	public boolean isEqualizerRunning() {
 		if (mEqualizer != null) {
 			try {
 				mEqualizer.getProperties();
@@ -201,6 +201,21 @@ public class JamendoApplication extends Application {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Equalizer preset to use when the next time an Equalizer
+	 * instance is created.
+	 * -1 is reserved for custom preset
+	 * -2 is reserved for no preset
+	 */
+	private short mEqualizerPreset = -2;
+	public void setEqualizerPreset(short preset) {
+		mEqualizerPreset = preset;
+	}
+
+	public short getEqualizerPreset() {
+		return mEqualizerPreset;
 	}
 
 	/**
@@ -435,6 +450,5 @@ public class JamendoApplication extends Application {
 			
 		}
 		
-	}	
-
+	}
 }

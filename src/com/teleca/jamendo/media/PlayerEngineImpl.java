@@ -210,17 +210,27 @@ public class PlayerEngineImpl implements PlayerEngine {
 					// i guess this mean we can play the song
 					Log.i(JamendoApplication.TAG, "Player [playing] "+mCurrentMediaPlayer.playlistEntry.getTrack().getName());
 					
+					final JamendoApplication app = JamendoApplication.getInstance();
+
 					// starting timer
                     mHandler.removeCallbacks(mUpdateTimeTask);
                     mHandler.postDelayed(mUpdateTimeTask, 1000);
                     
-                    // Mantain the settings of the equalizer for the new media
+                    // Maintain the settings of the equalizer for the new media
                     Equalizer newEqualizer = new Equalizer(0, mCurrentMediaPlayer.getAudioSessionId());
-                    Equalizer.Settings eqSettings = JamendoApplication.getInstance().getEqualizerSettigns();
-                    if (eqSettings != null) {
-                        newEqualizer.setProperties(eqSettings);
-					}
-                    
+                    short preset = app.getEqualizerPreset();
+                    // special case when the preset was chosen when there was no media stream running
+                    if (preset > -2) {
+                        newEqualizer.usePreset(preset);
+                        app.setEqualizerPreset((short) -2);
+                    } else {
+	                    Equalizer.Settings eqSettings = app.getEqualizerSettigns();
+	                    if (eqSettings != null) {
+	                        newEqualizer.setProperties(eqSettings);
+						}
+                    }
+                    // save settings for the next equalizer
+                    app.updateEqualizerSettings(newEqualizer.getProperties());
                     // Enable equalizer before media starts
                     JamendoApplication.getInstance().setMyEqualizer(newEqualizer);
                     JamendoApplication.getInstance().getMyEqualizer().setEnabled(true);
