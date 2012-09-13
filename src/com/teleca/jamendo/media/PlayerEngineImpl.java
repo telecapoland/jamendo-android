@@ -210,19 +210,27 @@ public class PlayerEngineImpl implements PlayerEngine {
 					// i guess this mean we can play the song
 					Log.i(JamendoApplication.TAG, "Player [playing] "+mCurrentMediaPlayer.playlistEntry.getTrack().getName());
 					
+					final JamendoApplication app = JamendoApplication.getInstance();
+
 					// starting timer
                     mHandler.removeCallbacks(mUpdateTimeTask);
                     mHandler.postDelayed(mUpdateTimeTask, 1000);
                     
-                    // Actual equalizer
-                    Equalizer equalizer = JamendoApplication.getInstance().getMyEqualizer();
-
-                    // Mantain the settings of the equalizer for the new media
+                    // Maintain the settings of the equalizer for the new media
                     Equalizer newEqualizer = new Equalizer(0, mCurrentMediaPlayer.getAudioSessionId());
-                    if (equalizer != null) {
-                    	newEqualizer.setProperties(equalizer.getProperties());
-					}
-                    
+                    short preset = app.getEqualizerPreset();
+                    // special case when the preset was chosen when there was no media stream running
+                    if (preset > -2) {
+                        newEqualizer.usePreset(preset);
+                        app.setEqualizerPreset((short) -2);
+                    } else {
+	                    Equalizer.Settings eqSettings = app.getEqualizerSettigns();
+	                    if (eqSettings != null) {
+	                        newEqualizer.setProperties(eqSettings);
+						}
+                    }
+                    // save settings for the next equalizer
+                    app.updateEqualizerSettings(newEqualizer.getProperties());
                     // Enable equalizer before media starts
                     JamendoApplication.getInstance().setMyEqualizer(newEqualizer);
                     JamendoApplication.getInstance().getMyEqualizer().setEnabled(true);
@@ -266,7 +274,7 @@ public class PlayerEngineImpl implements PlayerEngine {
 	 */
 	private void cleanUp(){
 		// nice clean-up job
-		if(mCurrentMediaPlayer != null)
+		if(mCurrentMediaPlayer != null) {
 			try{
 				mCurrentMediaPlayer.stop();
 			} catch (IllegalStateException e){
@@ -275,6 +283,13 @@ public class PlayerEngineImpl implements PlayerEngine {
 				mCurrentMediaPlayer.release();
 				mCurrentMediaPlayer = null;
 			}
+			// reset equalizer - it cannot be reused that way on API level 14+
+			Equalizer eq = JamendoApplication.getInstance().getMyEqualizer();
+			if (eq != null) {
+				eq.release();
+				JamendoApplication.getInstance().setMyEqualizer(null);
+			}
+		}
 	}
 
 	private InternalMediaPlayer build(PlaylistEntry playlistEntry){

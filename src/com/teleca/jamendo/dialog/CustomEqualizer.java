@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.app.Activity;
 import android.content.Context;
 import android.media.audiofx.Equalizer;
+import android.media.audiofx.Equalizer.Settings;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -24,7 +25,6 @@ import android.widget.TextView;
  *
  */
 public class CustomEqualizer extends Dialog{
-	private Equalizer mEqualizer;
 	
     private LinearLayout mLinearLayout;
     private Button mButton;
@@ -35,7 +35,6 @@ public class CustomEqualizer extends Dialog{
     	super(context);
     	
     	this.mActivity = context;
-    	this.mEqualizer = JamendoApplication.getInstance().getMyEqualizer();
     }
 
     public void onCreate(Bundle icicle) {
@@ -57,10 +56,14 @@ public class CustomEqualizer extends Dialog{
      * Create equalizer custom settings
      */
     private void setupEqualizerFxAndUI() {
-        short bands = mEqualizer.getNumberOfBands();
+        // use global equalizer for bands calibration only
+        final Equalizer equalizer = new Equalizer(0, 0);
 
-        final short minEQLevel = mEqualizer.getBandLevelRange()[0];
-        final short maxEQLevel = mEqualizer.getBandLevelRange()[1];
+        final Settings settings = JamendoApplication.getInstance().getEqualizerSettigns();
+        short bands = equalizer.getNumberOfBands();
+
+        final short minEQLevel = equalizer.getBandLevelRange()[0];
+        final short maxEQLevel = equalizer.getBandLevelRange()[1];
 
         // Create dynamically the settings using seekbars
         for (short i = 0; i < bands; i++) {
@@ -72,7 +75,7 @@ public class CustomEqualizer extends Dialog{
                     ViewGroup.LayoutParams.FILL_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             freqTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-            freqTextView.setText((mEqualizer.getCenterFreq(band) / 1000) + " Hz");
+            freqTextView.setText((equalizer.getCenterFreq(band) / 1000) + " Hz");
             mLinearLayout.addView(freqTextView);
 
             // Row with minEQLevel, maxEQLevel and the seekbar
@@ -102,13 +105,20 @@ public class CustomEqualizer extends Dialog{
             SeekBar bar = new SeekBar(this.mActivity);
             bar.setLayoutParams(layoutParams);
             bar.setMax(maxEQLevel - minEQLevel);
-            bar.setProgress(mEqualizer.getBandLevel(band) - minEQLevel);
+            bar.setProgress(settings.bandLevels[band] - minEQLevel);
 
             bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 public void onProgressChanged(SeekBar seekBar, int progress,
                         boolean fromUser) {
-                	// Sets the application equalizer
-                    mEqualizer.setBandLevel(band, (short) (progress + minEQLevel));
+                    final JamendoApplication app = JamendoApplication.getInstance();
+                    if (app.isEqualizerRunning()) {
+                        final Equalizer eq = app.getMyEqualizer();
+                        eq.setBandLevel(band, (short) (progress + minEQLevel));
+                        app.updateEqualizerSettings(eq.getProperties());
+                    } else {
+                        settings.bandLevels[band] = (short) (progress + minEQLevel);
+                        app.updateEqualizerSettings(settings);
+                    }
                 }
 
                 public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -122,6 +132,8 @@ public class CustomEqualizer extends Dialog{
             mLinearLayout.addView(row);
         }
         
+        equalizer.release();
+
         // Button for confirm change
         this.mButton = new Button(this.mActivity);
         this.mButton.setLayoutParams(new ViewGroup.LayoutParams(
