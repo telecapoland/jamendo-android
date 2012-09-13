@@ -68,23 +68,25 @@ public class EqualizerActivity extends Activity{
         final Equalizer equalizer = new Equalizer(0, 0);
         Log.i(JamendoApplication.TAG, "setupEqualizerFxAndUI " + equalizer.getNumberOfPresets());
         Settings settings = JamendoApplication.getInstance().getEqualizerSettigns();
-    	// radio button that custom the equalization
-    	RadioButton custom = (RadioButton) this.mRadioGroup.getChildAt(this.mRadioGroup.getChildCount() - 1);
+
     	// Association between radio button and prest equalization 
         final SparseArray<Short> group = new SparseArray<Short>();
     	
-        // The last child of radioGroup will be the custom, so it doesn't have an associated preset
-        int radios = this.mRadioGroup.getChildCount() - 2;
-    	
         for (int i = equalizer.getNumberOfPresets() - 1; i >= 0; i--) {
-            RadioButton button = (RadioButton) this.mRadioGroup.getChildAt(radios);
+            RadioButton button = new RadioButton(this);
+            button.setText(equalizer.getPresetName((short) i));
+            mRadioGroup.addView(button);
             group.put(button.getId(), (short) i);
             if (settings != null && settings.curPreset == i) {
                 button.setChecked(true);
             }
-            radios--;
         }
-        Log.i(JamendoApplication.TAG, "settings: " + settings);
+
+        // radio button that custom the equalization
+        RadioButton custom = new RadioButton(this);
+        custom.setText(R.string.custom);
+        mRadioGroup.addView(custom);
+
         if (settings == null || settings.curPreset == -1) {
             mRadioGroup.check(custom.getId());
         }
