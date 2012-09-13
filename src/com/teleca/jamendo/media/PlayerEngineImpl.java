@@ -29,7 +29,6 @@ import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
-import android.media.audiofx.Equalizer;
 import android.os.Handler;
 import android.util.Log;
 
@@ -214,18 +213,6 @@ public class PlayerEngineImpl implements PlayerEngine {
                     mHandler.removeCallbacks(mUpdateTimeTask);
                     mHandler.postDelayed(mUpdateTimeTask, 1000);
                     
-                    // Actual equalizer
-                    Equalizer equalizer = JamendoApplication.getInstance().getMyEqualizer();
-
-                    // Mantain the settings of the equalizer for the new media
-                    Equalizer newEqualizer = new Equalizer(0, mCurrentMediaPlayer.getAudioSessionId());
-                    if (equalizer != null) {
-                    	newEqualizer.setProperties(equalizer.getProperties());
-					}
-                    
-                    // Enable equalizer before media starts
-                    JamendoApplication.getInstance().setMyEqualizer(newEqualizer);
-                    JamendoApplication.getInstance().getMyEqualizer().setEnabled(true);
                     mCurrentMediaPlayer.start();
 				}
 			} else {
