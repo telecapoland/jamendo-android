@@ -23,7 +23,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.MediaPlayer;
 import android.media.audiofx.Equalizer;
+import android.media.audiofx.Equalizer.Settings;
 import android.preference.PreferenceManager;
+
+import com.teleca.jamendo.activity.EqualizerActivity;
 import com.teleca.jamendo.api.JamendoGet2Api;
 import com.teleca.jamendo.api.Playlist;
 import com.teleca.jamendo.api.Playlist.PlaylistPlaybackMode;
@@ -76,10 +79,15 @@ public class JamendoApplication extends Application {
 	private MediaPlayer mCurrentMedia;
 
 	/**
-	 * Equalizer settings
+	 * Equalizer instance for runtime manipulation
 	 */
 	private Equalizer mEqualizer;
 	
+	/**
+	 * Equalizer settings
+	 */
+	private Equalizer.Settings mEqualizerSettings;
+
 	/**
 	 * Intent player engine
 	 */
@@ -120,6 +128,7 @@ public class JamendoApplication extends Application {
 		instance = this;
 
 		mDownloadManager = new DownloadManagerImpl(this);
+		restoreEqualizerSettings();
 	}
 
 	/**
@@ -151,6 +160,67 @@ public class JamendoApplication extends Application {
 	
 	public Equalizer getMyEqualizer(){
 		return this.mEqualizer;
+	}
+
+	public Equalizer.Settings getEqualizerSettigns() {
+		return mEqualizerSettings;
+	}
+
+	public void updateEqualizerSettings(Equalizer.Settings settings) {
+		if (isEqualizerRunning()) {
+			// update running equalizer
+			try {
+				mEqualizer.setProperties(settings);
+			} catch (UnsupportedOperationException e) {
+				// applying equalizer settings after resuming
+				// from pause is not supported
+				// it may be ignored - the settings will remain unchanged
+			}
+		}
+		mEqualizerSettings = settings;
+		storeEqualizerSettings(mEqualizerSettings);
+	}
+
+	private void storeEqualizerSettings(Settings equalizerSettings) {
+		PreferenceManager.getDefaultSharedPreferences(this).edit()
+			.putString(EqualizerActivity.PREFERENCE_EQUALIZER, equalizerSettings.toString())
+			.apply();
+	}
+
+	private void restoreEqualizerSettings() {
+		String settingsStr = PreferenceManager.getDefaultSharedPreferences(this)
+			.getString(EqualizerActivity.PREFERENCE_EQUALIZER, null);
+		if (settingsStr != null && settingsStr.length() > 0) {
+			mEqualizerSettings = new Settings(settingsStr);
+		}
+	}
+
+	public boolean isEqualizerRunning() {
+		if (mEqualizer != null) {
+			try {
+				mEqualizer.getProperties();
+				return true;
+			} catch (RuntimeException e) {
+				// this will be thrown if Equalizer instance is unusable
+				// it happens e.g. on ICS and JB
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Equalizer preset to use when the next time an Equalizer
+	 * instance is created.
+	 * -1 is reserved for custom preset
+	 * -2 is reserved for no preset
+	 */
+	private short mEqualizerPreset = -2;
+	public void setEqualizerPreset(short preset) {
+		mEqualizerPreset = preset;
+	}
+
+	public short getEqualizerPreset() {
+		return mEqualizerPreset;
 	}
 
 	/**
@@ -385,6 +455,5 @@ public class JamendoApplication extends Application {
 			
 		}
 		
-	}	
-
+	}
 }
