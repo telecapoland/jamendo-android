@@ -39,7 +39,7 @@ public class RSSFunctions {
 			return null;
 		
 		// node list with enclosures
-		NodeList items = responseXML.getElementsByTagName("enclosure");
+		NodeList items = responseXML.getElementsByTagName("item");
 		if (items == null)
 			return null;
 		
@@ -53,15 +53,18 @@ public class RSSFunctions {
 		for(int i = 0; i < n; i++){
 			Node item_node = items.item(i);
 			Element item_element = (Element)item_node;
-			// link with track id
-			String link = item_element.getAttribute("url");
-			// parsing
-			String trackidStr = link.replace("http://storage-new.newjamendo.com/?trackid=", "");
-			try {
-				tracks_id[i] = Integer.parseInt(trackidStr);
-			} catch( NumberFormatException e ) {
-				// be prepared for incorrect jamendo input
-				// incorrect enclosure URL happen from time to time
+			NodeList children = item_element.getElementsByTagName("link");
+			if (children.getLength() > 0) {
+				// link with track id
+				String link = children.item(0).getTextContent();
+				// parsing
+				String trackidStr = link.replace("http://old.jamendo.com/track/", "");
+				try {
+					tracks_id[i] = Integer.parseInt(trackidStr);
+				} catch( NumberFormatException e ) {
+					// be prepared for incorrect jamendo input
+					// incorrect enclosure URL happen from time to time
+				}
 			}
 		}
 		return tracks_id;
